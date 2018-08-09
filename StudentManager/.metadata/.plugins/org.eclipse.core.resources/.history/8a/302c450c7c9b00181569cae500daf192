@@ -1,0 +1,11 @@
+package com.runsystem.datnt.controllers;
+
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class AdminController {
+
+	public String onAdmin() {
+		return "admin.html";
+	}
+}

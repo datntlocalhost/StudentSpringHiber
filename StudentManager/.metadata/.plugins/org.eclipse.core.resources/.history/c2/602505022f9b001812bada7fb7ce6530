@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link style="stylesheet" th:href="@{/resource/assets/css/main.css}" />
+</head>
+<body>
+
+  <label th:text="${argument}"></label>
+  ${request.contextPath}
+  <div id="test">
+  asdad
+  </div>
+
+</body>
+</html>
