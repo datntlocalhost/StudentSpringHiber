@@ -1,0 +1,16 @@
+package com.runsystem.datnt.controllers;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class RegisCourseController {
+	
+	@RequestMapping(value = "/register/course")
+	public String loadPage(Model model, HttpServletRequest request) {
+		return "regiscourse.html";
+	}
+}
