@@ -1,5 +1,8 @@
 package com.runsystem.datnt.controllers;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +20,7 @@ public class CreateStudentController {
 	 * @return create page
 	 * */
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String loadPage(Model model) {
+	public String loadPage(Model model, HttpServletRequest request, HttpServletResponse response) {
 		model.addAttribute("userRules", "ADMIN");
 		return "create.html";
 	}
