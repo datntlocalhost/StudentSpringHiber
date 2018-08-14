@@ -1,0 +1,38 @@
+package com.runsystem.datnt.entities;
+
+import java.io.Serializable;
+
+public class Role implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private int    rid;   //Role id
+	private String rname; //Role name
+	
+	public Role() {}
+
+	public Role(int rid, String rname) {
+		super();
+		this.rid = rid;
+		this.rname = rname;
+	}
+
+	public int getRid() {
+		return rid;
+	}
+
+	public void setRid(int rid) {
+		this.rid = rid;
+	}
+
+	public String getRname() {
+		return rname;
+	}
+
+	public void setRname(String rname) {
+		this.rname = rname;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+}

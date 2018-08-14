@@ -1,0 +1,10 @@
+package com.runsystem.datnt.services.implementations;
+
+import org.springframework.stereotype.Service;
+
+import com.runsystem.datnt.services.interfaces.RecordsService;
+
+@Service
+public class RecordsServiceImpl implements RecordsService {
+
+}

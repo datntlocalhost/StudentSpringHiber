@@ -1,0 +1,14 @@
+package com.runsystem.datnt.services.implementations;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.runsystem.datnt.daos.interfaces.UserRolesDao;
+import com.runsystem.datnt.services.interfaces.UserRolesService;
+
+@Service
+public class UserRolesServiceImpl implements UserRolesService {
+
+	@Autowired
+	UserRolesDao userRolesDao;
+}

@@ -1,0 +1,6 @@
+package com.runsystem.datnt;
+
+public class Test1 extends Test {
+
+	private String str;
+}

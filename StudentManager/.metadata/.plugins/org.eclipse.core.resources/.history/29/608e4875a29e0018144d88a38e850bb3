@@ -1,0 +1,38 @@
+package com.runsystem.datnt.entities;
+
+import java.io.Serializable;
+
+public class UserRoles implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private int rid; //Role's id
+	private int uid; //User's id
+	
+	public UserRoles() {}
+
+	public UserRoles(int rid, int uid) {
+		super();
+		this.rid = rid;
+		this.uid = uid;
+	}
+
+	public int getRid() {
+		return rid;
+	}
+
+	public void setRid(int rid) {
+		this.rid = rid;
+	}
+
+	public int getUid() {
+		return uid;
+	}
+
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+}

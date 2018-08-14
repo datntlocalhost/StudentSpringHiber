@@ -1,0 +1,45 @@
+package com.runsystem.datnt.services.implementations;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.runsystem.datnt.daos.interfaces.SchoolDAO;
+import com.runsystem.datnt.entities.School;
+import com.runsystem.datnt.services.interfaces.SchoolService;
+
+@Service
+public class SchoolServiceImpl implements SchoolService {
+
+	@Autowired
+	private SchoolDAO schoolDAO;
+
+	public void insert(School school) {
+		schoolDAO.insert(school);
+	}
+
+	public void update(School school) {
+		schoolDAO.update(school);
+	}
+
+	public void delete(Integer schoolId) {
+		schoolDAO.delete(schoolId);
+	}
+
+	public School selectById(int schoolId) {
+		return schoolDAO.selectById(schoolId);
+	}
+
+	public School selectByCode(String code) {
+		return schoolDAO.selectByCode(code);
+	}
+
+	public School selectByName(String name) {
+		return schoolDAO.selectByName(name);
+	}
+
+	public List<School> selectAll() {
+		return null;
+	}
+}

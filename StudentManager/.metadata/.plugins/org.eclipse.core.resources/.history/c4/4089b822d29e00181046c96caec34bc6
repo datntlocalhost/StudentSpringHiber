@@ -1,0 +1,19 @@
+package com.runsystem.datnt;
+
+import org.hibernate.SessionFactory;
+
+public abstract class Test {
+	
+
+	SessionFactory sessionFactory;
+	
+	public Test() {}
+
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+}

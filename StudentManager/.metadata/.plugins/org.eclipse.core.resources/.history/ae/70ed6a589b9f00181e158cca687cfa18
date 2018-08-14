@@ -1,0 +1,37 @@
+package com.runsystem.datnt.daos.implementations;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.runsystem.datnt.daos.AbstractDao;
+import com.runsystem.datnt.daos.interfaces.RecordsDao;
+import com.runsystem.datnt.entities.Records;
+
+@Repository
+public class RecordsDaoImpl extends AbstractDao<Integer, Records> implements RecordsDao {
+
+	public void insert(Records record) {
+		
+	}
+
+	public Records selectById(int studentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Records selectByCode(String code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Records selectByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Records> selectAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

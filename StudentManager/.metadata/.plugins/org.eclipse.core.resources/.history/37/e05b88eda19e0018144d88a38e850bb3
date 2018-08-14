@@ -1,0 +1,7 @@
+package com.runsystem.datnt.entities;
+
+import java.io.Serializable;
+
+public class UserRoles implements Serializable {
+
+}

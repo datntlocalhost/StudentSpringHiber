@@ -1,0 +1,44 @@
+package com.runsystem.datnt.daos.implementations;
+
+import java.util.List;
+
+import org.hibernate.Hibernate;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.runsystem.datnt.daos.AbstractDao;
+import com.runsystem.datnt.daos.interfaces.SchoolDAO;
+import com.runsystem.datnt.entities.School;
+
+@Repository
+@Transactional(rollbackFor = Exception.class)
+public class SchoolDAOImpl extends AbstractDao<Integer, School> implements SchoolDAO {
+
+	public void insert(School school) {
+		persist(school);
+	}
+
+	public School update(School school) {
+		return null;
+	}
+
+	public School delete(Integer schoolId) {
+		return null;
+	}
+
+	public School selectById(int schoolId) {
+		School school = getByKey(schoolId);
+		if (school != null) {
+			Hibernate.initialize(school);
+		}
+		return school;
+	}
+
+	public List<School> selectAll() {
+		return null;
+	}
+
+	public School selectByCode(String code) {
+		return null;
+	}
+}

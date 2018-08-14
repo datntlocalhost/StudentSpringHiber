@@ -1,0 +1,5 @@
+package com.runsystem.datnt.daos.implementations;
+
+public class UserDaoImpl {
+
+}

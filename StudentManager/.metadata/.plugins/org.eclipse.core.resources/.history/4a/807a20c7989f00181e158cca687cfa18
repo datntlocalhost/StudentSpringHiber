@@ -1,0 +1,15 @@
+package com.runsystem.datnt.daos.interfaces;
+
+import java.util.List;
+
+import com.runsystem.datnt.entities.User;
+
+public interface UserDao {
+	public void         insert(User school);      
+	public void         update(User school);
+	public void         delete(Integer schoolId);
+	public User       selectById(int schoolId);
+	public User       selectByCode(String code);
+	public User       selectByName(String name);
+	public List<User> selectAll();
+}

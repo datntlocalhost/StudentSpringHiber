@@ -1,0 +1,68 @@
+package com.runsystem.datnt.entities;
+
+import java.io.Serializable;
+
+public class CourseResult implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private Student student;
+	private Course  course;
+	private String  year;
+	private String  hk;
+	private float   scores;
+	
+	public CourseResult() {}
+
+	public CourseResult(Student student, Course course, String year, String hk, float scores) {
+		super();
+		this.student = student;
+		this.course = course;
+		this.year = year;
+		this.hk = hk;
+		this.scores = scores;
+	}
+
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
+	public String getHk() {
+		return hk;
+	}
+
+	public void setHk(String hk) {
+		this.hk = hk;
+	}
+
+	public float getScores() {
+		return scores;
+	}
+
+	public void setScores(float scores) {
+		this.scores = scores;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+}

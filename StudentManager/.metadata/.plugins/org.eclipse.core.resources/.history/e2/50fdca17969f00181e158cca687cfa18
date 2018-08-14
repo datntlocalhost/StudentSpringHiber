@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.runsystem.datnt.entities">
+
+	<class name="CourseResult" table="COURSE_RESULT">
+		<id name="resultId"></id>
+		<property name="studentId" type="int" column="student_id" />
+		<property name="courseId"  type="int" column="course_id" />
+		<property name="inYear"    type="int" column="in_year" />
+	</class>
+</hibernate-mapping>

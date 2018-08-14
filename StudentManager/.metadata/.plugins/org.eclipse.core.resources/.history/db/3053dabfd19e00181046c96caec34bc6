@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="abstractDao" abstract="true" class="com.runsystem.datnt.daos.AbstractDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="test" abstract="true" class="com.runsystem.datnt.Test">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="schoolDAO" class="com.runsystem.datnt.daos.implementations.SchoolDAOImpl" />
+	
+	<bean id="schoolService" class="com.runsystem.datnt.services.implementations.SchoolServiceImpl">
+		<property name="schoolDAO" ref="schoolDAO" />
+	</bean>
+</beans>

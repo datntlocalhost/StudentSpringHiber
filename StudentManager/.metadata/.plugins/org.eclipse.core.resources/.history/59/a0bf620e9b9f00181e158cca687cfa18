@@ -1,0 +1,10 @@
+package com.runsystem.datnt.daos.implementations;
+
+import org.springframework.stereotype.Repository;
+
+import com.runsystem.datnt.daos.AbstractDao;
+
+@Repository
+public class RecordsDaoImpl extends AbstractDao<Integer, >{
+
+}

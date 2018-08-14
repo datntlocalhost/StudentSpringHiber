@@ -1,0 +1,15 @@
+1534126731983	Delete element
+1534131453058	Delete element
+1534132120494	Move compilation unit
+1534133820617	Delete element
+1534133823583	Delete element
+1534134154111	Rename package 'com.runsystem.datnt.daos.implementation'
+1534135021012	Rename type 'SchoolSeviceImpl'
+1534146120164	Delete element
+1534152748520	Rename type 'SchoolDAO'
+1534152757008	Rename type 'SchoolDAOImpl'
+1534156658885	Encapsulate field 'studentId'
+1534217060804	Encapsulate field 'startYear'
+1534234868957	Rename type 'RecodsDaoImpl'
+1534235940464	Rename resource 'CourseResult.xml'
+1534239141866	Delete elements
