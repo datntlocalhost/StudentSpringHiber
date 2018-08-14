@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.runsystem.datnt.entities">
+	
+	<class name="Role" table="ROLE">
+		<id name="roleId" type="int" column="role_id">
+			<generator class="native" />
+		</id>
+		
+		<property name="roleName" type="string" column="role_name" />
+	</class>
+	
+	<sql-query name="selectRoleByName">
+		<return alias="role" class="com.runsystem.datnt.entities.Role" />
+		<![CDATA[
+			SELECT * FROM ROLE r WHERE r.role_name = :roleName
+		]]>
+	</sql-query>
+	<sql-query name="selectRoleAll">
+		<return alias="role" class="com.runsystem.datnt.entities.Role" />
+		<![CDATA[
+			SELECT * FROM ROLE
+		]]>
+	</sql-query>
+</hibernate-mapping>

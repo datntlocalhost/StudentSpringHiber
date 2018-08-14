@@ -1,0 +1,9 @@
+package com.runsystem.datnt.daos.interfaces;
+
+import com.runsystem.datnt.daos.AbstractDao;
+import com.runsystem.datnt.entities.Course;
+
+public class CourseDao extends AbstractDao<Course, Integer>{
+
+	
+}

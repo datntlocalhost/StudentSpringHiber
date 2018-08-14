@@ -1,0 +1,21 @@
+package com.runsystem.datnt.aops;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+
+@Aspect
+public class CheckLoginAspect {
+	
+	@Around("execution(* com.runsystem.datnt.controllers.SearchController.*(..)) && @target(org.springframework.stereotype.Controller) && @annotation(org.springframework.web.bind.annotation.RequestMapping)")
+	public void onCheck(ProceedingJoinPoint joinPoint) {
+		
+		Object[] args = joinPoint.getArgs();
+		
+		for (Object obj : args) {
+			System.out.println(obj.getClass().getName());
+		}
+		
+	}
+
+}

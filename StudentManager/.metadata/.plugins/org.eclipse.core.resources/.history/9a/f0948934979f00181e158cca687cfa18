@@ -1,0 +1,16 @@
+package com.runsystem.datnt.daos.interfaces;
+
+import java.util.List;
+
+import com.runsystem.datnt.entities.Role;
+
+public interface RoleDao {
+
+	public void         insert(Role school);      
+	public void         update(Role school);
+	public void         delete(Integer schoolId);
+	public Role       selectById(int schoolId);
+	public Role       selectByCode(String code);
+	public Role       selectByName(String name);
+	public List<Role> selectAll();
+}

@@ -1,0 +1,15 @@
+package com.runsystem.datnt.daos.interfaces;
+
+import java.util.List;
+
+import com.runsystem.datnt.entities.UserRoles;
+
+public interface UserRolesDao {
+	
+	public void            update(UserRoles school);
+	public void            delete(Integer schoolId);
+	public UserRoles       selectById(int schoolId);
+	public UserRoles       selectByCode(String code);
+	public UserRoles       selectByName(String name);
+	public List<UserRoles> selectAll();
+}

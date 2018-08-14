@@ -1,0 +1,10 @@
+package com.runsystem.datnt.daos.implementations;
+
+import com.runsystem.datnt.daos.AbstractDao;
+import com.runsystem.datnt.daos.interfaces.StudentDao;
+import com.runsystem.datnt.entities.Student;
+
+public class StudentDaoImpl extends AbstractDao<Integer, Student> implements StudentDao {
+
+	
+}

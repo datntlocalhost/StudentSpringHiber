@@ -1,0 +1,33 @@
+package com.runsystem.datnt;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+
+public class Test {
+	
+	@Autowired
+	LocalSessionFactoryBean sessionFactory;
+	
+	@Autowired
+	Test1 test1;
+	
+	public Test() {}
+
+	public LocalSessionFactoryBean getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(LocalSessionFactoryBean sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
+	public Test1 getTest1() {
+		return test1;
+	}
+
+	public void setTest1(Test1 test1) {
+		this.test1 = test1;
+	}
+	
+}

@@ -1,0 +1,16 @@
+package com.runsystem.datnt.daos.interfaces;
+
+import java.util.List;
+
+import com.runsystem.datnt.entities.Course;
+
+public interface CourseDao {
+
+	public void         insert(Course school);       
+	public void         update(Course school);
+	public void         delete(Integer schoolId);
+	public Course       selectById(int schoolId);
+	public Course       selectByCode(String code);
+	public Course       selectByName(String name);
+	public List<Course> selectAll();
+}

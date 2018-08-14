@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.runsystem.datnt.entities">
+
+	<class name="User" table="USER">
+		<id name="userId" type="" column="uid">
+			<generator class="native" />
+		</id>
+		
+		<property name="username" type="string" column="username" />
+		<property name="password" type="string" column="password" />
+		
+		<many-to-one name="student" class="Student">
+			<column name="stid" not-null="true" />
+		</many-to-one>
+		
+		<set name="roles" table=""></set>
+		
+	</class>
+</hibernate-mapping>

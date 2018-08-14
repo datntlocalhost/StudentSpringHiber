@@ -1,0 +1,33 @@
+package com.runsystem.datnt.services.implementations;
+
+import java.util.List;
+
+import com.runsystem.datnt.entities.School;
+import com.runsystem.datnt.services.interfaces.SchoolService;
+
+public class SchoolSeviceImpl implements SchoolService {
+
+	private 
+	
+	public void insert(School school) {
+		
+	}
+
+	public School update(School school) {
+		return null;
+	}
+
+	public School delete(Integer schoolId) {
+		return null;
+	}
+
+	public School selectById(int schoolId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<School> selectAll() {
+		return null;
+	}
+
+}

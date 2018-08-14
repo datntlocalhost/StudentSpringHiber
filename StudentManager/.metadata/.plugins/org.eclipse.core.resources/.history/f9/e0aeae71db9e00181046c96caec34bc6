@@ -1,0 +1,19 @@
+package com.runsystem.datnt.services.implementations;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.runsystem.datnt.daos.interfaces.SchoolDAO;
+import com.runsystem.datnt.entities.School;
+import com.runsystem.datnt.services.interfaces.SchoolService;
+
+@Service
+public class SchoolServiceImpl implements SchoolService {
+
+	@Autowired
+	private SchoolDAO schoolDAO;
+
+	}
+}

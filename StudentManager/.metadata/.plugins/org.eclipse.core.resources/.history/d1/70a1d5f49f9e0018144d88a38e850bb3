@@ -1,0 +1,15 @@
+package com.runsystem.datnt.entities;
+
+import java.io.Serializable;
+
+public class User implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	private int    uid;      //User's id
+	private String username; 
+	private String password;
+	
+	public User() {}
+
+	
+}

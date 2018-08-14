@@ -1,0 +1,10 @@
+package com.runsystem.datnt.daos.implementation;
+
+import java.util.List;
+
+import com.runsystem.datnt.daos.interfaces.SchoolDAO;
+import com.runsystem.datnt.entities.School;
+
+public class SchoolDAOImpl implements SchoolDAO {
+
+}

@@ -1,0 +1,14 @@
+package com.runsystem.datnt;
+import org.apache.log4j.Logger;
+import org.hibernate.dialect.MySQLDialect;
+public class Main {
+
+
+	public static Logger logger = Logger.getLogger(Main.class.getName());
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -7,9 +7,9 @@
 	<bean id="dataSource"
 		  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/studentdb" />
+		<property name="url" value="jdbc:mysql://localhost:3306/studentspringdb" />
 		<property name="username" value="datnt" />
-		<property name="password" value="123" />
+		<property name="password" value="" />
 	</bean>
 	
 	<bean id="sessionFactory"
@@ -27,5 +27,21 @@
 				<prop key="hibernate.show_sql">true</prop>
 			</props>
 		</property>
+		
+		<property name="mappingResources">
+			<list>
+			
+				<value>mappings/School.hbm.xml</value>
+				<value>mappings/Course.hbm.xml</value>
+				<value>mappings/CourseResult.hbm.xml</value>
+				<value>mappings/Role.hbm.xml</value>
+				<value>mappings/Records.hbm.xml</value>
+				<value>mappings/Student.hbm.xml</value>
+				<value>mappings/User.hbm.xml</value>
+				<!-- 
+				 -->
+			</list>
+		</property>
+		
 	</bean>
 </beans>

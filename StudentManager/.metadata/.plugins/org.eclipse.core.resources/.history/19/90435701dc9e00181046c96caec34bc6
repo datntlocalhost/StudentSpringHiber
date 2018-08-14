@@ -1,0 +1,6 @@
+package com.runsystem.datnt.daos.interfaces;
+
+public interface CourseDao {
+
+	
+}

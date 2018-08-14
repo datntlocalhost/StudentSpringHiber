@@ -1,0 +1,47 @@
+package com.runsystem.datnt.services.implementations;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.runsystem.datnt.daos.interfaces.RoleDao;
+import com.runsystem.datnt.entities.Role;
+import com.runsystem.datnt.services.interfaces.RoleService;
+
+@Service
+public class RoleServiceImpl implements RoleService {
+
+	@Autowired
+	RoleDao roleDao;
+	
+	public void insert(Role role) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void update(Role role) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void delete(Integer roleId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Role selectById(int roleId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Role selectByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Role> selectAll() {
+		return null;
+	}
+
+}

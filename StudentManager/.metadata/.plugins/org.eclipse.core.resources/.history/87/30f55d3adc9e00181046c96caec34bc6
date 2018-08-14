@@ -1,0 +1,40 @@
+package com.runsystem.datnt.daos.implementations;
+
+import java.util.List;
+
+import com.runsystem.datnt.daos.AbstractDao;
+import com.runsystem.datnt.daos.interfaces.CourseDao;
+import com.runsystem.datnt.entities.Course;
+
+public class CourseDaoImpl extends AbstractDao<Course, Integer> implements CourseDao {
+
+	public void insert(Course school) {
+		
+	}
+
+	public void update(Course school) {
+		
+	}
+
+	public void delete(Integer schoolId) {
+		
+	}
+
+	public Course selectById(int schoolId) {
+		return null;
+	}
+
+	public Course selectByCode(String code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Course selectByName(String name) {
+		return null;
+	}
+
+	public List<Course> selectAll() {
+		return null;
+	}
+
+}
