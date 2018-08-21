@@ -1,8 +1,0 @@
-package com.runsystem.datnt;
-
-public class Test {
-
-	public void display() {
-		System.out.println("display");
-	}
-}

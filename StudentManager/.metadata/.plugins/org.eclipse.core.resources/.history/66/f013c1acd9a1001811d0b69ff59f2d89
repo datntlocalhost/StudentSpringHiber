@@ -1,0 +1,17 @@
+package com.runsystem.datnt.daos.implementations;
+
+import com.runsystem.datnt.daos.AbstractDao;
+import com.runsystem.datnt.daos.interfaces.RequireResetPwdDao;
+import com.runsystem.datnt.entities.RequireResetPwd;
+
+public class RequireResetPwdDaImpl extends AbstractDao<Integer, RequireResetPwd> implements RequireResetPwdDao {
+
+	public void insert(RequireResetPwd require) {
+		persist(require);
+	}
+
+	public void delete(RequireResetPwd require) {
+		delete(require.getId());
+	}
+
+}

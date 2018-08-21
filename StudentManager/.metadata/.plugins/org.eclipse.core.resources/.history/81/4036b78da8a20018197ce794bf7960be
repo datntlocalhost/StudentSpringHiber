@@ -1,0 +1,21 @@
+package com.runsystem.datnt.daos.implementations;
+
+import org.springframework.stereotype.Repository;
+
+import com.runsystem.datnt.daos.AbstractDao;
+import com.runsystem.datnt.daos.interfaces.StudentDao;
+import com.runsystem.datnt.entities.Student;
+
+@Repository
+public class StudentDaoImpl extends AbstractDao<Integer, Student> implements StudentDao {
+
+	
+	/*
+	 * Retrieve last student's code in database
+	 * 
+	 * @return string 
+	 */
+	public String getLastStudentCode() {
+		return buildQuery("getLastStudentCode").uniqueResult().get;
+	}
+}

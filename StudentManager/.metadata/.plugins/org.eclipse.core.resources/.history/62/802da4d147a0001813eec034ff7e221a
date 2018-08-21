@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.runsystem.datnt.entities">
+
+	<class name="School" table="SCHOOL">
+		
+		<id name="schoolId" type="int" column="school_id">
+			<generator class="native" />
+		</id>
+		
+		<property name="schoolCode" type="string" column="school_code" />
+		<property name="schoolName" type="string" column="school_name" />
+		
+	</class>
+	
+	<!-- 
+	<sql-query name="selectSchoolByCode">
+		<return alias="school" class="School" />
+		<![CDATA[
+			SELECT * FROM SCHOOL WHERE sccode = :schoolCode
+		]]>
+	</sql-query>
+	 -->
+	 
+	 <sql-query name="selectAllSchool"></sql-query>
+</hibernate-mapping>

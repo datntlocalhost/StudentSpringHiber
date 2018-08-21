@@ -1,0 +1,77 @@
+package com.runsystem.datnt.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.runsystem.datnt.entities.ResetPassword;
+import com.runsystem.datnt.entities.User;
+import com.runsystem.datnt.models.ResetPwdModel;
+import com.runsystem.datnt.services.interfaces.ResetPasswordService;
+import com.runsystem.datnt.services.interfaces.UserService;
+
+@Controller
+public class AcceptResetController {
+
+	@Autowired
+	ResetPasswordService resetPasswordService;
+	
+	@Autowired
+	UserService userService;
+	
+	@RequestMapping(value = "/admin/accreset")
+	public String pageLoad(Model model) {
+		
+		model.addAttribute("listUnprocess", resetPasswordService.selectUnprocess());
+		model.addAttribute("listProcessed", resetPasswordService.selectProcessed());
+		
+		return "acceptResetPassword";
+	}
+	
+	@RequestMapping(value = "/admin/accreset/{requireId}", method = RequestMethod.GET)
+	public @ResponseBody ResetPwdModel acceptReset(@PathVariable("requireId") int requireId, 
+									@RequestParam(value="accept", required = false) String accept, 
+									@RequestParam(value="ignor", required = false)  boolean ignor,
+									@RequestParam(value="delete", required = false) boolean delete) {
+		
+		System.out.println(requireId);
+		System.out.println(accept);
+		/*
+		ResetPwdModel resetPwdModel = new ResetPwdModel();
+		ResetPassword resetObject = resetPasswordService.selectById(requireId);
+		boolean success = false;
+		
+		if (resetObject != null) {
+			if (accept == true) {
+				success = resetPasswordService.update(requireId);
+			}
+			
+			if (ignor == true) {
+				
+			}
+			
+			if (delete == true) {
+				
+			}
+		}
+		
+		if (success) {
+			resetPwdModel.setUnprocess(resetPasswordService.selectUnprocess());
+			resetPwdModel.setProcessed(resetPasswordService.selectProcessed());
+			return resetPwdModel;
+		} 
+		*/
+		return null;
+	}
+	
+	public String test(@RequestParam(value = "param", required = false) String param) {
+		
+	}
+}

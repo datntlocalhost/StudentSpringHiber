@@ -1,0 +1,63 @@
+package com.runsystem.datnt.services.implementations;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.runsystem.datnt.daos.interfaces.UserDao;
+import com.runsystem.datnt.entities.User;
+import com.runsystem.datnt.services.interfaces.UserService;
+import com.runsystem.datnt.utils.HashSHA1;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+	@Autowired
+	private UserDao userDao;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	public boolean insert(User user) {
+		System.out.println(userDao != null);
+		return false;
+	}
+
+	public boolean update(User user) {
+		return false;
+	}
+
+	public boolean delete(Integer userId) {
+		return false;
+	}
+
+	public User selectById(int userId) {
+		return userDao.selectById(userId);
+	}
+
+	public User selectUser(User user) {
+		//Hash user password with SHA1
+		String encodePwd = bCryptPasswordEncoder.encode(user.getPassword());
+		user.setPassword(encodePwd);
+		
+		return userDao.selectUser(user);
+	}
+
+	public List<User> selectAll() {
+		return null;
+	}
+	
+	public boolean changePassword(User user, String newPassword) {
+		User hasUser = selectUser(user);
+		
+		if (hasUser != null) {
+			newPassword = bCryptPasswordEncoder.encode(newPassword);
+			hasUser.setPassword(newPassword);
+			update(hasUser);
+			return true;
+		}
+		return false;
+	}
+}

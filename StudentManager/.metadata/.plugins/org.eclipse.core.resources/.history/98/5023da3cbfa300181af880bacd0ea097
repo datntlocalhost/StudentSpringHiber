@@ -1,0 +1,12 @@
+package com.runsystem.datnt.services.interfaces;
+
+import java.util.List;
+
+import com.runsystem.datnt.entities.PasswordReset;
+
+public interface PasswordResetService {
+
+	public void insert()
+	public List<PasswordReset> selectProcessed();
+	public List<PasswordReset> selectUnprocess();
+}

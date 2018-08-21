@@ -1,0 +1,19 @@
+package com.runsystem.datnt.test;
+
+public class Test {
+	
+	UserDao userDao;
+	
+	public 
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+	
+	
+
+}

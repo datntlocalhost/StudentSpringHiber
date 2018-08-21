@@ -1,5 +1,0 @@
-package com.runsystem.datnt.security;
-
-public class WebSecurityConfig implements{
-
-}

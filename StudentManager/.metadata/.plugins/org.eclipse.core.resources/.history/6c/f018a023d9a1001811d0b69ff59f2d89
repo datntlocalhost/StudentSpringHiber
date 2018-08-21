@@ -1,0 +1,7 @@
+package com.runsystem.datnt.daos.interfaces;
+
+public interface RequireResetPwdDao {
+	
+	public 
+
+}

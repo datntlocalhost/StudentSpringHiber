@@ -1,0 +1,30 @@
+package com.runsystem.datnt.test;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+
+import com.runsystem.datnt.entities.User;
+
+public class UserDaoImpl implements UserDao {
+
+	SessionFactory sessionFactory;
+	
+	public User getUserByUsername(String username) {
+		
+		Query<User> query = sessionFactory.getCurrentSession().getNamedQuery("selectByUsername");
+		query.setString("username", username);
+		User user =  query.uniqueResult();
+		System.out.println(user != null);
+		return user;
+	}
+
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+	
+	
+}

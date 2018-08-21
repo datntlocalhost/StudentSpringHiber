@@ -75,6 +75,7 @@ public class Records implements Serializable {
 		this.address = address;
 	}
 
+	
 	public Student getStudent() {
 		return student;
 	}
@@ -82,7 +83,7 @@ public class Records implements Serializable {
 	public void setStudent(Student student) {
 		this.student = student;
 	}
-
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

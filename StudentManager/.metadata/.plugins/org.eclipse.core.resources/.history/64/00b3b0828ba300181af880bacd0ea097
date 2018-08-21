@@ -1,0 +1,17 @@
+package com.runsystem.datnt.controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.runsystem.datnt.models.UpdateModel;
+
+@Controller
+public class UpdateController {
+
+	public @ResponseBody UpdateModel updateStudent(@ModelAttribute UpdateModel updateInfo, BindingResult bindingResult) {
+		
+	}
+}

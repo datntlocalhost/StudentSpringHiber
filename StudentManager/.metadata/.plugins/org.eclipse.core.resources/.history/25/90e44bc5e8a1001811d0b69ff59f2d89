@@ -1,0 +1,18 @@
+package com.runsystem.datnt.daos.interfaces;
+
+import java.util.List;
+
+import com.runsystem.datnt.entities.ResetPassword;
+
+public interface ResetPasswordDao {
+	
+	public void insert(ResetPassword require);
+	public void remove(ResetPassword require);
+	public void process(ResetPassword require);
+	public ResetPassword selectById(int id);
+	public ResetPassword selectByUsername(String username);
+	public List<ResetPassword> selectUnprocess();
+	public List<ResetPassword> selectProcessed();
+	public boolean hasRequire(String username);
+
+}

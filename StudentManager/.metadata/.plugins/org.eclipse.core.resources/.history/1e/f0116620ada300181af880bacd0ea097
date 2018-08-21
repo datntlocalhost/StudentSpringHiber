@@ -1,0 +1,63 @@
+package com.runsystem.datnt.controllers;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.runsystem.datnt.entities.Records;
+import com.runsystem.datnt.entities.Role;
+import com.runsystem.datnt.entities.School;
+import com.runsystem.datnt.entities.Student;
+import com.runsystem.datnt.entities.User;
+import com.runsystem.datnt.models.SearchStudentModel;
+import com.runsystem.datnt.services.interfaces.SchoolService;
+import com.runsystem.datnt.services.interfaces.StudentService;
+
+@Controller
+public class StudentListController {
+
+	@Autowired
+	private StudentService studentService;
+	
+	@Autowired
+	private SchoolService schoolService;
+	
+	@RequestMapping(value = "/admin/list", method = RequestMethod.GET)
+	public String loadPage(Model model) {
+		
+		model.addAttribute("user", "Admin");
+		model.addAttribute("role", "ADMIN");
+		model.addAttribute("schools", schoolService.selectAll());
+		model.addAttribute("studentList", studentService.list());
+		return "studentlist";
+	}
+	
+	@PostMapping(value = "/admin/search")
+	public @ResponseBody List<Student> searchStudent(@ModelAttribute SearchStudentModel searchModel, BindingResult bindingResult) throws JsonProcessingException {
+		
+		
+		List<Student> students = studentService.search(searchModel);
+	
+		for (Student student : students) {
+			student.getRecord().setStudent(null);
+			student.setUser(null);
+		}
+		
+		return students ;
+	}
+}

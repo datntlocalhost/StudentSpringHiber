@@ -1,7 +1,0 @@
-package com.runsystem.datnt.services.implementations;
-
-import com.runsystem.datnt.services.interfaces.CourseService;
-
-public class CourseServiceImpl implements CourseService {
-
-}

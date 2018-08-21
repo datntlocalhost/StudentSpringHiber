@@ -1,9 +1,0 @@
-package com.runsystem.datnt.daos;
-
-import com.runsystem.datnt.entities.School;
-
-public interface SchoolDAO {
-
-	public School selectById(int schoolID);
-	public int    update(School school);
-}

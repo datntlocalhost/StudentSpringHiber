@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/bootstraps/bootstrap.min.css}" />
+  	<link rel="stylesheet" th:href="@{/fonts/font-awesome/css/font-awesome.min.css}" />
+  	<link rel="stylesheet" th:href="@{/icons/ionicons.min.css}" />
+  	<link rel="stylesheet" th:href="@{/css/AdminLTE.css}" />
+ 	<link rel="stylesheet" th:href="@{/css/_all-skins.css}" />
+  	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body>
+	
+	
+	
+	
+	
+	
+	
+	<!--==================================================================================-->
+  	<!--                           SCRIPT                                                 -->
+  	<!--==================================================================================-->
+  	<script th:src="@{/jquerys/jquery.min.js}" ></script>
+  	<script th:src="@{/bootstraps/bootstrap.min.js}" ></script>
+  	<script th:src="@{/js/adminlte.js}" ></script>
+</body>
+</html>

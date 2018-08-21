@@ -1,0 +1,16 @@
+package com.runsystem.datnt.entities;
+
+import java.io.Serializable;
+
+public class RequireResetPwd implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private String username;
+	private String email;
+	private String newPassword;
+	
+	public RequireResetPwd() {}
+	
+	
+
+}

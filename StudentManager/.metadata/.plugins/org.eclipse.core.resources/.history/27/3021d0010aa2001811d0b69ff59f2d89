@@ -1,0 +1,78 @@
+package com.runsystem.datnt.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.runsystem.datnt.entities.ResetPassword;
+import com.runsystem.datnt.mails.MailServices;
+import com.runsystem.datnt.models.ResetPwdModel;
+import com.runsystem.datnt.services.interfaces.ResetPasswordService;
+import com.runsystem.datnt.services.interfaces.UserService;
+
+@Controller
+public class AcceptResetController {
+
+	@Autowired
+	ResetPasswordService resetPasswordService;
+	
+	@Autowired
+	UserService userService;
+	
+	@Autowired
+	MailServices mailServices;
+	
+	@RequestMapping(value = "/admin/accreset")
+	public String pageLoad(Model model) {
+		
+		model.addAttribute("listUnprocess", resetPasswordService.selectUnprocess());
+		model.addAttribute("listProcessed", resetPasswordService.selectProcessed());
+		
+		return "acceptResetPassword";
+	}
+	
+	@RequestMapping(value = "/admin/accreset/{requireId}", method = RequestMethod.GET)
+	public @ResponseBody ResetPwdModel acceptReset(@PathVariable("requireId") int requireId, 
+									@RequestParam(value="accept", required = false) boolean accept, 
+									@RequestParam(value="ignor", required = false)  boolean ignor,
+									@RequestParam(value="delete", required = false) boolean delete) {
+		
+		System.out.println(requireId);
+		System.out.println(ignor);
+		
+		ResetPwdModel resetPwdModel = new ResetPwdModel();
+		ResetPassword resetObject = resetPasswordService.selectById(requireId);
+		boolean success = false;
+		
+		if (resetObject != null) {
+			if (accept == true) {
+				String studentMail = "asdygxvc78717247@gmail.com";
+				success = resetPasswordService.update(requireId);
+				mailServices.send("datntuit@gmail.com", studentMail, "Reset student's account success", "Your account was be reset. Please check login.");
+			}
+			
+			if (ignor == true) {
+				resetPasswordService.delete(resetObject);
+				success = true;
+			}
+			
+			if (delete == true) {
+				resetPasswordService.delete(resetObject);
+				success = true;
+			}
+		}
+		
+		if (success) {
+			resetPwdModel.setUnprocess(resetPasswordService.selectUnprocess());
+			resetPwdModel.setProcessed(resetPasswordService.selectProcessed());
+			return resetPwdModel;
+		} 
+		
+		return null;
+	}
+}

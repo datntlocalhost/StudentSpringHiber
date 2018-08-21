@@ -1,0 +1,7 @@
+package com.runsystem.datnt.daos.interfaces;
+
+import com.runsystem.datnt.daos.GenericDao;
+
+public interface StudentDao extends GenericDao<Integer, T>{
+
+}

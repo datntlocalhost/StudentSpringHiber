@@ -12,17 +12,17 @@ public class UserValidator implements Validator {
 	}
 
 	public void validate(Object target, Errors errors) {
-		String usernameRegex = "";
-		String passwordRegex = "";
+		String usernameRegex = "^[a-zA-Z0-9]{4,26}$";
+		String passwordRegex = "^[a-zA-Z0-9!@#$%^&*()]{4,32}$";
 		
 		User user = (User) target;
 		
 		if (!user.getUsername().matches(usernameRegex)) {
-			
+			errors.rejectValue("username", "user.invalid.username");
 		}
 		
 		if (!user.getPassword().matches(passwordRegex)) {
-			
+			errors.rejectValue("password", "user.invalid.password");
 		}
 	}
 }

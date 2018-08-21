@@ -1,0 +1,13 @@
+package com.runsystem.datnt.errorhandles;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class PageNotFound {
+
+	@RequestMapping(value = "/404")
+	public String redirectPage() {
+		
+	}
+}

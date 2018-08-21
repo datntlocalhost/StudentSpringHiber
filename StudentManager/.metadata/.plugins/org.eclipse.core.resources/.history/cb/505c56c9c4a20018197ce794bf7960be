@@ -1,0 +1,8 @@
+/**
+ * SearchStudentModel class
+ * */
+package com.runsystem.datnt.models;
+
+public class SearchStudentModel {
+
+}

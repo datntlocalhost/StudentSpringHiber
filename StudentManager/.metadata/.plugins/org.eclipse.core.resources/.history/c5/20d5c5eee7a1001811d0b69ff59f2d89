@@ -1,0 +1,10 @@
+package com.runsystem.datnt.services.interfaces;
+
+import com.runsystem.datnt.entities.ResetPassword;
+
+public interface ResetPasswordService {
+
+	public ResetPassword insert(ResetPassword require);
+	public void delete(ResetPassword require);
+	public boolean hashRequire(String username);
+}

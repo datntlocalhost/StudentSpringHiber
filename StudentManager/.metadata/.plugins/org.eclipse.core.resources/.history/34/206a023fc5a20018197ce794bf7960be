@@ -1,0 +1,15 @@
+package com.runsystem.datnt.services.interfaces;
+
+import java.util.List;
+
+import com.runsystem.datnt.entities.Student;
+import com.runsystem.datnt.models.SearchStudentModel;
+
+public interface StudentService {
+
+	public boolean       insert(Student student);
+	public void          delete(int id);
+	public List<Student> list();
+	public Student       selectByCode(String code);
+	public List<Student> search(SearchStudentModel);
+}

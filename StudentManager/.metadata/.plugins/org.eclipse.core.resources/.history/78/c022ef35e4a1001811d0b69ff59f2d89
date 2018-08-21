@@ -1,0 +1,8 @@
+package com.runsystem.datnt;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+	}
+}

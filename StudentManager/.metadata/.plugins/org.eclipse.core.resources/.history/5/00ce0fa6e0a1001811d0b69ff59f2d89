@@ -1,0 +1,40 @@
+package com.runsystem.datnt.controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.runsystem.datnt.entities.RequireResetPwd;
+import com.runsystem.datnt.services.implementations.UserServiceImpl;
+import com.runsystem.datnt.services.interfaces.UserService;
+import com.runsystem.datnt.validations.RequireResetValidator;
+
+@Controller
+public class ResetPwdController {
+	
+	UserService userService;
+
+	@RequestMapping(value = "/sendreset", method = RequestMethod.GET)
+	public String loadPage(Model model) {
+		
+		return "requireResetPassword";
+	}
+	
+	@RequestMapping(value ="/sendreset", method = RequestMethod.POST)
+	public String onPost(@ModelAttribute RequireResetPwd require, Model model, BindingResult bindingResult) {
+		RequireResetValidator validator = new RequireResetValidator();
+		validator.validate(require, bindingResult);
+		
+		if (bindingResult.hasErrors()) {
+			return "requireResetPassword";
+		}
+		
+		
+		
+		return "requireResetPassword";
+	}
+}

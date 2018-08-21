@@ -1,0 +1,79 @@
+package com.runsystem.datnt.controllers;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.runsystem.datnt.daos.interfaces.StudentDao;
+import com.runsystem.datnt.daos.interfaces.UserDao;
+import com.runsystem.datnt.entities.Student;
+import com.runsystem.datnt.entities.User;
+
+@Controller
+public class HomeController {
+	
+	@Autowired
+	UserDao userDao;
+	
+	@Autowired
+	StudentDao studentDao;
+	
+	/*
+	 * 
+	 * */
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String loadPage(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		
+		//Get info of user by username
+		User user = userDao.selectByUsername(getPrincipal());
+		Student student = null;
+		
+		if (user != null) {
+			//Get info of student by id, id of user and id of student is the same
+			student = studentDao.selectById(user.getUserId());
+		}
+		
+		//If student not null, then set session attribute and model attribute
+		if (student != null) {
+			session.setAttribute("studentInfo", student);
+			model.addAttribute("user", student.getStudentName());
+		} else {
+			model.addAttribute("user","Admin");
+		}
+		
+		return "home";
+	}
+	
+	private String getPrincipal(){
+		/*
+        String userName = null;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+ 
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails)principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
+        */
+		return "18000000";
+    }
+	
+	private List<String> getRoles() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+            userName = ((UserDetails)principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+	}
+}

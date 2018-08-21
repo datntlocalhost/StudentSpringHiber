@@ -1,0 +1,7 @@
+package com.runsystem.datnt.services.implementations;
+
+import com.runsystem.datnt.services.interfaces.UserService;
+
+public class UserServiceImpl implements UserService {
+
+}

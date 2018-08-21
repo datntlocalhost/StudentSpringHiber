@@ -7,5 +7,7 @@
 	<bean id="abstractDao" abstract="true" class="com.runsystem.datnt.daos.AbstractDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
+ 	
 </beans>
+	
+

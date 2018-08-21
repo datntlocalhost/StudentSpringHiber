@@ -1,0 +1,7 @@
+package com.runsystem.datnt.daos.implementations;
+
+import com.runsystem.datnt.daos.AbstractDao;
+
+public class UserDaoImpl extends AbstractDao<Integer, T>{
+
+}

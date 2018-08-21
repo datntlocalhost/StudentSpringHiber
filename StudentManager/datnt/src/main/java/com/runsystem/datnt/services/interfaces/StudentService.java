@@ -3,14 +3,16 @@ package com.runsystem.datnt.services.interfaces;
 import java.util.List;
 
 import com.runsystem.datnt.entities.Student;
+import com.runsystem.datnt.models.SearchStudentModel;
+import com.runsystem.datnt.models.StudentModel;
 
 public interface StudentService {
-	
-	public void          insert(Student student);      
-	public void          update(Student student);
-	public void          delete(Integer studentId);
-	public Student       selectById(int studentId);
+
+	public Student       insert(StudentModel info);
+	public boolean       delete(String code);
+	public List<Student> list();
 	public Student       selectByCode(String code);
-	public Student       selectByName(String name);
-	public List<Student> selectAll();
+	public List<Student> search(SearchStudentModel searchInfo);
+	public Student       updateStudent(StudentModel updateInfo);
+	public StudentModel  updateRecord(Student student);
 }

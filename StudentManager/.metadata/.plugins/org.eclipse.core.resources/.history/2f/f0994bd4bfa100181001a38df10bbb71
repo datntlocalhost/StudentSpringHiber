@@ -1,0 +1,12 @@
+package com.runsystem.datnt.models;
+
+import java.io.Serializable;
+
+import com.runsystem.datnt.entities.Student;
+
+public class UserSession implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private Student student
+
+}

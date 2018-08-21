@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping package="com.runsystem.datnt.entities">
+	
+	<class name="Course" table="COURSE">
+		<id name="require_id" type="int" column="require_id">
+			<generator class="native" />
+		</id>
+		
+		<property name="username" type="string" column="require_username" />
+		<property name="email" type="string" column="require_email" />
+		<property name="newPassword" type="string" column="require_password" />
+	</class>
+	
+	<sql-query name="selectRequireByUsername">
+		<return alias="require" class=""></return>
+	</sql-query>
+
+</hibernate-mapping>

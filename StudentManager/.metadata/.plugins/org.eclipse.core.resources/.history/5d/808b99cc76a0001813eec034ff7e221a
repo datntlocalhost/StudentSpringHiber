@@ -1,0 +1,9 @@
+user.invalid.username=Invalid Username
+user.invalid.password=Invalid Password
+
+student.invalid.code=Invalid Student Code
+student.invalid.name=Invalid Student Name
+student.invalid.sex=Invalid Sex
+student.invalid.birthday=Invalid Birthday
+student.invalid.startyear=Invalid Student Name
+

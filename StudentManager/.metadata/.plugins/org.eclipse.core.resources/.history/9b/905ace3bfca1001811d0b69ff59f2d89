@@ -1,0 +1,73 @@
+package com.runsystem.datnt.services.implementations;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.runsystem.datnt.daos.interfaces.ResetPasswordDao;
+import com.runsystem.datnt.daos.interfaces.StudentDao;
+import com.runsystem.datnt.entities.ResetPassword;
+import com.runsystem.datnt.entities.Student;
+import com.runsystem.datnt.services.interfaces.ResetPasswordService;
+
+@Service
+public class ResetPasswordServiceImpl implements ResetPasswordService {
+
+	@Autowired
+	private ResetPasswordDao resetPasswordDao;
+	
+	@Autowired
+	private StudentDao studentDao;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
+	public ResetPassword insert(ResetPassword require) {
+		Student student = studentDao.selectByCode(require.getUsername());
+		
+		if (student != null && !hashRequire(require.getUsername())) {
+			Calendar calendar = Calendar.getInstance();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+			
+			String encodePassword = passwordEncoder.encode(require.getNewPassword());
+			require.setNewPassword(encodePassword);
+			require.setStudentCode(student.getStudentCode());
+			require.setStudentName(student.getStudentName());
+			require.setTime(dateFormat.format(calendar.getTime()));
+			require.setIsProcess(0);
+			
+			resetPasswordDao.insert(require);
+			return require;
+		}
+		return null;
+	}
+
+	public void delete(ResetPassword require) {
+		resetPasswordDao.delete(require);
+	}
+
+	public boolean hashRequire(String username) {
+		return resetPasswordDao.hasRequire(username);
+	}
+
+	public List<ResetPassword> selectUnprocess() {
+		return resetPasswordDao.selectUnprocess();
+	}
+
+	public List<ResetPassword> selectProcessed() {
+		return resetPasswordDao.selectProcessed();
+	}
+
+	public ResetPassword selectById(int id) {
+		return resetPasswordDao.selectById(id);
+	}
+
+	public boolean update(ResetPassword require) {
+		return false;
+	}
+
+}

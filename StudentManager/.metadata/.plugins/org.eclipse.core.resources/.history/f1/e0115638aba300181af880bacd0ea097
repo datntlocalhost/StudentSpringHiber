@@ -1,0 +1,58 @@
+package com.runsystem.datnt.validations;
+
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
+import com.runsystem.datnt.models.StudentModel;
+import com.runsystem.datnt.utils.Validation;
+
+public class StudentValidator implements Validator {
+
+	public boolean supports(Class<?> arg0) {
+		return StudentModel.class.equals(arg0);
+	}
+
+	public void validate(Object target, Errors errors) {
+		
+		StudentModel student = (StudentModel) target;
+		
+		if (student != null) {
+			if (!Validation.validName(student.getStudentName(), false)) {
+				errors.rejectValue("invalidName", "student.invalid.name");
+			}
+			
+			if (!Validation.validSchoolYear(student.getSchoolYear())) {
+				errors.rejectValue("invalidStartYear", "student.invalid.startyear");
+			}
+			
+			if (!Validation.validSex(student.getSex(), false)) {
+				errors.rejectValue("invalidSex", "student.invalid.sex");
+			}
+			
+			if (!Validation.validDate(student.getBirthday())) {
+				errors.rejectValue("invalidBirthDay", "student.invalid.birthday");
+			}
+			
+			if (!Validation.validPhone(student.getPhone(), true)) {
+				errors.rejectValue("invalidPhone", "student.invalid.phone");
+			}
+			
+			if (!Validation.validEmail(student.getEmail(), true)) {
+				errors.rejectValue("invalidEmail", "student.invalid.email");
+			}
+			
+			if (!record.getAddress().matches(addressRegex)) {
+				errors.rejectValue("invalidAddress", "student.invalid.address");
+			}
+			
+			if (student.getStartYear().matches(syearRegex) && !startYear(student.getStartYear())) {
+				errors.rejectValue("invalidStartYear", "student.invalid.startyear");
+			}
+			
+		} else {
+			errors.rejectValue("invalidStudent", "invalid.student");
+		}
+		
+	}
+
+}
