@@ -1,0 +1,9 @@
+package com.runsystem.datnt.services.interfaces;
+
+import com.runsystem.datnt.entities.RequireResetPwd;
+
+public class ResetPasswordService {
+
+	public void insert(RequireResetPwd require);
+	public void delete(RequireResetPwd require);
+}

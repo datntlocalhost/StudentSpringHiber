@@ -1,0 +1,47 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<title>Home</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css" />">
+    <link rel="stylesheet" href="<c:url value="/css/ionicons.min.css" />">
+    <link rel="stylesheet" href="<c:url value="/css/adminlte.min.css" />">
+    <link rel="stylesheet" href="<c:url value="/css/skinblue.min.css" />">
+</head>
+<body>
+	<jsp:include page="header.jsp"></jsp:include>
+	
+	<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <h1>
+        Dashboard
+        <small>Control panel</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+      </ol>
+    </div>
+
+    <!-- Main content -->
+    <div class="content">
+
+    </div>
+    <!-- /.content -->
+
+  </div>
+  <!-- /.content-wrapper -->
+  
+  
+	<script src="<c:url value="/js/jquery.min.js" />"></script>
+	<script src="<c:url value="/js/bootstrap.min.js" />"></script>
+	<script src="<c:url value="/js/adminlte.min.js" />"></script>
+	
+</body>
+</html>

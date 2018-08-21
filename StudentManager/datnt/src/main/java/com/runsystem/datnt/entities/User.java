@@ -1,6 +1,7 @@
 package com.runsystem.datnt.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 public class User implements Serializable {
@@ -10,7 +11,7 @@ public class User implements Serializable {
 	private String    username; 
 	private String    password;
 	private Student   student;
-	private Set<Role> roles;
+	private Set<Role> roles = new HashSet<Role>(0);
 	
 	public User() {}
 
@@ -22,7 +23,7 @@ public class User implements Serializable {
 		this.student  = student;
 		this.roles    = roles;
 	}
-
+	
 	public Student getStudent() {
 		return student;
 	}

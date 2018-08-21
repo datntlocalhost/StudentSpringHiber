@@ -1,0 +1,25 @@
+package com.runsystem.datnt.test;
+
+import java.util.List;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.runsystem.datnt.entities.Student;
+
+@Repository
+@Transactional
+public class TestDaoImpl implements TestDao {
+
+	@Autowired
+	SessionFactory sessionFactory;
+	
+	public List<Student> selectAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+}

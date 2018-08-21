@@ -1,0 +1,9 @@
+package com.runsystem.datnt.daos.interfaces;
+
+import com.runsystem.datnt.daos.GenericDao;
+import com.runsystem.datnt.entities.Student;
+
+public interface StudentDao extends GenericDao<Integer, Student> {
+	
+	public String getMaxStudentCode
+}

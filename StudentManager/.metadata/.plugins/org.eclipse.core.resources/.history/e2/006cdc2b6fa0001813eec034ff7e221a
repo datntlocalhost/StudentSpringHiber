@@ -1,0 +1,16 @@
+package com.runsystem.datnt.controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+
+import com.runsystem.datnt.models.ChangePwdModel;
+
+@Controller
+public class ChangePwdController {
+
+	
+	public String loadPage(Model model) {
+		model.addAttribute("changePwdModel", new ChangePwdModel());
+		return 
+	}
+}

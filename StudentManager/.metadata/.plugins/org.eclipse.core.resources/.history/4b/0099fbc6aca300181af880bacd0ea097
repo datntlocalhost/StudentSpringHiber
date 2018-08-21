@@ -1,0 +1,186 @@
+package com.runsystem.datnt.utils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class Validation {
+	
+	/*
+	 * Check if a string is username format.
+	 * 
+	 * @param username
+	 * 
+	 * @return true if valid, esle return false.
+	 */
+	public static boolean validUsername(String username) {
+		String regex = "^[a-zA-Z0-9]{4,30}$";
+		return username.matches(regex);
+	}
+	
+	/*
+	 * Check if a string is password format.
+	 * 
+	 * @param username
+	 * 
+	 * @return true if valid, esle return false.
+	 */
+	public static boolean validPassword(String password) {
+		String regex = "^[a-zA-Z0-9!@#$%^&*]{4,30}$";
+		return password.matches(regex);
+	}
+	
+	/*
+	 * Check a string is email format.
+	 * 
+	 * @param email
+	 * @param canNull if canNull is true and the string is null or empty, method will return true.
+	 * 
+	 * @return true if string is email format.
+	 */
+	public static boolean validEmail(String email, boolean canNull) {
+		String regex = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";
+		
+		if(isNullOrEmpty(email) && canNull) {
+			return true;
+		} 
+		return email.matches(regex);
+	}
+	
+	/*
+	 * Check a string is phone number format.
+	 * 
+	 * @param phone
+	 * @param canNull if canNull is true and the string is null or empty, method will return true.
+	 * 
+	 * @return true if string is phone format
+	 */
+	public static boolean validPhone(String phone, boolean canNull) {
+		String regex = "^[0-9]{0,15}$";
+		
+		if (isNullOrEmpty(phone) && canNull) {
+			return true;
+		}
+		return phone.matches(regex);
+	}
+	
+	/*
+	 * Check a date range is valid, that's mean date from have to smaller or equal date to. 
+	 * And both have to a date format.
+	 * 
+	 * @param from
+	 * @param to
+	 * 
+	 * @return true if date range is valid.
+	 * 
+	 * @throw ParseException
+	 */
+	public static boolean validDateRange(String from, String to) {
+		
+		if (validDate(from) && validDate(to)) {
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			
+			try {
+				Date dateFrom = df.parse(from);
+				Date dateTo   = df.parse(to);
+				return dateFrom.getTime() <= dateTo.getTime();
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
+	/*
+	 * Check a string is name format.
+	 * 
+	 * @param name
+	 * @param canNull
+	 * 
+	 * @return true if valid, else return false.
+	 */
+	public static boolean validName(String name, boolean canNull) {
+		String notRegex = "^[^~!@#$%^&*()_-]*$";
+		
+		if (isNullOrEmpty(name) && canNull) {
+			return true;
+		}
+		return name.matches(notRegex);
+	}
+	
+	/*
+	 * Check a string is date format.
+	 * 
+	 * @param date
+	 * 
+	 * @return true if is date format, else return false.
+	 */
+	public static boolean validDate(String date) {
+		String regex = "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])*$";
+		return date != null && date.matches(regex);
+	}
+
+	/*
+	 * Check a string is school year format. Ex: 2017-2018
+	 * 
+	 * @param schoolYear
+	 * 
+	 * @return true if valid, else false.
+	 */
+	public static boolean validSchoolYear(String schoolYear) {
+		String regex = "^[0-9]{4}-[0-9]{4}$";
+		return schoolYear != null && schoolYear.matches(regex);
+	}
+	
+	/*
+	 * Check a string is sex format.
+	 * 
+	 * @param sex
+	 * @param canNull
+	 * 
+	 * @return true if string is valid, else return false.
+	 */
+	public static boolean validSex(String sex, boolean canNull) {
+		if (isNullOrEmpty(sex) && canNull) {
+			return true;
+		} else if (sex.equalsIgnoreCase("male")) {
+			return true;
+		} else if (sex.equalsIgnoreCase("female")) {
+			return true;
+		}
+		return false;
+	}
+	
+	/*
+	 * Check a string is address format.
+	 * 
+	 * @param address
+	 * @param canNull
+	 * 
+	 * @return true if string is valid, else return false.
+	 */
+	public static boolean validAddress(String address, boolean canNull) {
+		return true;
+	}
+	
+	public static boolean validSchool(String school) {
+		String regex = "^[a-zA-Z0-9&]*$";
+		return school != null && school.matches(regex);
+	}
+	
+	
+	/*
+	 * Check a string is null or empty.
+	 * 
+	 * @param string
+	 * @return true if string is null or empty, else return false.
+	 */
+	public static boolean isNullOrEmpty(String string) {
+		return string == null || string.isEmpty();
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(validSchool(null));
+	}
+ 
+}

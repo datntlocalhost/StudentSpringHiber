@@ -1,7 +1,0 @@
-package com.runsystem.datnt.entities;
-
-import java.io.Serializable;
-
-public class CourseResult implements Serializable {
-
-}

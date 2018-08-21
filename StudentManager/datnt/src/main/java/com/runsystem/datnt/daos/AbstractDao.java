@@ -2,11 +2,17 @@ package com.runsystem.datnt.daos;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaQuery;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class AbstractDao<PK extends Serializable, T> {
+public abstract class AbstractDao<PK extends Serializable, T> implements GenericDao<PK, T> {
 	
 	private final Class<T> persistentClass;
 	
@@ -27,40 +33,14 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 		return sessionFactory.getCurrentSession();
 	}
 	
-	/*
-	 * Select object from table by key
-	 * 
-	 * @param key
-	 * 
-	 * @return object
-	 */
-	public T getByKey(PK key) {
-		return (T) getSession().get(persistentClass, key);
+	@SuppressWarnings("unchecked")
+	public PK add(T entity) {
+		return (PK) getSession().save(entity);
 	}
 	
 	/*
-	 * Insert new entity into database
+	 * Update a entity in database
 	 * 
-	 * @param entity
-	 */
-	public void persist(T entity) {
-		getSession().persist(entity);
-	}
-	
-	/*
-	 * Insert new entity into database and return result
-	 * 
-	 * @param entity
-	 * 
-	 * @return Integer id entity.
-	 */
-	public Integer save(T entity) {
-		return (Integer) getSession().save(entity);
-	}
-	
-	/*
-	 * Update entity into database
-	 *
 	 * @param entity
 	 */
 	public void update(T entity) {
@@ -68,12 +48,51 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 	}
 	
 	/*
-	 * Delete entity by key
+	 * Delete a entity in database
 	 * 
-	 * @param key
+	 * @param entity
 	 */
-	public void delete(PK key) {
-		T entity = getByKey(key);
+	public void remove(T entity) {
 		getSession().delete(entity);
+	}
+	
+	/*
+	 * Retrieve a entity in database by entity's id
+	 * 
+	 * @param id 
+	 */
+	public T getByKey(PK id) {
+		return (T) getSession().get(persistentClass, id);
+	}
+	
+	/*
+	 * Retrieve list of entity
+	 * 
+	 * @return List
+	 */
+	public List<T> list() {
+		CriteriaQuery<T> criteriaQuery = getSession().getCriteriaBuilder().createQuery(persistentClass);
+		criteriaQuery.from(persistentClass);
+		return getSession().createQuery(criteriaQuery).getResultList();
+	}
+	
+	/*
+	 * Get named query
+	 * 
+	 * @param namedQuery
+	 * 
+	 * @return query
+	 */
+	@SuppressWarnings("unchecked")
+	public Query<T> buildQuery(String namedQuery) {
+		return getSession().getNamedQuery(namedQuery);
+	}
+	
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 }

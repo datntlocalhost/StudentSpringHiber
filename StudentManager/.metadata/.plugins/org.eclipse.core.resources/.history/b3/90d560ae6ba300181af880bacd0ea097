@@ -1,0 +1,92 @@
+package com.runsystem.datnt.controllers;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.runsystem.datnt.entities.Records;
+import com.runsystem.datnt.entities.Role;
+import com.runsystem.datnt.entities.School;
+import com.runsystem.datnt.entities.Student;
+import com.runsystem.datnt.entities.User;
+import com.runsystem.datnt.models.SearchStudentModel;
+import com.runsystem.datnt.services.interfaces.StudentService;
+
+@Controller
+public class StudentListController {
+
+	@Autowired
+	private StudentService studentService;
+	
+	
+	
+	@RequestMapping(value = "/admin/list", method = RequestMethod.GET)
+	public String loadPage(Model model) {
+		
+		model.addAttribute("user", "Admin");
+		model.addAttribute("role", "ADMIN");
+		model.addAttribute("studentList", studentService.list());
+		return "studentlist";
+	}
+	
+	@PostMapping(value = "/admin/search")
+	public @ResponseBody String searchStudent(@ModelAttribute SearchStudentModel searchModel, BindingResult bindingResult) throws JsonProcessingException {
+		//List<Student> students = studentService.search(searchModel);
+		/*Student students = studentService.selectByCode("18000002");
+		System.out.println(students.getStudentId());
+		System.out.println(students.getStudentCode());
+		System.out.println(students.getStudentName());
+		System.out.println(students.getSchool().getSchoolId());
+		System.out.println(students.getSchool().getSchoolName());
+		System.out.println(students.getSchool().getSchoolCode());
+		System.out.println(students.getUser().getUserId());
+		System.out.println(students.getUser().getUsername());
+		System.out.println(students.getUser().getPassword());
+		for (Role r : students.getUser().getRoles()) {
+			System.out.println(r.getRoleId());
+			System.out.println(r.getRoleName());
+		}
+		System.out.println(students.getRecord().getStudentId());
+		System.out.println(students.getRecord().getAddress());
+		System.out.println(students.getRecord().getBirthday());
+		System.out.println(students.getRecord().getEmail());
+		System.out.println(students.getRecord().getPhone());
+		System.out.println(students.getRecord().getSex());
+		*/
+		
+		Student st = new Student();
+		Records rc = new Records();
+		User ur = new User();
+		School sc = new School();
+		
+		rc.setAddress("TPHCM");
+		rc.setBirthday("2018-07-07");
+		rc.setSex("Male");
+		
+		ur.setPassword("123");
+		
+		sc.setSchoolId(1);
+		
+		st.setStudentName("Nguyen Tien Dat");
+		
+		st.setRecord(rc);
+		st.setUser(ur);
+		st.setSchool(sc);
+		
+		return "asdasdasd";
+	}
+}

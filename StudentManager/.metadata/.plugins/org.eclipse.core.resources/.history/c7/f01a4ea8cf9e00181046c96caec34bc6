@@ -1,9 +1,0 @@
-package com.runsystem.datnt;
-
-import org.hibernate.SessionFactory;
-
-public class Test {
-	
-	SessionFactory sessionFactory'
-
-}

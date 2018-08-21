@@ -1,0 +1,23 @@
+package com.runsystem.datnt.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import com.runsystem.datnt.mails.MailServices;
+
+@Controller
+public class MailController {
+
+	@Autowired
+	MailServices mailServices;
+	
+	public String onMail() {
+		
+		if (mailServices != null) {
+			System.out.println("Sending mail to: ....");
+			mailServices.send("datntuit@gmail.com", "tranthithuyngan21@gmail.com", "Test send gmail on Java Spring MVC", "Hello, my name is Dat. Nice to meet you ahihi...");
+		}
+		
+		return "login";
+	}
+}

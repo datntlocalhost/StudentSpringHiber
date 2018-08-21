@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.runsystem.datnt.entities">
+	
+	<class name="Student" table="STUDENT">
+		
+		<id name="studentId" type="int" column="student_id">
+			<generator class="native" />
+		</id>
+		
+		<property name="studentCode" type="string" column="student_code" />
+		<property name="studentName" type="string" column="student_name" />
+		<property name="startYear"   type="string"   column="student_startyear" />
+		
+		<many-to-one name="school" column="school_id" class="School" not-null="true" />
+		
+		<one-to-one  name="record" class="Records" cascade="all" />
+		
+		<one-to-one  name="user"   class="User" cascade="all" />
+		
+	</class>
+
+	<sql-query name="getLastStudentCode">
+		<![CDATA[
+			SELECT MAX(student_code) FROM STUDENT 
+		]]>
+	</sql-query>
+	
+	<sql-query name="selectStudentByCode">
+		<return alias="student" class="Student" />
+		<![CDATA[
+			SELECT * 
+			FROM STUDENT 
+			WHERE student_code = :studentcode
+		]]>
+	</sql-query>
+	
+	<sql-query name="searchStudent">
+		<return alias="student" class="Student" />
+		<![CDATA[
+			SELECT st.* 
+			FROM STUDENT as st, RECORDS as r, SCHOOL as sc 
+			WHERE st.student_id = r.student_id AND st.school_id = sc.school_id 
+				  AND st.student_code like :code
+				  AND st.student_name like :name
+				  AND sc.school_id    like :school 
+				  AND r.records_sex   like :sex 
+		]]>
+	</sql-query>
+	
+	<sql-query name="searchStudentDate">
+		<return alias="student" class="Student" />
+		<![CDATA[
+			SELECT st.* 
+			FROM STUDENT as st, RECORDS as r, SCHOOL as sc 
+			WHERE st.student_id = r.student_id AND st.school_id = sc.school_id 
+				  AND st.student_code like :code
+				  AND st.student_name like :name
+				  AND sc.school_id    like :school 
+				  AND r.records_sex   like :sex 
+				  AND r.records_birthday >= :start AND r.records_birthday <= :end 
+		]]>
+	</sql-query>
+
+</hibernate-mapping>

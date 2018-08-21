@@ -1,0 +1,9 @@
+package com.runsystem.datnt.test;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Compo2 {
+
+	private Compo2
+}

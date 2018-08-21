@@ -1,0 +1,27 @@
+package com.runsystem.datnt.validations;
+
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
+import com.runsystem.datnt.entities.PasswordReset;
+import com.runsystem.datnt.utils.Validation;
+
+public class RequireResetValidator implements Validator {
+
+	public boolean supports(Class<?> arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void validate(Object target, Errors errors) {
+		Validation validation = new Validation();
+		PasswordReset require = (PasswordReset) target;
+		
+		if (validation.validUsername(require.getUsername())){
+			errors.rejectValue("invalidUsername", "user.invalid.username");
+		}
+		
+	
+	}
+
+}

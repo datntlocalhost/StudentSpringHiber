@@ -1,0 +1,11 @@
+package com.runsystem.datnt.daos;
+
+import java.io.Serializable;
+
+public interface GenericDao<PK extends Serializable, T> {
+
+	public PK add(T entity);
+	public boolean update(T entity);
+	public boolean remove(T entity);
+	public T       getByKey(PK id);
+}

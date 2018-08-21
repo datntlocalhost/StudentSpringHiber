@@ -1,0 +1,7 @@
+package com.runsystem.datnt.daos;
+
+import java.io.Serializable;
+
+public interface GenericDao<PK extends Serializable, > {
+
+}

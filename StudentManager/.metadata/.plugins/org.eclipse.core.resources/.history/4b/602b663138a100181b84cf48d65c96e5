@@ -1,0 +1,17 @@
+package com.runsystem.datnt.test;
+
+import org.hibernate.SessionFactory;
+
+import com.runsystem.datnt.entities.User;
+
+public class UserDaoImpl implements UserDao {
+
+	
+	SessionFactory sessionFactory;
+	
+	public User getUserByUsername(String username) {
+		sessionFactory.
+		return null;
+	}
+
+}

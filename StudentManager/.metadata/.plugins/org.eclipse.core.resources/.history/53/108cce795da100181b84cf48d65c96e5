@@ -1,0 +1,12 @@
+package com.runsystem.datnt.test;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Compo1 {
+
+	private int id;
+	private String name;
+	
+	
+}

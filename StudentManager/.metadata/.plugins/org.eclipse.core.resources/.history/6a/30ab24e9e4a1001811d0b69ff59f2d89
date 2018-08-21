@@ -1,0 +1,34 @@
+package com.runsystem.datnt.daos.implementations;
+
+import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.runsystem.datnt.daos.AbstractDao;
+import com.runsystem.datnt.daos.interfaces.ResetPasswordDao;
+import com.runsystem.datnt.entities.ResetPassword;
+
+@Repository
+@Transactional
+public class ResetPasswordDaoImpl extends AbstractDao<Integer, ResetPassword> implements ResetPasswordDao {
+
+	public void insert(ResetPassword require) {
+		persist(require);
+	}
+
+	public void delete(ResetPassword require) {
+		delete(require.getId());
+	}
+
+	@SuppressWarnings("deprecation")
+	public ResetPassword selectByUsername(String username) {
+		Query<ResetPassword> query = buildQuery("selectRequireByUsername");
+		query.setString("username", username);
+		return query.uniqueResult();
+	}
+
+	public ResetPassword selectById(int id) {
+		return null;
+	}
+
+}

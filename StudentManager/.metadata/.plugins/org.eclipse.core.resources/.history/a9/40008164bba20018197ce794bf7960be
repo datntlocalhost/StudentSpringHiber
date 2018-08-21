@@ -1,0 +1,16 @@
+package com.runsystem.datnt.daos.implementations;
+
+import org.springframework.stereotype.Repository;
+
+import com.runsystem.datnt.daos.AbstractDao;
+import com.runsystem.datnt.daos.interfaces.RecordDao;
+import com.runsystem.datnt.entities.Records;
+
+@Repository
+public class RecordDaoImpl extends AbstractDao<Integer, Records> implements RecordDao {
+
+	public Records selectBySex(String sex) {
+		return null;
+	}
+
+}

@@ -1,8 +1,0 @@
-package com.runsystem.datnt.entities;
-
-import java.io.Serializable;
-
-public class Records implements Serializable {
-
-	
-}

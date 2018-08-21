@@ -1,0 +1,138 @@
+package com.runsystem.datnt.services.implementations;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.runsystem.datnt.daos.interfaces.RoleDao;
+import com.runsystem.datnt.daos.interfaces.SchoolDao;
+import com.runsystem.datnt.daos.interfaces.StudentDao;
+import com.runsystem.datnt.entities.Role;
+import com.runsystem.datnt.entities.School;
+import com.runsystem.datnt.entities.Student;
+import com.runsystem.datnt.models.SearchStudentModel;
+import com.runsystem.datnt.models.UpdateModel;
+import com.runsystem.datnt.services.interfaces.StudentService;
+import com.runsystem.datnt.utils.GenerateStudentCode;
+
+@Service
+@Transactional
+public class StudentServiceImpl implements StudentService {
+
+	@Autowired
+	private StudentDao studentDao;
+	
+	@Autowired
+	private RoleDao    roleDao;
+	
+	@Autowired
+	private SchoolDao  schoolDao;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
+	/*
+	 * Setup student's info and insert student to database
+	 * 
+	 * @param student
+	 * 
+	 * @return true if insert success, else false
+	 */
+	public boolean insert(Student student) {
+		
+		String studentCode = GenerateStudentCode.getCode(studentDao.getLastStudentCode());
+		String encodePassword = passwordEncoder.encode(student.getUser().getPassword());
+		Role role = roleDao.selectRoleByName("ROLE_STUDENT");
+		
+		//Set student's code 
+		student.setStudentCode(studentCode);
+		
+		//Set info for student's account
+		student.getUser().setUsername(studentCode);
+		student.getUser().setPassword(encodePassword);
+		student.getUser().setStudent(student);
+		student.getUser().getRoles().add(role);
+		
+		//Set info for student's record
+		student.getRecord().setStudent(student);
+		
+		return studentDao.add(student) > 0;
+	}
+
+	/*
+	 * Delete student and student's info
+	 * 
+	 * @param code Student's code
+	 */
+	public Student delete(String code) {
+		
+		Student student = studentDao.selectByCode(code);
+		studentDao.remove(student);
+		return student;
+	}
+
+	/*
+	 * Retrieve list of student from database
+	 * 
+	 * @return student list
+	 */
+	public List<Student> list() {
+		return studentDao.list();
+	}
+
+	/*
+	 * Retrieve student from database by student's code
+	 * 
+	 * @param code Student's code
+	 * 
+	 * @return Student 
+	 */
+	public Student selectByCode(String code) {
+		return studentDao.selectByCode(code);
+	}
+
+	/*
+	 * Search student with search info and retrieve list of student from database.
+	 * 
+	 * @param search info
+	 * 
+	 * @return list of student info 
+	 */
+	public List<Student> search(SearchStudentModel searchInfo) {
+		return studentDao.search(searchInfo);
+	}
+
+	/*
+	 * Update student info.
+	 * 
+	 * @param updateInfo new student info
+	 * 
+	 * @return student. return null if update failed
+	 * */
+	public Student updateStudent(UpdateModel updateInfo) {
+		
+		Student student = selectByCode(updateInfo.getStudentCode());
+		
+		if (student != null) {
+			School school = schoolDao.selectByCode(updateInfo.getSchool());
+			student.setStudentName(updateInfo.getStudentName());
+			student.setStartYear(updateInfo.getSchoolYear());
+			student.setSchool(school);
+			student.getRecord().setSex(updateInfo.getSex());
+			student.getRecord().setBirthday(updateInfo.getBirthday());
+			student.getRecord().setPhone(updateInfo.getPhone());
+			student.getRecord().setEmail(updateInfo.getEmail());
+			student.getRecord().setAddress(updateInfo.getAddress());
+			
+			studentDao.update(student);
+			
+			return student;
+		}
+		return null;
+	}
+	
+
+}

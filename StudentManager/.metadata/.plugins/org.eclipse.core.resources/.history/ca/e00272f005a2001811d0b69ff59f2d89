@@ -1,0 +1,21 @@
+package com.runsystem.datnt.mails;
+
+import org.springframework.mail.MailSender;
+
+public class MailServices {
+	
+	private MailSender mailSender;
+	
+	public void send() {
+		
+	}
+
+	public MailSender getMailSender() {
+		return mailSender;
+	}
+
+	public void setMailSender(MailSender mailSender) {
+		this.mailSender = mailSender;
+	}
+
+}

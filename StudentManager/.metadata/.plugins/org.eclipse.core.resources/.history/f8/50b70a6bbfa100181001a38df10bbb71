@@ -1,0 +1,7 @@
+package com.runsystem.datnt.models;
+
+import java.io.Serializable;
+
+public class UserSession implements Serializable {
+
+}

@@ -1,0 +1,12 @@
+package com.runsystem.datnt.errorhandles;
+
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class PageNotFound {
+
+	
+	public String redirectPage() {
+		
+	}
+}

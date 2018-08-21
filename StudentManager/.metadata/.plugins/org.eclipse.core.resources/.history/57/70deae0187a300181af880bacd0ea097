@@ -1,0 +1,20 @@
+package com.runsystem.datnt.services.implementations;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.runsystem.datnt.entities.School;
+import com.runsystem.datnt.services.interfaces.SchoolService;
+
+@Service
+@Transactional
+public class SchoolServiceImpl implements SchoolService {
+
+	public List<School> selectAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

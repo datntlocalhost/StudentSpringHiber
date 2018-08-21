@@ -1,0 +1,7 @@
+package com.runsystem.datnt.services.implementations;
+
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+public class MyUserDetailsService implements UserDetailsService{
+
+}

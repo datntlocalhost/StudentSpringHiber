@@ -13,3 +13,55 @@
 1534234868957	Rename type 'RecodsDaoImpl'
 1534235940464	Rename resource 'CourseResult.xml'
 1534239141866	Delete elements
+1534246445223	Delete element
+1534298081086	Delete element
+1534319609291	Delete element
+1534338709393	Delete element
+1534339734030	Rename type 'PageNotFound'
+1534399667360	Rename type 'AdminController'
+1534406428475	Delete elements
+1534406436298	Delete element
+1534406443080	Delete element
+1534406449292	Delete element
+1534406501825	Delete elements
+1534424511361	Move compilation unit
+1534426421938	Delete element
+1534428290068	Delete elements
+1534431435198	Delete element
+1534431482813	Delete element
+1534433348433	Delete element
+1534433596525	Delete element
+1534433603083	Delete elements
+1534433609102	Delete element
+1534433616309	Delete element
+1534433628193	Delete element
+1534433632668	Delete element
+1534433656270	Delete elements
+1534433660970	Delete elements
+1534438237232	Rename resource 'skin-black.css'
+1534441422138	Delete element
+1534441429911	Delete element
+1534441462937	Delete element
+1534441466617	Delete element
+1534441501025	Rename resource 'skin-blue.min.css'
+1534441514249	Rename resource 'AdminLTE.min.css'
+1534441521723	Rename resource 'adminltr.min.css'
+1534441629121	Delete element
+1534442166108	Delete element
+1534442174730	Rename resource 'home.jsp'
+1534443254640	Delete element
+1534475443207	Delete element
+1534484943115	Rename type 'RequireResetPwdDao'
+1534484956326	Rename type 'RequireResetPwdDaImpl'
+1534485563854	Rename type 'RequireResetPwd'
+1534502268331	Delete element
+1534503376982	Delete element
+1534568527198	Delete elements
+1534568539599	Delete elements
+1534568546716	Delete elements
+1534568994145	Delete elements
+1534569000540	Delete element
+1534569005620	Delete elements
+1534579969377	Rename resource 'RequireResetPwd.hbm.xml'
+1534580003203	Rename type 'ResetPassword'
+1534583516563	Rename resource 'PasswordReset.xml'

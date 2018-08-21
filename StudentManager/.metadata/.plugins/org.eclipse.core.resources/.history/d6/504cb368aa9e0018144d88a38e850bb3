@@ -1,6 +1,0 @@
-package com.runsystem.datnt.daos;
-
-public interface SchoolDAO {
-
-	
-}

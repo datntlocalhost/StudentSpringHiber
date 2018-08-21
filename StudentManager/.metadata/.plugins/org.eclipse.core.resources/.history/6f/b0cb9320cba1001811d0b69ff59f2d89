@@ -1,0 +1,12 @@
+package com.runsystem.datnt.test;
+
+import java.util.List;
+
+import com.runsystem.datnt.entities.Records;
+import com.runsystem.datnt.entities.Student;
+
+public interface TestDao {
+
+	public List<Student> selectAll();
+	public Records selectById(int id);
+}

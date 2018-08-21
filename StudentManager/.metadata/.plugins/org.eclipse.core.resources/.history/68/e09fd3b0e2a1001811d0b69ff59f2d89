@@ -1,0 +1,11 @@
+package com.runsystem.datnt.daos.interfaces;
+
+import com.runsystem.datnt.entities.RequireResetPwd;
+
+public interface ResetPasswordDao {
+	
+	public void insert(RequireResetPwd require);
+	public void delete(RequireResetPwd require);
+	public RequireResetPwd selectByUsername(String username);
+
+}
