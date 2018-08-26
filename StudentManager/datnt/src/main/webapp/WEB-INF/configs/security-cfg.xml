@@ -7,6 +7,7 @@
     http://www.springframework.org/schema/security/spring-security.xsd">
 
 	<beans:import resource="dispatcher-cfg.xml"/>
+	<beans:import resource="hibernate-cfg.xml"/>
 
 	<http auto-config="true">
 		
@@ -19,9 +20,14 @@
 					username-parameter="username" 
 					password-parameter="password"
 					default-target-url="/home"
+					always-use-default-target="true"
 					authentication-failure-url="/login?error=true" 
 		/>
+		
+		<!-- remember-me remember-me-parameter="remember-me" data-source-ref="dataSource" token-validity-seconds="8000" /> -->
+		
 		<csrf />
+		
 	</http>
 
 	<authentication-manager>

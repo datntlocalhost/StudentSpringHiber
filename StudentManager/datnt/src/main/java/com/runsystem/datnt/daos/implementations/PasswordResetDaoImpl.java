@@ -11,10 +11,12 @@ import com.runsystem.datnt.entities.PasswordReset;
 @Repository
 public class PasswordResetDaoImpl extends AbstractDao<Integer, PasswordReset> implements PasswordResetDao {
 
+	@SuppressWarnings("unchecked")
 	public List<PasswordReset> selectProcessed() {
 		return getSession().getNamedQuery("selectProcessed").getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<PasswordReset> selectUnprocess() {
 		return getSession().getNamedQuery("selectUnprocess").getResultList();
 	}

@@ -1,0 +1,26 @@
+package com.runsystem.datnt.utils;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class Sha256Hash {
+	
+	public static String hash(String text) {
+		MessageDigest digest = null;
+		StringBuffer hexString = new StringBuffer();
+		
+		try {
+			digest = MessageDigest.getInstance("SHA-256");
+			byte[] hashCode = digest.digest(text.getBytes(StandardCharsets.UTF_8)); 
+			
+			
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return hexString.toString();
+	}
+
+}

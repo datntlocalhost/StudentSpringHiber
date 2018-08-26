@@ -1,5 +1,0 @@
-package com.runsystem.datnt.errorhandles;
-
-public class PageNotFound {
-
-}

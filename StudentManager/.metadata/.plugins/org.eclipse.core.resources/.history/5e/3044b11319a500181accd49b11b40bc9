@@ -1,0 +1,8 @@
+package com.runsystem.datnt.test;
+
+import java.io.Serializable;
+
+public class UserTest implements Serializable {
+	
+
+}

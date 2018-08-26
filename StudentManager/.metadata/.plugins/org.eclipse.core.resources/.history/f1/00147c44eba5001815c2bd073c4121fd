@@ -1,0 +1,7 @@
+package com.runsystem.datnt.security;
+
+import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
+
+public class CustomPersistentToken extends AbstractRememberMeServices {
+
+}

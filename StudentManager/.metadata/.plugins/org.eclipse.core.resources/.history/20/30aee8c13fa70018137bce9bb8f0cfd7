@@ -1,0 +1,10 @@
+package com.runsystem.datnt.daos.interfaces;
+
+import com.runsystem.datnt.entities.Token;
+
+public interface TokenDao {
+	
+	public boolean insert(Token token);
+	public boolean delete(String username);
+	public Token selectByUsername(String username);
+}

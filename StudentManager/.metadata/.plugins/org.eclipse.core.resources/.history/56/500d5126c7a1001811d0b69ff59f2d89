@@ -1,6 +1,0 @@
-package com.runsystem.datnt.test;
-
-public interface TestDao {
-
-	
-}

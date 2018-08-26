@@ -2,6 +2,9 @@ package com.runsystem.datnt.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +38,7 @@ public class StudentListController {
 	 * @return page student list
 	 */
 	@RequestMapping(value = "/admin/list", method = RequestMethod.GET)
-	public String loadPage(Model model) {
+	public String loadPage(Model model, HttpServletRequest request, HttpServletResponse response) {
 		model.addAttribute("schools", schoolService.selectAll());
 		model.addAttribute("studentList", studentService.list());
 		return "studentlist";

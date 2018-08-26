@@ -20,6 +20,7 @@ import com.runsystem.datnt.models.StudentModel;
 import com.runsystem.datnt.services.interfaces.StudentService;
 import com.runsystem.datnt.utils.ConvertObject;
 import com.runsystem.datnt.utils.GenerateStudentCode;
+import com.runsystem.datnt.utils.Sha256Hash;
 
 @Service
 @Transactional
@@ -34,9 +35,6 @@ public class StudentServiceImpl implements StudentService {
 	@Autowired
 	private SchoolDao  schoolDao;
 	
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-	
 	/*
 	 * Setup student's info and insert student to database
 	 * 
@@ -47,7 +45,7 @@ public class StudentServiceImpl implements StudentService {
 	public Student insert(StudentModel info) {
 		
 		String studentCode = GenerateStudentCode.getCode(studentDao.getLastStudentCode());
-		String encodePassword = passwordEncoder.encode(info.getPassword());
+		String encodePassword = Sha256Hash.hash(info.getPassword());
 		Role role = roleDao.selectRoleByName("ROLE_STUDENT");
 		
 	

@@ -1,0 +1,20 @@
+package com.runsystem.datnt.utils;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class Sha256Hash {
+	
+	public static String hash(String text) {
+		MessageDigest digest = null;
+		try {
+			digest = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			return null;
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
+
+}

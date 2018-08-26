@@ -1,0 +1,32 @@
+package com.runsystem.datnt.test;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.runsystem.datnt.entities.User;
+
+@Repository
+public class TestImpl implements Test {
+
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	@Transactional
+	public UserTest getUserById(int id) {
+		
+		UserTest userTest = new UserTest();
+		Session session = sessionFactory.getCurrentSession();
+		
+		String query = "SELECT * FROM USER WHERE user_username = ?";
+		User user = session.createNativeQuery(query, User.class).setParameter(1, "admin").uniqueResult();
+
+		userTest.setUsername(user.getUsername());
+		userTest.setPassword(user.getPassword());
+		
+		return userTest;
+	}
+
+}

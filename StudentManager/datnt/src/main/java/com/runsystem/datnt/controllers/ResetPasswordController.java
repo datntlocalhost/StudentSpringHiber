@@ -1,9 +1,10 @@
 package com.runsystem.datnt.controllers;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,16 +28,13 @@ public class ResetPasswordController {
 	private PasswordResetService resetService;
 	
 	@Autowired
-	private BCryptPasswordEncoder passen;
-	
-	@Autowired
 	private MailServices mail;
 	
 	/*
 	 * 
 	 * */
 	@RequestMapping(value = "/admin/accreset", method = RequestMethod.GET)
-	public String loadPageAdmin(Model model) {
+	public String loadPageAdmin(Model model, HttpServletRequest request, HttpServletResponse response) {
 		model.addAttribute("listProcessed", resetService.selectProcessed());
 		model.addAttribute("listUnprocess", resetService.selectUnprocess());
 		return "acceptResetPassword";

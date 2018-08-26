@@ -1,0 +1,33 @@
+package com.runsystem.datnt.security;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationException;
+
+public class CustomPersistentToken extends AbstractRememberMeServices {
+
+	protected CustomPersistentToken(String key, UserDetailsService userDetailsService) {
+		super(key, userDetailsService);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	protected void onLoginSuccess(HttpServletRequest arg0, HttpServletResponse arg1, Authentication arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected UserDetails processAutoLoginCookie(String[] arg0, HttpServletRequest arg1, HttpServletResponse arg2)
+			throws RememberMeAuthenticationException, UsernameNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

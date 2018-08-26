@@ -30,17 +30,21 @@
 	            <input id="js-password" type="password" class="form-control" name="password" placeholder="Password" required="required">
 	        </div>
 	        <div class="form-group">
+	            <input type="checkbox" name="remember-me">
+	            <label>Remember me</label>
+	        </div>
+	        <div class="form-group">
 	            <button type="submit" class="btn btn-primary btn-block">Log in</button>
 	        </div>
 	        <div class="clearfix">
 	            <a href="/datnt/sendreset" class="pull-right">Forgot Password?</a>
 	        </div>
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />   
+			<!-- input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> -->   
 	    </form>
 	</div>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<!-- <script src="<c:url value="/js/validator.js"/>"></script> -->
+	<script src="<c:url value="/js/validator.js"/>"></script>
 </body>
 </html>

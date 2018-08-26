@@ -11,3 +11,11 @@
 1534740889616	Delete element
 1534751875583	Move 'datasource-cfg.xml' to 'views'
 1534754188919	Move 'datasource-cfg.xml' to 'configs'
+1534836556457	Delete element
+1534836575813	Rename resource 'datasource-cfg.xml'
+1534839531942	Rename type 'UserTestImpl'
+1534933840238	Delete element
+1534996805088	Rename type 'CheckLoginAspect'
+1534996816814	Rename type 'LoggingAspect'
+1535079292060	Rename resource 'Token.xml'
+1535092144423	Move compilation unit

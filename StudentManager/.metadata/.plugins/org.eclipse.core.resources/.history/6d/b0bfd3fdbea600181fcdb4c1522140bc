@@ -1,0 +1,16 @@
+package com.runsystem.datnt.utils;
+
+import java.sql.Timestamp;
+
+import com.runsystem.datnt.entities.Token;
+
+public class GenerateToken {
+	
+	public static Token generate(String username, int minutes) {
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis() + minutes*60*1000);
+		
+	}
+	
+	private static 
+
+}

@@ -7,15 +7,29 @@
 	http://www.springframework.org/schema/aop 
 	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">
 	
-	<bean id="loggingAOP" class="com.runsystem.datnt.aops.LoggingAspect" />
+	<import resource="../configs/dispatcher-cfg.xml"/>
 	
-	<bean id="checkLoginAOP" class="com.runsystem.datnt.aops.CheckLoginAspect" />
+	<bean id="loggingAOP" class="com.runsystem.datnt.aops.LoggingAOP" />
+	
+	<bean id="setRoleAOP" class="com.runsystem.datnt.aops.SetRoleAOP" > 
+		<property name="tokenDao" ref="tokenDaoImpl" />
+	</bean>
 	
 	<aop:config>
-		<aop:aspect id="checkSessionLogin" ref="checkLoginAOP">
-			<aop:pointcut expression="execution(* com.runsystem.datnt.controllers.*.*(..))" id="pcMethodsCheck"/>
-			<aop:before method="onCheck" pointcut-ref="pcMethodsCheck" />
+		<aop:aspect ref="setRoleAOP">
+			<aop:pointcut expression="execution(* com.runsystem.datnt.controllers.*.*(..))" id="setRolePC"/>
+			<aop:before method="onSet" pointcut-ref="setRolePC" />
 		</aop:aspect>
+		
+		<aop:aspect ref="loggingAOP">
+			<aop:pointcut expression="execution(* com.runsystem.datnt.controllers.*.*(..))" id="controllerPC"/>
+			<aop:pointcut expression="execution(* com.runsystem.datnt.daos.implementations.*.*(..))" id="daosPC"/>
+			<aop:before method="onLogController" pointcut-ref="controllerPC" />
+			<aop:before method="onLogService" pointcut-ref="daosPC" />
+		</aop:aspect>
+		
+		
+		
 	</aop:config>
 	 
 </beans>

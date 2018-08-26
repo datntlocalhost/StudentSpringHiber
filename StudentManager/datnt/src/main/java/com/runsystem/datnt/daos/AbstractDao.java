@@ -30,7 +30,7 @@ public abstract class AbstractDao<PK extends Serializable, T> implements Generic
 	 * @return session
 	 */
 	protected Session getSession() {
-		return sessionFactory.getCurrentSession();
+		return sessionFactory.openSession();
 	}
 	
 	@SuppressWarnings("unchecked")
