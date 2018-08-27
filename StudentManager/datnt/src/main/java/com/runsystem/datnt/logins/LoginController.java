@@ -5,11 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,10 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.runsystem.datnt.daos.interfaces.TokenDao;
-import com.runsystem.datnt.daos.interfaces.UserDao;
 import com.runsystem.datnt.entities.Token;
 import com.runsystem.datnt.entities.User;
-import com.runsystem.datnt.services.implementations.MyUserDetailsService;
+import com.runsystem.datnt.services.MyUserDetailsService;
 import com.runsystem.datnt.utils.GenerateToken;
 import com.runsystem.datnt.utils.Sha256Hash;
 import com.runsystem.datnt.validations.UserValidator;
@@ -30,10 +25,10 @@ import com.runsystem.datnt.validations.UserValidator;
 public class LoginController {
 	
 	@Autowired
-	TokenDao tokenDao;
-	
+	private TokenDao tokenDao;
+		
 	@Autowired
-	MyUserDetailsService userService;
+	private MyUserDetailsService userService;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String pageLoad(Model model, HttpServletRequest request) {
@@ -71,16 +66,14 @@ public class LoginController {
 				return "redirect:/home";
 			}
 		}
-		
+		model.addAttribute("error",true);
 		return "login";
 	}
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){    
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
+        HttpSession session = request.getSession();
+        session.invalidate();
         return "redirect:/login?logout";
     }
 }

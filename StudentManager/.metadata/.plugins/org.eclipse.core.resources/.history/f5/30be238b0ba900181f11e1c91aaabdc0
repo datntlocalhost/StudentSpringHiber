@@ -1,0 +1,13 @@
+package com.runsystem.datnt.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.runsystem.datnt.daos.interfaces.UserDao;
+
+@Service
+public class MyUserDetailsService {
+
+	@Autowired
+	private UserDao userDao;
+}

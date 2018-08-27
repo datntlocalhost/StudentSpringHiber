@@ -21,9 +21,7 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>
   		/WEB-INF/configs/hibernate-cfg.xml
-  		/WEB-INF/configs/dao-cfg.xml
   		<!-- /WEB-INF/configs/security-cfg.xml -->
-  		/WEB-INF/configs/mail-cfg.xml
   		/WEB-INF/contexts/*.xml
   	</param-value>
   </context-param>

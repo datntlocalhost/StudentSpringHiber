@@ -1,0 +1,16 @@
+package com.runsystem.datnt.daos.implementations;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.runsystem.datnt.daos.interfaces.SchoolDao;
+
+@Repository
+public class SchoolDaoImpl implements SchoolDao{
+
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	
+}

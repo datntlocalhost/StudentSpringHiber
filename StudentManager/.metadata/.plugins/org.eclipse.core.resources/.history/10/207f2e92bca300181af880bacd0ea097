@@ -1,6 +1,0 @@
-package com.runsystem.datnt.services.interfaces;
-
-public interface PasswordResetService {
-
-	public 
-}

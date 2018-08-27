@@ -13,19 +13,4 @@
 		<property name="roleName" type="string" column="role_name" />
 	</class>
 	
-	<!-- Select Role from ROLE table by role's name -->
-	<sql-query name="selectRoleByName">
-		<return alias="role" class="com.runsystem.datnt.entities.Role" />
-		<![CDATA[
-			SELECT * FROM ROLE r WHERE r.role_name = :roleName
-		]]>
-	</sql-query>
-	
-	<!-- Select All Role from ROLE table -->
-	<sql-query name="selectRoleAll">
-		<return alias="role" class="com.runsystem.datnt.entities.Role" />
-		<![CDATA[
-			SELECT * FROM ROLE
-		]]>
-	</sql-query>
 </hibernate-mapping>

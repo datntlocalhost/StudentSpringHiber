@@ -1,8 +1,11 @@
 package com.runsystem.datnt.daos.interfaces;
 
-import com.runsystem.datnt.daos.GenericDao;
+import java.util.List;
+
 import com.runsystem.datnt.entities.School;
 
-public interface SchoolDao extends GenericDao<Integer, School>{
-	public School selectByCode(String code);
+public interface SchoolDao {
+	
+	public String getCode(String id);
+	public List<School> list();
 }

@@ -35,7 +35,6 @@
 				<value>mappings/Records.hbm.xml</value>
 				<value>mappings/Student.hbm.xml</value>
 				<value>mappings/User.hbm.xml</value>
-				<value>mappings/PasswordReset.hbm.xml</value>
 				<value>mappings/Token.hbm.xml</value>
 			</list>
 		</property>

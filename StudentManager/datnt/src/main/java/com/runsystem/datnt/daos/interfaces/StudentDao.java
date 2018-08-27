@@ -2,13 +2,18 @@ package com.runsystem.datnt.daos.interfaces;
 
 import java.util.List;
 
-import com.runsystem.datnt.daos.GenericDao;
-import com.runsystem.datnt.entities.Student;
 import com.runsystem.datnt.models.SearchStudentModel;
+import com.runsystem.datnt.models.StudentListModel;
+import com.runsystem.datnt.models.StudentModel;
 
-public interface StudentDao extends GenericDao<Integer, Student> {
+public interface StudentDao {
 	
-	public String getLastStudentCode();
-	public Student selectByCode(String code);
-	public List<Student> search(SearchStudentModel searchInfo);
+	public boolean insert(StudentModel studentInfo);
+	public boolean update(StudentModel studentInfo);
+	public boolean delete(String studentCode);
+	public StudentModel searchByCode(String code);
+	public List<StudentListModel> search(SearchStudentModel searchInfo);
+	public List<StudentListModel> list();
+	public String getMaxCode();
+
 }

@@ -1,0 +1,23 @@
+package com.runsystem.datnt.controllers;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.runsystem.datnt.models.StudentModel;
+import com.runsystem.datnt.utils.Validation;
+
+@Controller
+public class DeleteController {
+
+	public @ResponseBody boolean deleteStudent(@ModelAttribute StudentModel deleteInfo, 
+												HttpServletRequest request, HttpServletResponse response) {
+		if (!Validation.validCode(deleteInfo.getStudentCode(), false)) {
+			
+		}
+		return true;
+	}
+}

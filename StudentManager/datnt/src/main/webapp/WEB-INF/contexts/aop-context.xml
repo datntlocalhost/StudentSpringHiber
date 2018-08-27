@@ -26,10 +26,7 @@
 			<aop:pointcut expression="execution(* com.runsystem.datnt.daos.implementations.*.*(..))" id="daosPC"/>
 			<aop:before method="onLogController" pointcut-ref="controllerPC" />
 			<aop:before method="onLogService" pointcut-ref="daosPC" />
-		</aop:aspect>
-		
-		
-		
+		</aop:aspect>		
 	</aop:config>
 	 
 </beans>

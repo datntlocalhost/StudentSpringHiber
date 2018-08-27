@@ -9,22 +9,17 @@ public class Student implements Serializable {
 	private String  studentCode;
 	private String  studentName;
 	private String  startYear;  //start year study in school.
-	private School  school;
-	private Records record;
-	private User    user;
+	private int     schoolId;
 	
 	public Student() {}
 
-	public Student(int studentId, String studentCode, String studentName, String startYear, School school,
-			Records record, User user) {
+	public Student(int studentId, String studentCode, String studentName, String startYear, int schoolId) {
 		super();
 		this.studentId = studentId;
 		this.studentCode = studentCode;
 		this.studentName = studentName;
 		this.startYear = startYear;
-		this.school = school;
-		this.record = record;
-		this.user   = user;
+		this.schoolId = schoolId;
 	}
 
 	public int getStudentId() {
@@ -59,31 +54,21 @@ public class Student implements Serializable {
 		this.startYear = startYear;
 	}
 
-	public School getSchool() {
-		return school;
+	public int getSchoolId() {
+		return schoolId;
 	}
 
-	public void setSchool(School school) {
-		this.school = school;
-	}
-
-	public Records getRecord() {
-		return record;
-	}
-
-	public void setRecord(Records record) {
-		this.record = record;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
+	public void setSchoolId(int schoolId) {
+		this.schoolId = schoolId;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	@Override
+	public String toString() {
+		return "Student [studentId=" + studentId + ", studentCode=" + studentCode + ", studentName=" + studentName
+				+ ", startYear=" + startYear + ", schoolId=" + schoolId + "]";
 	}
 }

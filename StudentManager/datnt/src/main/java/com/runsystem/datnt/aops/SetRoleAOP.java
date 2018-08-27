@@ -55,15 +55,17 @@ public class SetRoleAOP {
 		userDetails = (UserDetails) session.getAttribute("userDetails");
 		String userToken = (String) session.getAttribute("userToken");
 		if (userToken != null && !userToken.isEmpty() && userDetails != null) {
-			Token token = tokenDao.selectByUserSeries(userDetails.getUsername(), userToken); 
+			Token token = tokenDao.selectByUserToken(userDetails.getUsername(), userToken); 
 			
 			if (token != null && token.getTimestamp().getTime() > System.currentTimeMillis()) {
-				model.addAttribute("user", userDetails.getUsername());
-				model.addAttribute("role", userDetails.getAuthorities().iterator().next().getAuthority());
+				if (model != null) {
+					model.addAttribute("user", userDetails.getUsername());
+					model.addAttribute("role", userDetails.getAuthorities().iterator().next().getAuthority());
+				}
 				return;
 			} 	                     
 		} 
-		res.sendRedirect("/datnt/login");
+		res.sendRedirect("/datnt/login?token=false");
 	}
 	
 	public TokenDao getTokenDao() {
@@ -73,18 +75,4 @@ public class SetRoleAOP {
 	public void setTokenDao(TokenDao tokenDao) {
 		this.tokenDao = tokenDao;
 	}
-	/*
-	private String getPrincipal(){
-        String userName = null;
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails)principal).getUsername();
-            
-        } else {
-            userName = principal.toString();
-        }
-        return userName;
-    }*/
-	
-	
 }

@@ -1,0 +1,19 @@
+package com.runsystem.datnt.controllers;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.runsystem.datnt.models.StudentListModel;
+
+@Controller
+public class SearchController {
+
+	public @ResponseBody List<StudentListModel> searchStudent(HttpServletRequest request, HttpServletResponse response) {
+		
+	}
+}

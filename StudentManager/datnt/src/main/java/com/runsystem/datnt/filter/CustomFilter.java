@@ -1,9 +1,7 @@
 package com.runsystem.datnt.filter;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -12,26 +10,17 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import com.mysql.cj.protocol.Security;
-import com.runsystem.datnt.daos.interfaces.TokenDao;
-import com.runsystem.datnt.entities.Token;
 
 /**
  * Servlet Filter implementation class CustomFilter
  */
 public class CustomFilter implements Filter {
-
-	private TokenDao tokenDao;
     /**
      * Default constructor. 
      */
@@ -57,7 +46,6 @@ public class CustomFilter implements Filter {
 		HttpServletResponse res     = (HttpServletResponse) response;
 		HttpSession         session = req.getSession();
 		UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
-		String userToken = (String) session.getAttribute("userToken");
 		
 		List<String> authorities = new ArrayList<String>();
 		
@@ -85,18 +73,6 @@ public class CustomFilter implements Filter {
 					return;
 				}
 			} 
-		
-//			if (userToken != null && !userToken.isEmpty()) {
-//				Token token = tokenDao.selectByUserSeries(userDetails.getUsername(), userToken);
-//				if (token == null || token.getTimestamp().getTime() <= System.currentTimeMillis()) {
-//					res.sendRedirect("/datnt/login");
-//					return;
-//				}
-//			} else {
-//				res.sendRedirect("/datnt/login");
-//				return;
-//			}
-			
 			chain.doFilter(request, response);
 		} else {
 			if (requestURI.startsWith("/datnt/login")) {
@@ -112,13 +88,4 @@ public class CustomFilter implements Filter {
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
 	}
-
-	public TokenDao getTokenDao() {
-		return tokenDao;
-	}
-
-	public void setTokenDao(TokenDao tokenDao) {
-		this.tokenDao = tokenDao;
-	}
-	
 }

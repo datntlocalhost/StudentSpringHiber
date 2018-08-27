@@ -15,19 +15,5 @@
 		<property name="schoolName" type="string" column="school_name" />
 		
 	</class>
-	
 
-	<sql-query name="selectSchoolByCode">
-		<return alias="school" class="School" />
-		<![CDATA[
-			SELECT * FROM SCHOOL WHERE school_code = :schoolCode
-		]]>
-	</sql-query>
-	 
-	 <sql-query name="selectAllSchool">
-	 	<return alias="schools" class="School" />
-	 	<![CDATA[
-	 		SELECT * FROM SCHOOL
-	 	]]>
-	 </sql-query>
 </hibernate-mapping>

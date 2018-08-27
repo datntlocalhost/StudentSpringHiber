@@ -1,9 +1,0 @@
-package com.runsystem.datnt.daos.interfaces;
-
-import java.util.List;
-
-import com.runsystem.datnt.entities.User;
-
-public interface UserDao {
-	
-}

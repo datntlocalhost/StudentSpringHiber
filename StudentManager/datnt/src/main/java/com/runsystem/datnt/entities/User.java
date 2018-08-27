@@ -1,8 +1,8 @@
 package com.runsystem.datnt.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User implements Serializable {
 	
@@ -10,26 +10,16 @@ public class User implements Serializable {
 	private int       userId;  
 	private String    username; 
 	private String    password;
-	private Student   student;
-	private Set<Role> roles = new HashSet<Role>(0);
+	private List<Role> roles = new ArrayList<Role>();
 	
 	public User() {}
 
-	public User(int userId, String username, String password, Student student, Set<Role> roles) {
+	public User(int userId, String username, String password, List<Role> roles) {
 		super();
 		this.userId   = userId;
 		this.username = username;
 		this.password = password;
-		this.student  = student;
 		this.roles    = roles;
-	}
-	
-	public Student getStudent() {
-		return student;
-	}
-
-	public void setStudent(Student student) {
-		this.student = student;
 	}
 
 	public int getUserId() {
@@ -56,11 +46,11 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public Set<Role> getRoles() {
+	public List<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 

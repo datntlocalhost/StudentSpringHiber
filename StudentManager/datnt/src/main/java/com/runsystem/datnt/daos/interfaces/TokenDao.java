@@ -2,8 +2,10 @@ package com.runsystem.datnt.daos.interfaces;
 
 import com.runsystem.datnt.entities.Token;
 
-public interface TokenDao extends GenericDaov2<Token>{
+public interface TokenDao {
 	
+	public boolean insert(Token entity);
+	public boolean delete(Token entity);
 	public Token selectByUsername(String username);
-	public Token selectByUserSeries(String username, String series);
+	public Token selectByUserToken(String username, String token);
 }

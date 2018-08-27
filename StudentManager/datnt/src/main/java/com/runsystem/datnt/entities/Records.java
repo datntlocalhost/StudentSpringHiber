@@ -11,12 +11,10 @@ public class Records implements Serializable {
 	private String  phone;
 	private String  email;
 	private String  address;
-	private Student student;
 	
 	public Records() {}
 
-	public Records(int studentId, String sex, String birthday, String phone, String email, String address,
-			Student student) {
+	public Records(int studentId, String sex, String birthday, String phone, String email, String address) {
 		super();
 		this.studentId = studentId;
 		this.sex = sex;
@@ -24,7 +22,6 @@ public class Records implements Serializable {
 		this.phone = phone;
 		this.email = email;
 		this.address = address;
-		this.student = student;
 	}
 
 	public int getStudentId() {
@@ -73,15 +70,6 @@ public class Records implements Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	
-	public Student getStudent() {
-		return student;
-	}
-
-	public void setStudent(Student student) {
-		this.student = student;
 	}
 	
 	public static long getSerialversionuid() {

@@ -1,0 +1,52 @@
+package com.runsystem.datnt.daos.implementations;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
+
+import com.runsystem.datnt.daos.AbstractDao;
+import com.runsystem.datnt.daos.interfaces.UserDao;
+import com.runsystem.datnt.entities.User;
+
+@Repository
+public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
+	
+	/*
+	 * Rerieve user by username from database
+	 * 
+	 * @param username 
+	 * 
+	 * @return user
+	 */
+	@SuppressWarnings("unchecked")
+	public User selectByUsername(String username) {
+		
+		Session     session     = getSession();
+		Transaction transaction = null;
+		
+		String userQuery = "SELECT * FROM USER WHERE user_username = :username"; 
+		String roleQuery = "SELECT * FROM USER_ROLE ur, ROLE r WHERE ur.role_id=r.role_id AND user_id= :userid";
+		
+		User user = null;
+
+		try {
+			
+			transaction = session.beginTransaction();
+			Query<User> query = session.createSQLQuery(userQuery).addEntity(User.class);
+			query.setParameter("username", username);
+			user = query.uniqueResult();
+			
+		} catch (Exception ex) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			ex.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return user;
+	}
+
+}

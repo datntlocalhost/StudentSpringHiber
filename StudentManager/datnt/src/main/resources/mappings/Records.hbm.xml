@@ -8,12 +8,8 @@
 	<class name="Records" table="RECORDS">
 		
 		<id name="studentId" type="int" column="student_id">
-			<generator class="foreign">
-				<param name="property">student</param>
-			</generator>
+			<generator class="native" />
 		</id>
-		
-		<one-to-one name="student" class="Student" constrained="true" />
 		
 		<property name="sex"      type="string" column="records_sex" />
 		<property name="birthday" type="string"   column="records_birthday" />
@@ -21,14 +17,5 @@
 		<property name="email"    type="string" column="records_email" />
 		<property name="address"  type="string" column="records_address" />
 	</class>
-	
-	<sql-query name="selectRecordBySex">
-		<return alias="records" class="Records" />
-		<![CDATA[
-			SELECT r.* 
-			FROM STUDENT as st, RECORDS as r 
-			WHERE st.student_id = r.student_id AND st.student_name like :sex
-		]]>
-	</sql-query>
 
 </hibernate-mapping>

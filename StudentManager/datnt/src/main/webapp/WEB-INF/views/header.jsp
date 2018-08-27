@@ -57,8 +57,6 @@
 					<ul class="treeview-menu">
 						<li><a href="/datnt/admin/list"><i class="fa fa-circle-o"></i> Student
 								List</a></li>
-						<li><a href="/datnt/admin/accreset"><i class="fa fa-circle-o"></i> Reset
-								Password</a></li>
 					</ul>
 				</li>
 				</c:when>
