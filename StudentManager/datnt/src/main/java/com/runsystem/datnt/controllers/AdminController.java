@@ -25,6 +25,15 @@ public class AdminController {
 	@Autowired
 	private SchoolDao schoolDao;
 
+	/*
+	 * Set some info into model and return page to client.
+	 * 
+	 * @param model
+	 * @param request
+	 * @param response
+	 * 
+	 * @return admin list page.
+	 */
 	@RequestMapping(value = "/admin/list", method = RequestMethod.GET)
 	public String loadPage(Model model, HttpServletRequest request, HttpServletResponse response) {
 		

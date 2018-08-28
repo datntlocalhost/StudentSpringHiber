@@ -52,11 +52,18 @@ public class SetRoleAOP {
 		
 		
 		session = req.getSession();
+		
+		//Get userdetails and token value from session
 		userDetails = (UserDetails) session.getAttribute("userDetails");
 		String userToken = (String) session.getAttribute("userToken");
+		
+		//if userdetails is not null and token is not empty
 		if (userToken != null && !userToken.isEmpty() && userDetails != null) {
+			
+			//Select token info by token value from database
 			Token token = tokenDao.selectByUserToken(userDetails.getUsername(), userToken); 
 			
+			//if token was got from database not null and timestampe is not expired then can access
 			if (token != null && token.getTimestamp().getTime() > System.currentTimeMillis()) {
 				if (model != null) {
 					model.addAttribute("user", userDetails.getUsername());
@@ -65,6 +72,7 @@ public class SetRoleAOP {
 				return;
 			} 	                     
 		} 
+		//return login page if user not login or token has expired.
 		res.sendRedirect("/datnt/login?token=false");
 	}
 	

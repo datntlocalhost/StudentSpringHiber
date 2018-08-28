@@ -47,6 +47,7 @@ public class LoginController {
 			return "login";
 		}
 	
+		//Load user info from database
 		UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
 		
 		if (userDetails != null) {
@@ -55,10 +56,12 @@ public class LoginController {
 				session.setMaxInactiveInterval(15*60);
 				Token oldToken = tokenDao.selectByUsername(user.getUsername());
 				
+				//Delete exist token
 				if (oldToken != null) {
 					tokenDao.delete(oldToken);
 				}
 				
+				//Generate new token and set in session
 				Token newToken = GenerateToken.generate(user.getUsername(), 15);
 				tokenDao.insert(newToken);
 				session.setAttribute("userToken", newToken.getToken());

@@ -13,14 +13,9 @@ public class GenerateToken {
 		Long times = System.currentTimeMillis();
 		
 		token.setUsername(username);
-		token.setToken(Sha256Hash.hash(times.toString() + username));
+		token.setToken(Sha256Hash.hash(times.toString() + username + "datnt!@#"));
 		token.setTimestamp(new Timestamp(times + minutes*60*1000));
 		
 		return token;
-	}
-	
-	public static void main(String[] args) {
-		Token token = generate("user1", 30);
-		System.out.println(token.toString());
 	}
 }

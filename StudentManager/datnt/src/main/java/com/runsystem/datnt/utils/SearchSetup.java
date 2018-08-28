@@ -4,6 +4,13 @@ import com.runsystem.datnt.models.SearchStudentModel;
 
 public class SearchSetup {
 	
+	/*
+	 * Setup search info before search from database.
+	 * 
+	 * @param searchinfo
+	 * 
+	 * @return searchinfo after setup
+	 */
 	public static SearchStudentModel setup (SearchStudentModel searchInfo) {
 		
 		searchInfo.setStudentCode("%" + searchInfo.getStudentCode() + "%");

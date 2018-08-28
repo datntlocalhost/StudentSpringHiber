@@ -27,6 +27,16 @@ public class CreateController {
 	@Autowired
 	private SchoolDao schoolDao;
 
+	/*
+	 * Get POST request contain create info and call insert method to insert new student into database.
+	 * 
+	 * @param studentInfo
+	 * @param bindingResult
+	 * @param request
+	 * @param response
+	 * 
+	 * @return null if input is invalid or insert failed, return student info if insert is success.
+	 */
 	@RequestMapping(value = "/admin/create", method = RequestMethod.POST)
 	public @ResponseBody StudentModel createStudent(@ModelAttribute StudentModel studentInfo, BindingResult bindingResult,
 													HttpServletRequest request, HttpServletResponse response) {
@@ -35,10 +45,13 @@ public class CreateController {
 		if (bindingResult.hasErrors()) {
 			return null;
 		}
-		
+		//Encode password with SHA256 algorithm before insert to database
 		String studentCode = GenerateStudentCode.getCode(studentDao.getMaxCode());
-		studentInfo.setStudentCode(studentCode);
 		studentInfo.setPassword(Sha256Hash.hash(studentInfo.getPassword()));
+		
+		//Set student's code
+		studentInfo.setStudentCode(studentCode);
+		
 		boolean success = studentDao.insert(studentInfo);
 		
 		studentInfo.setSchool(schoolDao.getCode(studentInfo.getSchool()));

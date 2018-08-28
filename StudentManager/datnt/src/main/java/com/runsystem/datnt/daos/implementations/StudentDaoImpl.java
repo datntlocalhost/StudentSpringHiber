@@ -24,6 +24,16 @@ public class StudentDaoImpl implements StudentDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	/*
+	 * Insert student's info into databale.
+	 * 
+	 * Insert student's records 
+	 * Insert student's account
+	 * 
+	 * @param studentInfo
+	 * 
+	 * @return true if all query is success, else return false.
+	 */
 	public boolean insert(StudentModel studentInfo) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = null;
@@ -42,7 +52,10 @@ public class StudentDaoImpl implements StudentDao {
 		
 		try {
 			transaction = session.beginTransaction();
+			
+			//Get max student's id in database
 			Integer maxStudent = (Integer) session.createSQLQuery(maxIdStudent).uniqueResult();
+			//Get max user's id in database
 			Integer maxUser = (Integer) session.createSQLQuery(maxIdUser).uniqueResult();
 			
 			if (maxStudent == null) {
@@ -51,7 +64,8 @@ public class StudentDaoImpl implements StudentDao {
 			if (maxUser == null) {
 				maxUser = 1;
 			}
-								
+			
+			//process insert student's info
 			session.createSQLQuery(studentQuery)
 				.setParameter("id", maxStudent + 1)
 				.setParameter("code", studentInfo.getStudentCode())
@@ -60,6 +74,7 @@ public class StudentDaoImpl implements StudentDao {
 				.setParameter("schoolid", studentInfo.getSchool())
 				.executeUpdate();
 
+			//process insert student's records
 			session.createSQLQuery(recordQuery)
 				.setParameter("id", maxStudent + 1)
 				.setParameter("sex", studentInfo.getSex())
@@ -68,7 +83,8 @@ public class StudentDaoImpl implements StudentDao {
 				.setParameter("email", studentInfo.getEmail())
 				.setParameter("address", studentInfo.getAddress())
 				.executeUpdate();
-
+			
+			//process insert student's account
 			session.createSQLQuery(userQuery)
 				.setParameter("id", maxUser + 1)
 				.setParameter("username", studentInfo.getStudentCode())
@@ -76,6 +92,7 @@ public class StudentDaoImpl implements StudentDao {
 				.setParameter("studentid", maxStudent + 1)
 				.executeUpdate();
 
+			//process insert info of account (role)
 			session.createSQLQuery(userRoleQuery)
 				.setParameter("userid", maxUser + 1)
 				.setParameter("roleid", 2)
@@ -95,6 +112,11 @@ public class StudentDaoImpl implements StudentDao {
 		return success;
 	}
 	
+	/*
+	 * Get list of student from database
+	 * 
+	 * @return list of studentlistmodel
+	 */
 	@SuppressWarnings("unchecked")
 	public List<StudentListModel> list() {
 		Session session = sessionFactory.openSession();
@@ -102,7 +124,7 @@ public class StudentDaoImpl implements StudentDao {
 		List<StudentListModel> studentList = new ArrayList<StudentListModel>();
 		
 		
-		String queryString = "select st.*, r.*, sc.* from STUDENT st, RECORDS r, SCHOOL sc WHERE st.student_id = r.student_id AND st.school_id=sc.school_id;";
+		String queryString = "select st.*, r.*, sc.* from STUDENT st, RECORDS r, SCHOOL sc WHERE st.student_id = r.student_id AND st.school_id=sc.school_id";
 		try {
 			transaction = session.beginTransaction();
 			Query<Object[]> query = session.createSQLQuery(queryString).addEntity(Student.class).addEntity(Records.class).addEntity(School.class);
@@ -121,6 +143,11 @@ public class StudentDaoImpl implements StudentDao {
 		return studentList;
 	}
 	
+	/*
+	 * Get max code string of student table
+	 * 
+	 * @return code string
+	 */
 	@SuppressWarnings("unchecked")
 	public String getMaxCode() {
 		Session session = sessionFactory.openSession();
@@ -301,6 +328,13 @@ public class StudentDaoImpl implements StudentDao {
 		return success;
 	}
 
+	/*
+	 * Search student's info by student's code, and convert result to StudentModel object.
+	 * 
+	 * @param code
+	 * 
+	 * @return student model
+	 */
 	public StudentModel searchByCode(String code) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = null;
@@ -312,7 +346,7 @@ public class StudentDaoImpl implements StudentDao {
 				 			  	"AND st.school_id = sc.school_id " +
 				 			  	"AND st.student_code = :code";
 		
-		try {
+		try {//lombok pool
 			transaction = session.beginTransaction();
 			
 			Object[] obj = (Object[]) session.createSQLQuery(queryString).addEntity(Student.class).addEntity(Records.class).addEntity(School.class)

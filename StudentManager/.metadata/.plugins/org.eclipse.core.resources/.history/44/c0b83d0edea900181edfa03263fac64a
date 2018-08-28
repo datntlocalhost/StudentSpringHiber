@@ -1,0 +1,14 @@
+package com.runsystem.datnt.entities;
+
+import java.io.Serializable;
+
+import lombok.Data;
+
+@Data
+public class School implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private int schoolId;      //School's id
+	private String schoolCode; //School's chode
+	private String schoolName; //School's name
+}
