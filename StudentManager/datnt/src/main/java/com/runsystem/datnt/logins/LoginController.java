@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.runsystem.datnt.daos.interfaces.CustomDao;
 import com.runsystem.datnt.daos.interfaces.TokenDao;
 import com.runsystem.datnt.daos.interfaces.UserDao;
 import com.runsystem.datnt.dtos.UserDto;
@@ -29,9 +30,9 @@ public class LoginController {
 	
 	@Autowired
 	private TokenDao tokenDao;
-	
+
 	@Autowired
-	private UserService suserService;
+	private CustomDao customDao;
 		
 	@Autowired
 	private MyUserDetailsService userService;
@@ -77,11 +78,8 @@ public class LoginController {
 		}
 		model.addAttribute("error",true);*/
 		
-		UserDto userDto = suserService.getUserByUsername("admin");
+		customDao.getById(46);
 		
-		if (userDto != null) {
-			System.out.println(userDto.toString());
-		}
 		
 		return "login";
 	}
