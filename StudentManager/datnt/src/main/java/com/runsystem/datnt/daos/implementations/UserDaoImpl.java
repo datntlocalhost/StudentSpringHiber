@@ -1,15 +1,22 @@
 package com.runsystem.datnt.daos.implementations;
 
 import java.util.List;
+import java.util.Set;
+
+import javax.persistence.Parameter;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Transformer;
 import org.springframework.stereotype.Repository;
 
 import com.runsystem.datnt.daos.interfaces.UserDao;
+import com.runsystem.datnt.dtos.UserDto;
 import com.runsystem.datnt.entities.Role;
 import com.runsystem.datnt.entities.User;
 
@@ -17,7 +24,7 @@ import com.runsystem.datnt.entities.User;
 public class UserDaoImpl implements UserDao {
 	
 	@Autowired
-	private SessionFactory SessionFactory;
+	private SessionFactory sessionFactory;
 	
 	/*
 	 * Rerieve user by username from database
@@ -29,7 +36,7 @@ public class UserDaoImpl implements UserDao {
 	@SuppressWarnings("unchecked")
 	public User selectByUsername(String username) {
 		
-		Session     session     = SessionFactory.openSession();
+		Session     session     = sessionFactory.openSession();
 		Transaction transaction = null;
 		
 		String userQuery = "SELECT * FROM USER WHERE user_username = :username"; 
@@ -59,6 +66,21 @@ public class UserDaoImpl implements UserDao {
 		} finally {
 			session.close();
 		}
+		
+		return user;
+	}
+
+	
+	@SuppressWarnings("deprecation")
+	public UserDto selectByUsernam(String username) {
+		
+		String queryString = "SELECT u.user_username as username, u.user_password as password FROM USER u WHERE u.user_username = :username";
+		
+		Query<UserDto> query = sessionFactory.getCurrentSession().createNativeQuery(queryString, UserDto.class);
+		query.setParameter("username", username);
+		query.setResultTransformer(Transformers.aliasToBean(UserDto.class));
+		
+		UserDto user = query.getSingleResult();
 		
 		return user;
 	}

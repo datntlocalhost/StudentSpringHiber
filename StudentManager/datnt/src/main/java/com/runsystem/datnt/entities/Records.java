@@ -22,3 +22,4 @@ public class Records implements Serializable {
 	private String  address;
 
 }
+

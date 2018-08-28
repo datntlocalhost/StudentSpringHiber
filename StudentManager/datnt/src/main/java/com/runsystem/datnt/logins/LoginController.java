@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.runsystem.datnt.daos.interfaces.TokenDao;
+import com.runsystem.datnt.daos.interfaces.UserDao;
+import com.runsystem.datnt.dtos.UserDto;
 import com.runsystem.datnt.entities.Token;
 import com.runsystem.datnt.entities.User;
 import com.runsystem.datnt.services.MyUserDetailsService;
+import com.runsystem.datnt.services.Impl.UserService;
 import com.runsystem.datnt.utils.GenerateToken;
 import com.runsystem.datnt.utils.Sha256Hash;
 import com.runsystem.datnt.validations.UserValidator;
@@ -26,6 +29,9 @@ public class LoginController {
 	
 	@Autowired
 	private TokenDao tokenDao;
+	
+	@Autowired
+	private UserService suserService;
 		
 	@Autowired
 	private MyUserDetailsService userService;
@@ -37,7 +43,7 @@ public class LoginController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String userLogin(@ModelAttribute User user, Model model, HttpServletRequest request, BindingResult bindingResult) {
-		
+		/*
 		HttpSession session = request.getSession();
 		
 		UserValidator validator = new UserValidator();
@@ -69,7 +75,14 @@ public class LoginController {
 				return "redirect:/home";
 			}
 		}
-		model.addAttribute("error",true);
+		model.addAttribute("error",true);*/
+		
+		UserDto userDto = suserService.getUserByUsername("admin");
+		
+		if (userDto != null) {
+			System.out.println(userDto.toString());
+		}
+		
 		return "login";
 	}
 	

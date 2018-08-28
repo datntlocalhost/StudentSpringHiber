@@ -1,0 +1,11 @@
+package com.runsystem.datnt.dtos;
+
+import org.springframework.web.bind.annotation.Mapping;
+
+import lombok.Data;
+
+@Data
+public class UserDto {
+	private String username;
+	private String password;
+}

@@ -31,3 +31,9 @@
 1535340593308	Delete element
 1535340673725	Delete element
 1535346100797	Delete element
+1535424727787	Rename resource 'aop-context.xml'
+1535425005260	Rename resource 'dispatcher-cfg.xml'
+1535425049918	Delete element
+1535425149348	Rename resource 'dispatcher.cfg.xml'
+1535425239386	Rename resource 'security-cfg.xml'
+1535425420052	Rename type 'User'
