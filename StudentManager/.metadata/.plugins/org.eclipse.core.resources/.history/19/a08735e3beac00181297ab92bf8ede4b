@@ -1,0 +1,4 @@
+package com.runsystem.datnt.exceptions;
+
+
+public class InsertException

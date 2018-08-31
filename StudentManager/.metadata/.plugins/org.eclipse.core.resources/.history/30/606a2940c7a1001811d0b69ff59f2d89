@@ -1,5 +1,0 @@
-package com.runsystem.datnt.test;
-
-public class TestDaoImpl implements TestDao{
-
-}

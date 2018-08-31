@@ -1,9 +1,0 @@
-package com.runsystem.datnt.services.interfaces;
-
-import com.runsystem.datnt.entities.Records;
-
-public interface RecordService {
-	
-	public Records selectById(int id);
-
-}

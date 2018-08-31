@@ -1,0 +1,10 @@
+package com.runsystem.datnt.daos.interfaces;
+
+import java.util.List;
+
+import com.runsystem.datnt.dtos.*;
+
+public interface RoleDao {
+
+	public List<RoleDto> getUserRole(int userId);
+}

@@ -77,6 +77,10 @@ public class Validation {
 	 */
 	public static boolean validDateRange(String from, String to) {
 		
+		if (from.isEmpty() && to.isEmpty()) {
+			return true;
+		}
+		
 		if (validDate(from) && validDate(to)) {
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			
@@ -164,12 +168,14 @@ public class Validation {
 	}
 	
 	public static boolean validSchool(String school) {
-		String regex = "^[a-zA-Z0-9&]*$";
-		return school != null && school.matches(regex);
+		return true;
 	}
 	
-	public static boolean validCode(String code) {
+	public static boolean validCode(String code, boolean canNull) {
 		String regex = "^[0-9]{4,15}$";
+		if (canNull && isNullOrEmpty(code)) {
+			return true;
+		}
 		return code != null && code.matches(regex);
 	}
 	
@@ -181,11 +187,5 @@ public class Validation {
 	 */
 	public static boolean isNullOrEmpty(String string) {
 		return string == null || string.isEmpty();
-	}
-	
-	
-	public static void main(String[] args) {
-		System.out.println(validSchool(null));
-	}
- 
+	} 
 }

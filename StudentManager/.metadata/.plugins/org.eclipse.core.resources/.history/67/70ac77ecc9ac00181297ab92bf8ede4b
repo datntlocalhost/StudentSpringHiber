@@ -1,0 +1,25 @@
+package com.runsystem.datnt.utils;
+
+import org.hibernate.query.Query;
+
+public class ParameterUtils {
+	
+	public static String paramToString(Query<?> query) {
+		StringBuilder string = new StringBuilder("\n");
+		
+		String param[] = query.getNamedParameters();
+		
+		string.append("String query: ");
+		string.append(query.getQueryString());
+		
+		for (String s : param) {
+			
+			
+			
+			string += "\tParameter [" + s + "] : " + query.getParameterValue(s) + "\n";
+		}
+		
+		return string;
+	}
+
+}

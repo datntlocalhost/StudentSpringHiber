@@ -1,0 +1,8 @@
+package com.runsystem.datnt.controllers;
+
+import org.springframework.web.bind.annotation.ControllerAdvice;
+
+@ControllerAdvice(basePackages = "com.runsystem.datnt.controllers")
+public class ExceptionHandlerController {
+
+}

@@ -1,9 +1,0 @@
-package com.runsystem.datnt.daos.implementations;
-
-import com.runsystem.datnt.daos.AbstractDao;
-import com.runsystem.datnt.daos.interfaces.UserRolesDao;
-import com.runsystem.datnt.entities.UserRoles;
-
-public class UserRolesDaoImpl extends AbstractDao<Integer, UserRoles> implements UserRolesDao{
-
-}

@@ -1,0 +1,19 @@
+package com.runsystem.datnt.utils;
+
+import java.util.Set;
+
+import javax.persistence.Parameter;
+
+import org.hibernate.query.Query;
+
+public class ParameterUtils {
+	
+	public static String paramToString(Query<?> query) {
+		String string = "";
+		
+		String param[] = query.getNamedParameters();
+		
+		return string;
+	}
+
+}

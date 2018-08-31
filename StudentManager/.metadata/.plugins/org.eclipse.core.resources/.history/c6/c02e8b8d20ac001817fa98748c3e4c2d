@@ -1,0 +1,7 @@
+package com.runsystem.datnt.services.impl;
+
+import com.runsystem.datnt.services.SchoolService;
+
+public class SchoolServiceImpl implements SchoolService {
+
+}

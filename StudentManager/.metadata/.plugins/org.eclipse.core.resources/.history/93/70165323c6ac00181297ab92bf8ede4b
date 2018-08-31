@@ -1,0 +1,13 @@
+package com.runsystem.datnt.utils;
+
+import java.util.Set;
+
+import javax.persistence.Parameter;
+
+public class ParameterUtils {
+	
+	public static String paramToString(Set<Parameter<?>> param) {
+		String string = "";
+	}
+
+}

@@ -1,0 +1,12 @@
+package com.runsystem.datnt.services;
+
+import org.springframework.stereotype.Service;
+
+import com.runsystem.datnt.daos.interfaces.UserDao;
+
+@Service
+public class MyUserDetailsService {
+
+	
+	private UserDao userDao;
+}

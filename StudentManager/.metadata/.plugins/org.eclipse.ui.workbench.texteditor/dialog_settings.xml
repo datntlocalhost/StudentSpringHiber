@@ -6,12 +6,14 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="tableCourse" key="selection"/>
+		<item value="Delete" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="Delete"/>
+			<item value="delete"/>
 			<item value="tableCourse"/>
 			<item value="reset-pwd-form"/>
 			<item value="js-create-frm"/>

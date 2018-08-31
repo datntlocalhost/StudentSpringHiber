@@ -1,0 +1,16 @@
+package com.runsystem.datnt.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.runsystem.datnt.daos.RecordDao;
+import com.runsystem.datnt.daos.UserDao;
+import com.runsystem.datnt.daos.interfaces.StudentDao;
+import com.runsystem.datnt.models.StudentModel;
+
+
+public interface StudentService {
+
+	public StudentModel createStudent(StudentModel studentInfo);
+}

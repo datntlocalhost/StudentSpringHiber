@@ -44,14 +44,14 @@
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label for="studentcode">Student code</label>
-											<input id="user-reset" name="studentCode" placeholder="Enter code" class="form-control" type="text" value="">
+											<input id="code-search" name="studentCode" placeholder="Enter code" class="form-control" type="text" value="">
 										</div>
 									</div>
 									
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label for="studentname">Student name</label>
-											<input id="user-reset" name="studentName" placeholder="Enter name" class="form-control" type="text">
+											<input id="name-search" name="studentName" placeholder="Enter name" class="form-control" type="text">
 										</div>
 									</div>
 								</div>
@@ -119,6 +119,20 @@
 						</div>
 						
 						<div class="box-body">
+							 <!-- 
+							 <div class="datatable_length">
+							 	<label>
+							 		Show
+							 		<select name="tableLength">
+							 			<option>10</option>
+							 			<option>25</option>
+							 			<option>50</option>
+							 			<option>100</option>
+							 		</select>
+							 		entries
+							 	</label>
+							 </div>
+							  -->
 							  <table id="student-table" class="table table-bordred table-striped">
 								<thead>
 									<tr>
@@ -131,10 +145,6 @@
 										<th>Phone</th>
 										<th>Email</th>
 										<th>Address</th>
-										<!-- 
-										<th style="width: 5%; text-align: center;">Update</th>
-										<th style="width: 5%; text-align: center;">Delete</th>
-										 -->
 									</tr>
 								</thead>
 								<tbody id="js-search-body">
@@ -143,27 +153,13 @@
 										<tr id="js-row-st-${student.studentId}">
 											<td>${student.studentCode}</td>
 											<td>${student.studentName}</td>
-											<td>${student.record.sex}</td>
-											<td>${student.record.birthday}</td>
-											<td>${student.school.schoolCode}</td>
-											<td>${student.startYear}</td>
-											<td>${student.record.phone}</td>
-											<td>${student.record.email}</td>
-											<td>${student.record.address}</td>
-											<!-- 
-											<td style="width: 5%; text-align: center;">
-												<button onclick="updateBtn(${student.studentId})">
-													<i class="fa fa-check" aria-hidden="true"
-														style="font-size: 20px;"></i>
-												</button>
-											</td>
-											<td style="width: 5%; text-align: center;">
-												<button>
-													<i class="fa fa-trash" aria-hidden="true"
-														style="font-size: 20px;"></i>
-												</button>
-											</td>
-											 -->
+											<td>${student.sex}</td>
+											<td>${student.birthday}</td>
+											<td>${student.schoolCode}</td>
+											<td>${student.schoolYear}</td>
+											<td>${student.phone}</td>
+											<td>${student.email}</td>
+											<td>${student.address}</td>
 										</tr>
 									</c:forEach>
 									
@@ -182,6 +178,21 @@
 									</tr>
 								</tfoot>
 							</table>
+							<!-- 
+							<div style="width: 100%; background-color: yellow;">
+								<div style="float: left;">Showing 0 to 0 of 0 entries</div>
+							
+								
+								<div id="student-table_paginate" class="dataTables_paginate paging_simple_numbers" style="float: right;">
+									<a id="student-table_previous" class="paginate_button previous disabled" aria-controls="student-table" data-dt-idx="0" tabindex="0"> Previous</a>
+									
+									<a id="student-table_next" class="paginate_button next disabled" aria-controls="student-table" data-dt-idx="1" tabindex="0">Next </a>
+									
+									| Enter page <input type="text" style="width: 40px;"> - 
+									<button>Go</button>
+								</div>
+							</div>
+							 -->
 						</div>
 					</div>
 				</div>
@@ -230,7 +241,7 @@
         				
         					<div class="form-group">
         						<label for="studentcode">School</label>
-        						<select id="js-school-md" class="form-control" name="school">
+        						<select id="js-school-md" class="form-control" name="schoolCode">
         							<c:forEach items="${schools}" var="sch">
         								<option value="${sch.schoolCode}">${sch.schoolCode}</option>
         							</c:forEach>
@@ -260,7 +271,7 @@
         						<label for="studentcode">Address</label>
         						<input id="js-address-md" class="form-control" name="address" type="text">
         					</div>
-        					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
+        					<!-- input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --> 
         					<button id="js-delete-btn" type="button" class="btn btn-danger">Delete</button>
         					<button id="js-update-btn" type="submit" class="btn btn-primary" style="margin-left: 20px;">Update</button>
         				</form>
@@ -319,7 +330,7 @@
         				
         					<div class="form-group">
         						<label for="studentcode">School</label>
-        						<select id="js-school-create" class="form-control" name="school">
+        						<select id="js-school-create" class="form-control" name="schoolCode">
         							<c:forEach items="${schools}" var="sch">
         								<option value="${sch.schoolCode}">${sch.schoolCode}</option>
         							</c:forEach>
@@ -355,7 +366,7 @@
         </div>
       </div>
       <div class="modal-footer">
-     	 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
+     	 <!-- input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --> 
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button  type="submit" class="btn btn-primary">Create</button>
       </div>
@@ -369,7 +380,7 @@
 	<%@ include file="footer.jsp"%>
 	<%@ include file="base-script.jsp"%>
 	<script src="<c:url value="/js/jquery.dataTables.min.js" />"></script>
-	<!-- page script --><script src="<c:url value="/js/validator.js" />"></script>
+	<script src="<c:url value="/js/validator.js" />"></script>
 	<script src="<c:url value="/js/main.js" />"></script>
 	
 	

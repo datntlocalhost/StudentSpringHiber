@@ -1,0 +1,6 @@
+package com.runsystem.datnt.dtos;
+
+public class User {
+	private String username;
+	private String password;
+}

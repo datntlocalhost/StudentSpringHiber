@@ -1,0 +1,15 @@
+package com.runsystem.datnt.controllers;
+
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+
+@ControllerAdvice(basePackages = "com.runsystem.datnt.controllers")
+public class ExceptionHandlerController {
+	
+	public String processExceptionHandler(Model model, Exception ex) {
+		
+	}
+
+}

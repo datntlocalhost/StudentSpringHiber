@@ -1,0 +1,7 @@
+package com.runsystem.datnt.daos.implementations;
+
+import com.runsystem.datnt.daos.interfaces.CustomDao;
+
+public class CustomDaoImpl implements CustomDao {
+
+}

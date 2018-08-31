@@ -1,0 +1,64 @@
+package com.runsystem.datnt.daos.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.hibernate.transform.Transformers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.runsystem.datnt.daos.SchoolDao;
+import com.runsystem.datnt.dtos.SchoolDto;
+import com.runsystem.datnt.exceptions.SelectNullException;
+import com.runsystem.datnt.utils.LogginUtils;
+import com.runsystem.datnt.utils.ParameterUtils;
+
+@Repository
+public class SchoolDaoImpl implements SchoolDao {
+
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	private Logger logger = LogginUtils.getInstance().getLogger(SchoolDaoImpl.class);
+
+	@SuppressWarnings("deprecation")
+	public List<SchoolDto> list() {
+		logger.info("list - [START]");
+		Session session = sessionFactory.getCurrentSession();
+		
+		List<SchoolDto> schools = new ArrayList<SchoolDto>();
+		
+		String queryString = "SELECT " 						  +
+							 "sc.school_id as schoolId, "     +
+							 "sc.school_code as schoolCode, " +
+							 "sc.school_name as schoolName "   +
+							 "FROM SCHOOL sc";
+		try {
+			@SuppressWarnings("unchecked")
+			Query<SchoolDto> query = session.createNativeQuery(queryString);
+			query.setResultTransformer(Transformers.aliasToBean(SchoolDto.class));
+			
+			schools = query.getResultList();
+			
+			logger.info("Execute query" + ParameterUtils.paramToString(query));
+			
+			if (schools.size() == 0) {
+				throw new SelectNullException("Select school list from database is null");
+			} else {
+				logger.info(schools.toString());
+			}
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} 
+		
+		logger.info("list - [END]");
+		return schools;
+	}
+	
+	
+}

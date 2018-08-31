@@ -1,0 +1,18 @@
+package com.runsystem.datnt.controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+public class DeleteController {
+	
+	@RequestMapping(value = "/admin/delete", method = RequestMethod.POST)
+	public @ResponseBody boolean deleteStudent(@ModelAttribute StudentModel deleteInfo, 
+												HttpServletRequest request, HttpServletResponse response) {
+		if (!Validation.validCode(deleteInfo.getStudentCode(), false)) {
+			return false;
+		}
+		return studentDao.delete(deleteInfo.getStudentCode());
+	}
+}

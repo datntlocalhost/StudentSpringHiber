@@ -35,7 +35,7 @@ public class SearchStudentModel implements Serializable {
 	}
 
 	public void setStudentCode(String studentCode) {
-		this.studentCode = "%" + studentCode + "%";
+		this.studentCode = studentCode;
 	}
 
 	public String getStudentName() {
@@ -43,7 +43,7 @@ public class SearchStudentModel implements Serializable {
 	}
 
 	public void setStudentName(String studentName) {
-		this.studentName = "%" + studentName + "%";
+		this.studentName = studentName;
 	}
 
 	public String getSex() {
@@ -51,11 +51,7 @@ public class SearchStudentModel implements Serializable {
 	}
 
 	public void setSex(String sex) {
-		if (sex == null || sex.isEmpty()) {
-			this.sex = "%%";
-		} else {
-			this.sex = sex;
-		}
+		this.sex = sex;
 	}
 
 	public String getSchool() {
@@ -63,7 +59,7 @@ public class SearchStudentModel implements Serializable {
 	}
 
 	public void setSchool(String school) {
-		this.school = "%" + school + "%";
+		this.school = school;
 	}
 
 	public String getDateFrom() {

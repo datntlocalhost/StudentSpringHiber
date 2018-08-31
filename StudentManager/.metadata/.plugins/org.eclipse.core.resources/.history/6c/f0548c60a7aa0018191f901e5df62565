@@ -1,0 +1,23 @@
+package com.runsystem.datnt.services;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.runsystem.datnt.daos.RecordDao;
+import com.runsystem.datnt.daos.UserDao;
+import com.runsystem.datnt.daos.interfaces.StudentDao;
+
+@Service
+@Transactional
+public interface StudentService {
+	
+	private StudentDao studentDao;
+	
+	private RecordDao recordDao;
+	
+	private UserDao userDao;
+	
+	
+	
+
+}

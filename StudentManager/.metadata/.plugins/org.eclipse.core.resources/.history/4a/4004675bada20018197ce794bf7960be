@@ -1,8 +1,0 @@
-package com.runsystem.datnt.services.interfaces;
-
-import com.runsystem.datnt.entities.Student;
-
-public interface StudentService {
-
-	public boolean insert(Student student);
-}

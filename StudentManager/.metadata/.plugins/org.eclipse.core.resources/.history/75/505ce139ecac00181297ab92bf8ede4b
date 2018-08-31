@@ -1,0 +1,18 @@
+package com.runsystem.datnt.controllers;
+
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+@ControllerAdvice(basePackages = "com.runsystem.datnt.controllers")
+public class ExceptionHandlerController {
+	
+	@ExceptionHandler(Exception.class)
+	public String processExceptionHandler(Model model, Exception ex) {
+		
+		model.addAttribute("error", ex);
+		
+		return "400";
+	}
+
+}

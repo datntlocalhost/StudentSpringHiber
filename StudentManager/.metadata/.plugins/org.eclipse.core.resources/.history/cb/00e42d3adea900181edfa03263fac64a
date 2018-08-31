@@ -1,0 +1,13 @@
+package com.runsystem.datnt.entities;
+
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+public class Token implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private int id;
+	private String username;
+	private String token;
+	private Timestamp timestamp;
+}

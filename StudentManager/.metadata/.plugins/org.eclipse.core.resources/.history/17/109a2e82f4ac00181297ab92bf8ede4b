@@ -1,0 +1,143 @@
+package com.runsystem.datnt.daos.impl;
+
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.runsystem.datnt.daos.RecordDao;
+import com.runsystem.datnt.dtos.RecordDto;
+import com.runsystem.datnt.exceptions.DeleteException;
+import com.runsystem.datnt.exceptions.InsertException;
+import com.runsystem.datnt.exceptions.UpdateException;
+import com.runsystem.datnt.utils.LogginUtils;
+import com.runsystem.datnt.utils.ParameterUtils;
+
+@Repository
+public class RecordDaoImpl implements RecordDao{
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+
+	/*
+	 * Insert record to Record Table.
+	 * 
+	 * @param recorddto
+	 * 
+	 * @throws InsertException
+	 */
+	public void insert(RecordDto record) throws InsertException {
+		LogginUtils.getInstance().logStart(this.getClass(), "insert");
+		Session session = sessionFactory.getCurrentSession();
+		
+		String queryString = "INSERT INTO RECORDS(" + 
+							 "	student_id,"        + 
+							 "	records_sex,"       + 
+							 "	records_birthday,"  + 
+							 "	records_phone,"     + 
+							 "	records_email,"     + 
+							 "	records_address)"   + 
+							 "VALUES("              + 
+							 "	:id"  				+ 
+							 "	:sex," 				+ 
+							 "	:birthday,"			+ 
+							 "	:phone," 			+ 
+							 "	:email," 			+ 
+							 "	:address)";
+		
+		try {
+			@SuppressWarnings("unchecked")
+			Query<RecordDto> query = session.createNativeQuery(queryString);
+			
+			query.setParameter("id",      record.getRecordId());
+			query.setParameter("sex",     record.getSex());
+			query.setParameter("birthday",record.getBirthday());
+			query.setParameter("phone",   record.getPhone());
+			query.setParameter("email",   record.getEmail());
+			query.setParameter("address", record.getAddress());
+			
+			logger.info("Execute query" + ParameterUtils.paramToString(query));
+			
+			query.executeUpdate();
+		} catch (Exception ex) {
+			logger.error(ex);
+			throw new InsertException(ex.getMessage());
+		}
+		logger.info("insert - [END]");
+	}
+
+	/*
+	 * Delete student record by id.
+	 * 
+	 * @param id
+	 * 
+	 * @throws DeleteException
+	 */
+	public void delete(int id) throws DeleteException {
+		logger.info("delete - [START]");
+		Session session = sessionFactory.getCurrentSession();
+				
+		String queryString = "DELETE FROM RECORDS WHERE student_id = :id";
+		
+		try {
+			@SuppressWarnings("rawtypes")
+			Query query = session.createNativeQuery(queryString);
+			
+			query.setParameter("id", id);
+			
+			query.executeUpdate();
+			
+			logger.info("Execute query" + ParameterUtils.paramToString(query));
+			
+		} catch (Exception ex) {
+			logger.error(ex);
+			throw new DeleteException(ex.getMessage());
+		}
+		logger.info("delete - [END]");
+	}
+
+	/*
+	 * Update student records.
+	 * 
+	 * @param record
+	 * 
+	 * @throws UpdateException
+	 */
+	public void update(RecordDto record) throws UpdateException {
+		logger.info("update - [START]");
+		Session session = sessionFactory.getCurrentSession();
+		
+		String queryString = "UPDATE RECORDS " 				   + 
+							 "SET " 						   + 
+							 "	records_sex = :sex,"           + 
+							 "	records_birthday = :birthday," + 
+							 "	records_phone = :phone,"       + 
+							 "	records_email = :email,"       + 
+							 "	records_address = :address "   + 
+							 "WHERE "                          +
+							 "	student_id = :id";
+		
+		try {
+			@SuppressWarnings("unchecked")
+			Query<RecordDto> query = session.createNativeQuery(queryString);
+			
+			query.setParameter("sex",      record.getSex());
+			query.setParameter("birthday", record.getBirthday());
+			query.setParameter("phone",    record.getPhone());
+			query.setParameter("email",    record.getEmail());
+			query.setParameter("address",  record.getAddress());
+			query.setParameter("id", 	   record.getRecordId());
+			
+			query.executeUpdate();
+			
+			logger.info("Execute query " + ParameterUtils.paramToString(query));
+		} catch (Exception ex) {
+			logger.error(ex);
+			throw new UpdateException(ex.getMessage());
+		}
+		logger.info("update - [END]");
+	}
+
+}

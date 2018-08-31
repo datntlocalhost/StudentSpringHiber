@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd ">
+	
+	<import resource="../configs/dispatcher.xml"/>
+	
+	<bean id="setRoleAOP" class="com.runsystem.datnt.aops.AuthAOP" > 
+		<property name="tokenService" ref="tokenServiceImpl" />
+	</bean>
+
+	<aop:config>
+		<aop:aspect ref="setRoleAOP">
+			<aop:pointcut expression="execution(* com.runsystem.datnt.controllers.*.*(..))" id="authPC"/>
+			<aop:pointcut expression="execution(* com.runsystem.datnt.controllers.TestController.*(..))" id="testPC"/>
+			<aop:around method="around" pointcut-ref="testPC"/>
+			<aop:before method="onSet" pointcut-ref="authPC" />
+		</aop:aspect>
+	</aop:config>
+</beans>

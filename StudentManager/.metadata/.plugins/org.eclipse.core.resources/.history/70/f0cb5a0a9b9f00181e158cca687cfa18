@@ -1,8 +1,0 @@
-package com.runsystem.datnt.daos.implementations;
-
-import org.springframework.stereotype.Repository;
-
-@Repository
-public class RecordsDaoImpl extends {
-
-}

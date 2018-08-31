@@ -1,0 +1,16 @@
+package com.runsystem.datnt.controllers;
+
+import javax.servlet.http.HttpServletResponse;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+
+@Controller
+public class TestController {
+
+	public String loadPage(Model model, HttpServletRequest request, HttpServletResponse response) {
+		
+	}
+}

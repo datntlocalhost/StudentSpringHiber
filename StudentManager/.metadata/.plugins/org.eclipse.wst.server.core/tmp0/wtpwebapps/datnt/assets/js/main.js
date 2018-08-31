@@ -1,7 +1,9 @@
 $(document).ready(function() {
 	
-	//Init datatables student and scores
 	var tableStudent = $("#student-table").DataTable({
+		paging:   true,
+		info : true,
+		searching: true,
 		"columnDefs": [
 		               { "orderable": false, "targets": 6 },
 		               { "orderable": false, "targets": 7 },
@@ -9,18 +11,10 @@ $(document).ready(function() {
 		              ]
 	});
 	
-	var tableUnprocess = $("#accept-reset-table").DataTable({
-		"columnDefs": [
-		               { "orderable": false, "targets": 4 }
-		             ]
-	});
-	
-	var tableProcess = $("#process-reset-table").DataTable({
-		"columnDefs": [
-		               { "orderable": false, "targets": 3 }
-		             ]
-	});
-	
+	/*
+	 * Process when user click on tr of table.
+	 * Show info of student in that row
+	 */
 	$('#student-table tbody').on('click', 'tr', function() {
 		var data = tableStudent.row(this).data();
 
@@ -40,32 +34,6 @@ $(document).ready(function() {
 		$("#js-student-info").modal('toggle');
 	});
 
-	$("#js-reset-frm").on('submit', function(event) {
-
-		$.ajax({
-			type: 'post',
-			url: '/datnt/admin/reset',
-			data: $(this).serialize(),
-			success: function(result) {
-				console.log(result);
-			}
-		});
-		event.preventDefault();
-	});
-
-	$("#js-change-frm").on('submit', function(event) {
-
-		$.ajax({
-			type: 'post',
-			url: '/datnt/student/changepwd',
-			data: $(this).serialize(),
-			success: function(result) {
-				console.log(result);
-			}
-		});
-		event.preventDefault();
-	});
-	
 	/*
 	 * Process submit Student Search form.
 	 */
@@ -84,7 +52,9 @@ $(document).ready(function() {
 			$.ajax({
 				type: 'post',
 				url: '/datnt/admin/search',
-				data: $(this).serialize(),
+				contentType: 'application/json',
+				data: formToJson($(this)),
+				dataType: 'json',
 				success : function(data) {
 				
 					//remove current data in student list datatables
@@ -113,6 +83,7 @@ $(document).ready(function() {
 		
 		var valid = true;
 		
+		//Check validation input 
 		if (!validName($("#js-name-md").val())) {
 			$("#js-name-error-md").html("Invalid name");
 			valid = false;
@@ -148,14 +119,19 @@ $(document).ready(function() {
 			$("#js-date-error-md").html("");
 			$("#js-phone-error-md").html("");
 			$("#js-email-error-md").html("");
+			
+			//Send post request contain update info to controller
 			$.ajax({
 				type: 'post',
 				url: '/datnt/admin/update',
-				data: $("#js-studentinfo-frm").serialize(),
+				contentType: 'application/json',
+				data: formToJson($(this)),
+				dataType: 'json',
 				success : function(data) {
 					if (!$.trim(data)) {
 						alert("Update failed.");
 					} else {
+						//Re-render student's info after update success.
 						var data = tableStudent.row('.selected').data();
 						data[0] = $("#js-hide-md").val();
 						data[1] = $("#js-name-md").val();
@@ -191,9 +167,11 @@ $(document).ready(function() {
 		$.ajax({
 			type: 'post',
 			url: '/datnt/admin/delete',
-			data: $("#js-studentinfo-frm").serialize(),
+			contentType: 'application/json',
+			data: formToJson($("#js-studentinfo-frm")),
+			dataType: 'json',
 			success : function(data) {
-				if (data == null) {
+				if (data == false) {
 					alert("Delete failed.");
 				} else {
 					tableStudent.row('.selected').remove().draw();
@@ -215,38 +193,36 @@ $(document).ready(function() {
 	 * Create new student.
 	 */
 	$("#js-create-frm").on('submit', function(event) {
-		
-
 		var valid = true;
-		
+
 		if (!validName($("#js-name-crate").val())) {
 			$("#js-name-error-cr").html("Invalid name");
 			valid = false;
 		} else {
 			$("#js-name-error-cr").html("");
 		}
-		
+
 		if (!validPassword($("#js-password-crate").val())) {
 			$("#js-pwd-error-cr").html("Invalid password");
 			valid = false;
 		} else {
 			$("#js-pwd-error-cr").html("");
 		}
-		
+
 		if (!validDate($("#js-birthday-create").val())) {
 			$("#js-date-error-cr").html("Invalid date");
 			valid = false;
 		} else {
 			$("#js-date-error-cr").html("");
 		}
-		
+
 		if (!validPhone($("#js-phone-create").val())) {
 			$("#js-phone-error-cr").html("Invalid phone");
 			valid = false;
 		} else {
 			$("#js-phone-error-cr").html("");
 		}
-		
+
 		if (!validEmail($("#js-email-create").val())) {
 			$("#js-email-error-cr").html("Invalid email");
 			valid = false;
@@ -261,57 +237,55 @@ $(document).ready(function() {
 			$("#js-date-error-cr").html("");
 			$("#js-phone-error-cr").html("");
 			$("#js-email-error-cr").html("");
+			$.ajax({
+				type: 'post',
+				url: '/datnt/admin/create',
+				contentType: 'application/json',
+				data: formToJson($(this)),
+				dataType: 'json',
+				success : function(data) {
+					if (!$.trim(data)) {
+						alert("Create failed.");
+					} else {
+						renderStudent(data, tableStudent);
+						console.log(data);
+						$("#js-student-create").modal('toggle');
+						alert("Create success");
+					}
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+					alert("Create failed.");
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+		}
+		event.preventDefault();
+	});
+	
+	$("#js-student-update").on('submit', function(event) {
+		event.preventDefault();
+		
 		$.ajax({
 			type: 'post',
-			url: '/datnt/admin/create',
-			data: $(this).serialize(),
+			url: '/datnt/student/info',
+			contentType: 'application/json',
+			data: formToJson($(this)),
+			dataType: 'json',
 			success : function(data) {
 				if (!$.trim(data)) {
-					alert("Create failed.");
+					alert("Update failed.");
 				} else {
-					renderSearch(data, tableStudent);
-					$("#js-student-create").modal('toggle');
-					alert("Create success");
+					console.log(data);
+					renderStudentUpdate(data);
+					alert("Update success");
 				}
 			},
 			error : function(e) {
 				console.log("ERROR: ", e);
-				alert("Create failed.");
-			},
-			done : function(e) {
-				console.log("DONE");
-			}
-		});
-		event.preventDefault();
-		}
-	});
-	
-	$("#accept-reset-table tbody").on('click', '.accept', function() {
-		var data = tableUnprocess.row($(this).parents('tr')).data();
-		var row = ($(this).parents('tr'));
-		row.addClass('selected');
-		
-		$.ajax({
-			type: 'get',
-			url: '/datnt/admin/accreset/' + data[0] + '?param=accept',
-			data: $(this).serialize(),
-			success : function(result) {
-				if (result) {
-					tableProcess.row.add([
-					       data[0],
-					       data[1],
-					       data[2],
-					       data[3]
-					]).draw(false);
-					tableUnprocess.row('.selected').remove().draw();
-					alert("Process success");
-				} else {
-					alert("Process failed.");
-				}
-			},
-			error : function(e) {
-				console.log("ERROR: ", e);
-				alert("Process failed.");
+				alert("Update failed.");
 			},
 			done : function(e) {
 				console.log("DONE");
@@ -320,32 +294,9 @@ $(document).ready(function() {
 		
 	});
 	
-	$("#js-rg-list-frm").on('submit', function(event) {
-		
-		var course = $('textarea#txt-courses').val().replace(/^\s+|\s+$/g,'').split(/\s+/);
-		
-		$.ajax({
-			type: 'POST',
-			url: '/datnt/student/regis',
-			data: course,
-			success : function(result) {
-				if (result) {
-					
-				} else {
-					alert("Process failed.");
-				}
-			},
-			error : function(e) {
-				console.log("ERROR: ", e);
-				alert("Process failed.");
-			},
-			done : function(e) {
-				console.log("DONE");
-			}
-		});
-		event.preventDefault();
-	});
-	
+	/*
+	 * Process when user click on Create Button.
+	 */
 	$("#js-btn-create").click(function(event) {
 		$("#js-name-crate").val("");
 		$("#js-password-crate").val("");
@@ -364,19 +315,60 @@ $(document).ready(function() {
  * @param result list of student.
  */
 function renderSearch(result, table) {
-	
 	for (var i = 0; i < result.length; i++) {
-		
+		var date = new Date(result[i].birthday);
+		var dateFormat =  date.getFullYear() + '-' + ("0"+(date.getMonth()+1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2);
 		table.row.add([
 		               result[i].studentCode,
 		               result[i].studentName,
-		               result[i].record.sex,
-		               result[i].record.birthday,
-		               result[i].school.schoolCode,
-		               result[i].startYear,
-		               result[i].record.phone,
-		               result[i].record.email,
-		               result[i].record.address
+		               result[i].sex,
+		               dateFormat,
+		               result[i].schoolCode,
+		               result[i].schoolYear,
+		               result[i].phone,
+		               result[i].email,
+		               result[i].address
 		]).draw(false);
 	}
 }
+
+function renderStudent(result, table) {
+
+	table.row.add([
+	               result.studentCode,
+	               result.studentName,
+	               result.sex,
+	               result.birthday,
+	               result.schoolCode,
+	               result.schoolYear,
+	               result.phone,
+	               result.email,
+	               result.address
+	               ]).draw(false);
+}
+
+function renderStudentUpdate(data) {
+	$("#js-phone-create").val(data.phone);
+	$("#js-email-create").val(data.email);
+	$("#js-address-create").val(data.address);
+}
+
+function formToJson(formData) {
+	var data = formData.serialize();
+	console.log(data);
+	var array = data.split('&');
+	var string = '{';
+	for (var i = 0; i < array.length; i++) {
+		var temp = array[i].split('=');
+		temp[1] = temp[1].replace(new RegExp('%20', 'g'),' ');
+		temp[1] = temp[1].replace(new RegExp('%40', 'g'),'@');
+		if (i == array.length - 1) {
+			string += '"' + temp[0] + '" : "' + temp[1] + '"}';
+		} else {
+			string += '"' + temp[0] + '" : "' + temp[1] + '", ';
+		}
+	}
+	console.log(string);
+	return string;
+}
+

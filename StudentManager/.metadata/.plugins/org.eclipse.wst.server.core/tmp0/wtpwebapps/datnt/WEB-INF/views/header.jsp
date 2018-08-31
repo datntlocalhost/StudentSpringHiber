@@ -38,7 +38,7 @@
 						alt="User Image">
 				</div>
 				<div class="pull-left info">
-					<p>${user}</p>
+					<p>${username}</p>
 					<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
 				</div>
 			</div>
@@ -57,8 +57,6 @@
 					<ul class="treeview-menu">
 						<li><a href="/datnt/admin/list"><i class="fa fa-circle-o"></i> Student
 								List</a></li>
-						<li><a href="/datnt/admin/accreset"><i class="fa fa-circle-o"></i> Reset
-								Password</a></li>
 					</ul>
 				</li>
 				</c:when>

@@ -53,9 +53,6 @@ public class StudentValidator implements Validator {
 				errors.rejectValue("address", "student.invalid.address");
 			}
 			
-			if (!Validation.validSchool(student.getSchool())) {
-				errors.rejectValue("school", "student.invalid.school");
-			}
 			if (hasPassword) {
 				if (!Validation.validPassword(student.getPassword())) {
 					errors.rejectValue("password", "user.invalid.password");
