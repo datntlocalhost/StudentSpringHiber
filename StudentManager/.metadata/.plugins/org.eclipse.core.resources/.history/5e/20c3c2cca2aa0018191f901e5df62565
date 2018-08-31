@@ -1,0 +1,12 @@
+package com.runsystem.datnt.daos.interfaces;
+
+import com.runsystem.datnt.dtos.UserDto;
+
+public interface UserDao {
+	
+	public void insert(UserDto user);
+	/*
+	 * Get user by username from database
+	 */
+	public UserDto selectByUsername(String username);
+}

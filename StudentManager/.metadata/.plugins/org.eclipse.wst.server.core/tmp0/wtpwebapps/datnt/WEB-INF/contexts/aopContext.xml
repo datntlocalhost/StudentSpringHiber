@@ -9,24 +9,14 @@
 	
 	<import resource="../configs/dispatcher.xml"/>
 	
-	<bean id="loggingAOP" class="com.runsystem.datnt.aops.LoggingAOP" />
-	
-	<bean id="setRoleAOP" class="com.runsystem.datnt.aops.SetRoleAOP" > 
-		<property name="tokenDao" ref="tokenDaoImpl" />
+	<bean id="setRoleAOP" class="com.runsystem.datnt.aops.AuthAOP" > 
+		<property name="tokenService" ref="tokenServiceImpl" />
 	</bean>
-	
+
 	<aop:config>
 		<aop:aspect ref="setRoleAOP">
-			<aop:pointcut expression="execution(* com.runsystem.datnt.controllers.*.*(..))" id="setRolePC"/>
-			<aop:before method="onSet" pointcut-ref="setRolePC" />
+			<aop:pointcut expression="execution(* com.runsystem.datnt.controllers.*.*(..))" id="authPC"/>
+			<aop:before method="onSet" pointcut-ref="authPC" />
 		</aop:aspect>
-		
-		<aop:aspect ref="loggingAOP">
-			<aop:pointcut expression="execution(* com.runsystem.datnt.controllers.*.*(..))" id="controllerPC"/>
-			<aop:pointcut expression="execution(* com.runsystem.datnt.daos.implementations.*.*(..))" id="daosPC"/>
-			<aop:before method="onLogController" pointcut-ref="controllerPC" />
-			<aop:before method="onLogService" pointcut-ref="daosPC" />
-		</aop:aspect>		
 	</aop:config>
-	 
 </beans>

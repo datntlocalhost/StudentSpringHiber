@@ -1,0 +1,14 @@
+package com.runsystem.datnt.controllers;
+
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+
+@ControllerAdvice(basePackages = "com.runsystem.datnt.controllers")
+public class ExceptionHandlerController {
+	
+	public String processExceptionHandler(Model model, Exception ex) {
+		
+		return "";
+	}
+
+}

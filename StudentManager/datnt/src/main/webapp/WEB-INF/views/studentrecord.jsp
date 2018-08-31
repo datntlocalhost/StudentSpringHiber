@@ -36,7 +36,7 @@
 						<div class="box-body">
 							<div class="" style="width: 50%; margin: auto;">
 							
-							<form action="/datnt/student/info" method="POST">
+							<form action="" method="POST" id="js-student-update">
 									
 								<div class="form-group">
 	        						<label for="studentcode">Student Code</label>
@@ -64,8 +64,8 @@
 	        				
 	        					<div class="form-group">
 	        						<label for="studentcode">School</label>
-	        						<input type="hidden" name="school" value="${student.school}">
-	        						<input type="text" class="form-control"  disabled="disabled" value="${student.school}">
+	        						<input type="hidden" name="schoolCode" value="${student.schoolCode}">
+	        						<input type="text" class="form-control"  disabled="disabled" value="${student.schoolCode}">
 	        					</div>
 	        					
 	        					<div class="form-group">

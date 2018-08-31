@@ -1,0 +1,10 @@
+package com.runsystem.datnt.daos;
+
+import com.runsystem.datnt.dtos.StudentDto;
+
+public interface StudentDao {
+	
+	public int getMaxId();
+	public void insert(StudentDto student)
+
+}

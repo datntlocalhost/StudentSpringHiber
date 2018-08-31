@@ -150,16 +150,16 @@
 								<tbody id="js-search-body">
 					
 									<c:forEach items="${studentList}" var="student">
-										<tr id="js-row-st-${student.student.studentId}">
-											<td>${student.student.studentCode}</td>
-											<td>${student.student.studentName}</td>
-											<td>${student.records.sex}</td>
-											<td>${student.records.birthday}</td>
-											<td>${student.school.schoolCode}</td>
-											<td>${student.student.startYear}</td>
-											<td>${student.records.phone}</td>
-											<td>${student.records.email}</td>
-											<td>${student.records.address}</td>
+										<tr id="js-row-st-${student.studentId}">
+											<td>${student.studentCode}</td>
+											<td>${student.studentName}</td>
+											<td>${student.sex}</td>
+											<td>${student.birthday}</td>
+											<td>${student.schoolCode}</td>
+											<td>${student.schoolYear}</td>
+											<td>${student.phone}</td>
+											<td>${student.email}</td>
+											<td>${student.address}</td>
 										</tr>
 									</c:forEach>
 									
@@ -241,7 +241,7 @@
         				
         					<div class="form-group">
         						<label for="studentcode">School</label>
-        						<select id="js-school-md" class="form-control" name="school">
+        						<select id="js-school-md" class="form-control" name="schoolCode">
         							<c:forEach items="${schools}" var="sch">
         								<option value="${sch.schoolCode}">${sch.schoolCode}</option>
         							</c:forEach>
@@ -330,9 +330,9 @@
         				
         					<div class="form-group">
         						<label for="studentcode">School</label>
-        						<select id="js-school-create" class="form-control" name="school">
+        						<select id="js-school-create" class="form-control" name="schoolCode">
         							<c:forEach items="${schools}" var="sch">
-        								<option value="${sch.schoolId}">${sch.schoolCode}</option>
+        								<option value="${sch.schoolCode}">${sch.schoolCode}</option>
         							</c:forEach>
         						</select>
         					</div>

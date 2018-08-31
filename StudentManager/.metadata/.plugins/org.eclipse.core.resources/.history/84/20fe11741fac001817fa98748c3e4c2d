@@ -1,0 +1,14 @@
+package com.runsystem.datnt.dtos;
+
+import java.io.Serializable;
+
+import lombok.Data;
+
+@Data
+public class SchoolDto implements Serializable {
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	
+}

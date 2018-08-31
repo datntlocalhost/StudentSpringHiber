@@ -9,22 +9,24 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.runsystem.datnt.daos.interfaces.StudentDao;
+import com.runsystem.datnt.dtos.StudentInfoDto;
+import com.runsystem.datnt.exceptions.InputInvalidException;
 import com.runsystem.datnt.models.SearchStudentModel;
-import com.runsystem.datnt.models.StudentListModel;
-import com.runsystem.datnt.utils.SearchSetup;
+import com.runsystem.datnt.services.StudentService;
+import com.runsystem.datnt.utils.JsonUtils;
+import com.runsystem.datnt.utils.LogginUtils;
 import com.runsystem.datnt.validations.SearchValidator;
 
 @Controller
 public class SearchController {
 	
 	@Autowired
-	private StudentDao studentDao;
+	private StudentService studentService;
 
 	/*
 	 * This controller get POST request contain search info from client. select from database and return result
@@ -38,29 +40,27 @@ public class SearchController {
 	 * @return list of Student List Model object
 	 */
 	@RequestMapping(value = "/admin/search", method = RequestMethod.POST)
-	public @ResponseBody List<StudentListModel> searchStudent(@ModelAttribute SearchStudentModel searchInfo, BindingResult bindingResult,
-																HttpServletRequest request, HttpServletResponse response) {
-		//HttpSession session = request.getSession();
+	public @ResponseBody String searchStudent(@RequestBody SearchStudentModel searchInfo, BindingResult bindingResult,
+																HttpServletRequest request, HttpServletResponse response) throws InputInvalidException {
+		LogginUtils.getInstance().logStart(this.getClass(), "searchStudent");
+		LogginUtils.getInstance().logInfo(this.getClass(), searchInfo.toString());
 		
 		//init search validator and check input
 		SearchValidator validator = new SearchValidator();
 		validator.validate(searchInfo, bindingResult);
 		
-		List<StudentListModel> students = new ArrayList<StudentListModel>();
+		List<StudentInfoDto> students = new ArrayList<StudentInfoDto>();
 		
-		//if input is invalid then return empty list student info to client.
 		if (bindingResult.hasErrors()) {
-			return students;
+			LogginUtils.getInstance().logEnd(this.getClass(), "searchStudent");
+			throw new InputInvalidException("Input from client is invalid format");
 		}
-
-		//setup search info before search from database
-		SearchSetup.setup(searchInfo);
-
-		//search from database.
-		students = studentDao.search(searchInfo);
 		
-		//session.setAttribute("search", searchInfo);
+		students = studentService.searchStudent(searchInfo);
 		
-		return students;
+		String json = JsonUtils.objectToJson(students);
+		LogginUtils.getInstance().logEnd(this.getClass(), "searchStudent");
+		
+		return json;
 	}
 }

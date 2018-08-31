@@ -14,13 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.runsystem.datnt.dtos.RoleDto;
+import com.runsystem.datnt.dtos.UserDto;
 
 /**
  * Servlet Filter implementation class CustomFilter
  */
 public class CustomFilter implements Filter {
+	
     /**
      * Default constructor. 
      */
@@ -40,21 +41,19 @@ public class CustomFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
-		//Token token = tokenDao.selectByUsername("admin");
-		
 		HttpServletRequest  req     = (HttpServletRequest) request;
 		HttpServletResponse res     = (HttpServletResponse) response;
 		HttpSession         session = req.getSession();
-		UserDetails userDetails = (UserDetails) session.getAttribute("userDetails");
-		
-		List<String> authorities = new ArrayList<String>();
+		UserDto userDetails = (UserDto) session.getAttribute("user");
 		
 		String requestURI = req.getRequestURI();
 		
 		if (userDetails != null) {
 			
-			for (GrantedAuthority author : userDetails.getAuthorities()) {
-				authorities.add(author.getAuthority());
+			List<String> authorities = new ArrayList<String>();
+			
+			for (RoleDto role : userDetails.getRoles()) {
+				authorities.add(role.getRoleName());
 			}
 			
 			if (requestURI.startsWith("/datnt/home")) {

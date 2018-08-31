@@ -1,0 +1,75 @@
+package com.runsystem.datnt.controllers;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.runsystem.datnt.daos.UserDao;
+import com.runsystem.datnt.dtos.TokenDto;
+import com.runsystem.datnt.dtos.UserDto;
+import com.runsystem.datnt.services.TokenService;
+import com.runsystem.datnt.services.UserService;
+import com.runsystem.datnt.utils.GenerateToken;
+import com.runsystem.datnt.utils.LogginUtils;
+import com.runsystem.datnt.utils.Sha256Hash;
+import com.runsystem.datnt.validations.UserValidator;
+
+@Controller
+public class LoginController {
+
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private TokenService tokenService;
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String pageLoad(Model model, HttpServletRequest request) {
+		return "login";
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String userLogin(@ModelAttribute UserDto userInfo, Model model, HttpServletRequest request, BindingResult bindingResult) {
+		
+		HttpSession session = request.getSession();
+		
+		UserValidator validator = new UserValidator();
+		validator.validate(userInfo, bindingResult);
+		
+		if (bindingResult.hasErrors()) {
+			return "login";
+		}
+	
+		//Load user info from database
+		UserDto user = userService.userLogin(userInfo);
+		
+		//if correct username and password
+		if (user != null) {
+			//Create new token
+			TokenDto newToken = GenerateToken.generate(user.getUsername(), 15);
+				
+			return "redirect:/home";
+		}
+		
+		model.addAttribute("error",true);
+		
+		return "login";
+	}
+	
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        return "redirect:/login?logout";
+    }
+}

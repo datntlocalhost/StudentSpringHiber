@@ -1,0 +1,6 @@
+package com.runsystem.datnt.services;
+
+public interface UserService {
+
+	public UserDto getUserByUsername(String username);
+}

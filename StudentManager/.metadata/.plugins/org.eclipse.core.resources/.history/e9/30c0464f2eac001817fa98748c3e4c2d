@@ -1,0 +1,9 @@
+package com.runsystem.datnt.utils;
+
+public class JsonUtils {
+	
+	public static String objectToJson(Object obj) {
+		
+	}
+
+}

@@ -1,0 +1,6 @@
+package com.runsystem.datnt.exceptions;
+
+public class SelectNullException  extends Exception {
+
+	
+}

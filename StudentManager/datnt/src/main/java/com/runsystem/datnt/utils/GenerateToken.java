@@ -2,13 +2,13 @@ package com.runsystem.datnt.utils;
 
 import java.sql.Timestamp;
 
-import com.runsystem.datnt.entities.Token;
+import com.runsystem.datnt.dtos.TokenDto;
 
 public class GenerateToken {
 	
-	public static Token generate(String username, int minutes) {
+	public static TokenDto generate(String username, int minutes) {
 		
-		Token token = new Token();
+		TokenDto token = new TokenDto();
 		
 		Long times = System.currentTimeMillis();
 		

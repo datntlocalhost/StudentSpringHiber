@@ -52,7 +52,9 @@ $(document).ready(function() {
 			$.ajax({
 				type: 'post',
 				url: '/datnt/admin/search',
-				data: $(this).serialize(),
+				contentType: 'application/json',
+				data: formToJson($(this)),
+				dataType: 'json',
 				success : function(data) {
 				
 					//remove current data in student list datatables
@@ -122,7 +124,9 @@ $(document).ready(function() {
 			$.ajax({
 				type: 'post',
 				url: '/datnt/admin/update',
-				data: $("#js-studentinfo-frm").serialize(),
+				contentType: 'application/json',
+				data: formToJson($(this)),
+				dataType: 'json',
 				success : function(data) {
 					if (!$.trim(data)) {
 						alert("Update failed.");
@@ -163,7 +167,9 @@ $(document).ready(function() {
 		$.ajax({
 			type: 'post',
 			url: '/datnt/admin/delete',
-			data: $("#js-studentinfo-frm").serialize(),
+			contentType: 'application/json',
+			data: formToJson($("#js-studentinfo-frm")),
+			dataType: 'json',
 			success : function(data) {
 				if (data == false) {
 					alert("Delete failed.");
@@ -187,38 +193,36 @@ $(document).ready(function() {
 	 * Create new student.
 	 */
 	$("#js-create-frm").on('submit', function(event) {
-		
-
 		var valid = true;
-		
+
 		if (!validName($("#js-name-crate").val())) {
 			$("#js-name-error-cr").html("Invalid name");
 			valid = false;
 		} else {
 			$("#js-name-error-cr").html("");
 		}
-		
+
 		if (!validPassword($("#js-password-crate").val())) {
 			$("#js-pwd-error-cr").html("Invalid password");
 			valid = false;
 		} else {
 			$("#js-pwd-error-cr").html("");
 		}
-		
+
 		if (!validDate($("#js-birthday-create").val())) {
 			$("#js-date-error-cr").html("Invalid date");
 			valid = false;
 		} else {
 			$("#js-date-error-cr").html("");
 		}
-		
+
 		if (!validPhone($("#js-phone-create").val())) {
 			$("#js-phone-error-cr").html("Invalid phone");
 			valid = false;
 		} else {
 			$("#js-phone-error-cr").html("");
 		}
-		
+
 		if (!validEmail($("#js-email-create").val())) {
 			$("#js-email-error-cr").html("Invalid email");
 			valid = false;
@@ -233,29 +237,61 @@ $(document).ready(function() {
 			$("#js-date-error-cr").html("");
 			$("#js-phone-error-cr").html("");
 			$("#js-email-error-cr").html("");
+			$.ajax({
+				type: 'post',
+				url: '/datnt/admin/create',
+				contentType: 'application/json',
+				data: formToJson($(this)),
+				dataType: 'json',
+				success : function(data) {
+					if (!$.trim(data)) {
+						alert("Create failed.");
+					} else {
+						renderStudent(data, tableStudent);
+						console.log(data);
+						$("#js-student-create").modal('toggle');
+						alert("Create success");
+					}
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+					alert("Create failed.");
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+		}
+		event.preventDefault();
+	});
+	
+	$("#js-student-update").on('submit', function(event) {
+		event.preventDefault();
+		
 		$.ajax({
 			type: 'post',
-			url: '/datnt/admin/create',
-			data: $(this).serialize(),
+			url: '/datnt/student/info',
+			contentType: 'application/json',
+			data: formToJson($(this)),
+			dataType: 'json',
 			success : function(data) {
 				if (!$.trim(data)) {
-					alert("Create failed.");
+					alert("Update failed.");
 				} else {
-					renderStudent(data, tableStudent);
-					$("#js-student-create").modal('toggle');
-					alert("Create success");
+					console.log(data);
+					renderStudentUpdate(data);
+					alert("Update success");
 				}
 			},
 			error : function(e) {
 				console.log("ERROR: ", e);
-				alert("Create failed.");
+				alert("Update failed.");
 			},
 			done : function(e) {
 				console.log("DONE");
 			}
 		});
-		event.preventDefault();
-		}
+		
 	});
 	
 	/*
@@ -280,17 +316,18 @@ $(document).ready(function() {
  */
 function renderSearch(result, table) {
 	for (var i = 0; i < result.length; i++) {
-		
+		var date = new Date(result[i].birthday);
+		var dateFormat =  date.getFullYear() + '-' + ("0"+(date.getMonth()+1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2);
 		table.row.add([
-		               result[i].student.studentCode,
-		               result[i].student.studentName,
-		               result[i].records.sex,
-		               result[i].records.birthday,
-		               result[i].school.schoolCode,
-		               result[i].student.startYear,
-		               result[i].records.phone,
-		               result[i].records.email,
-		               result[i].records.address
+		               result[i].studentCode,
+		               result[i].studentName,
+		               result[i].sex,
+		               dateFormat,
+		               result[i].schoolCode,
+		               result[i].schoolYear,
+		               result[i].phone,
+		               result[i].email,
+		               result[i].address
 		]).draw(false);
 	}
 }
@@ -302,10 +339,36 @@ function renderStudent(result, table) {
 	               result.studentName,
 	               result.sex,
 	               result.birthday,
-	               result.school,
+	               result.schoolCode,
 	               result.schoolYear,
 	               result.phone,
 	               result.email,
 	               result.address
 	               ]).draw(false);
 }
+
+function renderStudentUpdate(data) {
+	$("#js-phone-create").val(data.phone);
+	$("#js-email-create").val(data.email);
+	$("#js-address-create").val(data.address);
+}
+
+function formToJson(formData) {
+	var data = formData.serialize();
+	console.log(data);
+	var array = data.split('&');
+	var string = '{';
+	for (var i = 0; i < array.length; i++) {
+		var temp = array[i].split('=');
+		temp[1] = temp[1].replace(new RegExp('%20', 'g'),' ');
+		temp[1] = temp[1].replace(new RegExp('%40', 'g'),'@');
+		if (i == array.length - 1) {
+			string += '"' + temp[0] + '" : "' + temp[1] + '"}';
+		} else {
+			string += '"' + temp[0] + '" : "' + temp[1] + '", ';
+		}
+	}
+	console.log(string);
+	return string;
+}
+

@@ -1,0 +1,8 @@
+package com.runsystem.datnt.dtos;
+
+import lombok.Data;
+
+@Data
+public class SchoolDto {
+
+}

@@ -1,0 +1,6 @@
+package com.runsystem.datnt.services;
+
+public interface TokenService {
+
+	public boolean createToken(String username);
+}

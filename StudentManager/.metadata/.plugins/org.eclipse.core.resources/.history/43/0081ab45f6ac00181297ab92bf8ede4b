@@ -1,0 +1,86 @@
+package com.runsystem.datnt.utils;
+
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.DailyRollingFileAppender;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.hibernate.query.Query;
+
+public class LogginUtils {
+
+	private static Logger ROOT_LOGGER;
+	
+	private static ConsoleAppender STDOUT_LOGGER;
+	
+	private static FileAppender FILE_LOGGER;
+	
+	private static DailyRollingFileAppender DAILY_FILE_LOGGER;
+	
+	private static LogginUtils instance = null;
+	
+	private LogginUtils() {
+		
+		ROOT_LOGGER = Logger.getRootLogger();
+		STDOUT_LOGGER = new ConsoleAppender();
+		FILE_LOGGER = new FileAppender();
+		DAILY_FILE_LOGGER = new DailyRollingFileAppender();
+		
+		PatternLayout layout = new PatternLayout();
+		layout.setConversionPattern("[%p] %d{yyyy/MM/dd HH:mm:ss} %c - %m%n");
+		
+		STDOUT_LOGGER.setLayout(layout);
+		STDOUT_LOGGER.setTarget("System.out");
+		STDOUT_LOGGER.activateOptions();
+		
+		FILE_LOGGER.setFile("logs/program.log");
+		FILE_LOGGER.setLayout(layout);
+		FILE_LOGGER.activateOptions();
+		
+		DAILY_FILE_LOGGER.setFile("logs/Web");
+		DAILY_FILE_LOGGER.setDatePattern("'_'yyyyMMdd'.log'");
+		DAILY_FILE_LOGGER.setLayout(layout);
+		DAILY_FILE_LOGGER.activateOptions();
+		
+		ROOT_LOGGER.setLevel(Level.INFO);
+		ROOT_LOGGER.addAppender(STDOUT_LOGGER);
+		ROOT_LOGGER.addAppender(FILE_LOGGER);
+		ROOT_LOGGER.addAppender(DAILY_FILE_LOGGER);
+	}
+	
+	public static LogginUtils getInstance() {
+		if (instance == null) {
+			instance = new LogginUtils();
+		}
+		return instance;
+	}
+	
+	private Logger getLogger(Class<?> clazz) {
+		return Logger.getLogger(clazz);
+	}
+	
+	public void logStart(Class<?> clazz, String method) {
+		Logger logger = getLogger(clazz);
+		logger.info("[METHOD] " + method + " - [START]");
+	}
+	
+	public void logEnd(Class<?> clazz, String method) {
+		Logger logger = getLogger(clazz);
+		logger.info("[METHOD] " + method + " - [END]");
+	}
+	
+	public void logQuery(Class<?> clazz, Query<?> query) {
+		Logger logger = getLogger(clazz);
+		logger.info("[EXECUTE QUERY]" + ParameterUtils.paramToString(query));		
+	}
+	
+	public void logResult(Class<?> clazz, Object obj) {
+		
+	}
+	
+	public void logError(Class<?> clazz, Exception ex) {
+		Logger logger = getLogger(clazz);
+		logger.error("[ERROR] " + ex);
+	}
+}

@@ -1,0 +1,12 @@
+package com.runsystem.datnt.services;
+
+import com.runsystem.datnt.dtos.StudentInfoDto;
+import com.runsystem.datnt.models.StudentModel;
+
+
+public interface StudentService {
+	
+	public boolean deleteStudent(String Studentcode);
+	public StudentModel createStudent(StudentModel studentInfo);
+	public StudentInfoDto selectByCode(String code);
+}
