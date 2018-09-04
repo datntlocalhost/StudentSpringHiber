@@ -1,5 +1,6 @@
 package com.runsystem.datnt.services.impl;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import com.runsystem.datnt.utils.LogginUtils;
 import com.runsystem.datnt.utils.Sha256Hash;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
 	@Autowired
@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private RoleDao roleDao;
 	
+	@Transactional
 	public UserDto getUserByUsername(String username) {
 		LogginUtils.getInstance().logStart(this.getClass(), "getUserByUsername");
 		
@@ -41,9 +42,12 @@ public class UserServiceImpl implements UserService {
 				user.setRoles(roles);
 			}
 			
-		} catch (Exception ex) {
-			
+		} catch (IOException e) {
+			LogginUtils.getInstance().logError(this.getClass(), e);
 		}
+		
+		LogginUtils.getInstance().logEnd(this.getClass(), "getUserByUsername");
+		
 		return user;
 	}
 
@@ -54,6 +58,7 @@ public class UserServiceImpl implements UserService {
 	 * 
 	 * @return UserDto
 	 */
+	@Transactional
 	public UserDto userLogin(UserDto userInfo) {
 		LogginUtils.getInstance().logStart(this.getClass(), "userLogin");
 		
@@ -69,8 +74,8 @@ public class UserServiceImpl implements UserService {
 			
 			user.setRoles(roles);
 			
-		} catch (Exception ex) {
-			LogginUtils.getInstance().logError(this.getClass(), ex);
+		} catch (IOException e) {
+			LogginUtils.getInstance().logError(this.getClass(), e);
 		}
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "userLogin");

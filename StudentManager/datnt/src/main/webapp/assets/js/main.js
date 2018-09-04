@@ -1,6 +1,8 @@
+var tableStudent;
+
 $(document).ready(function() {
 	
-	var tableStudent = $("#student-table").DataTable({
+	tableStudent = $("#student-table").DataTable({
 		paging:   true,
 		info : true,
 		searching: true,
@@ -56,13 +58,7 @@ $(document).ready(function() {
 				data: formToJson($(this)),
 				dataType: 'json',
 				success : function(data) {
-				
-					//remove current data in student list datatables
-					tableStudent.rows().remove().draw();
-					
-					//render new student list	
-					renderSearch(data, tableStudent);
-				
+					responseProcess(data);
 				},
 				error : function(e) {
 					console.log("ERROR: ", e);
@@ -79,6 +75,7 @@ $(document).ready(function() {
 	/*
 	 * Process submit update student info form.
 	 */
+	
 	$("#js-studentinfo-frm").on('submit',function(event) {
 		
 		var valid = true;
@@ -128,23 +125,7 @@ $(document).ready(function() {
 				data: formToJson($(this)),
 				dataType: 'json',
 				success : function(data) {
-					if (!$.trim(data)) {
-						alert("Update failed.");
-					} else {
-						//Re-render student's info after update success.
-						var data = tableStudent.row('.selected').data();
-						data[0] = $("#js-hide-md").val();
-						data[1] = $("#js-name-md").val();
-						data[2] = $("#js-sex-md").val();
-						data[3] = $("#js-birthday-md").val();
-						data[4] = $("#js-school-md").val();
-						data[5] = $("#js-schoolyear-md").val();
-						data[6] = $("#js-phone-md").val();
-						data[7] = $("#js-email-md").val();
-						data[8] = $("#js-address-md").val();
-						tableStudent.row('.selected').data(data).draw();
-						alert("Update success");
-					}
+					responseProcess(data);
 				},
 				error : function(e) {
 					console.log("ERROR: ", e);
@@ -171,12 +152,7 @@ $(document).ready(function() {
 			data: formToJson($("#js-studentinfo-frm")),
 			dataType: 'json',
 			success : function(data) {
-				if (data == false) {
-					alert("Delete failed.");
-				} else {
-					tableStudent.row('.selected').remove().draw();
-					alert("Delete success");
-				}
+				responseProcess(data);
 			},
 			error : function(e) {
 				console.log("ERROR: ", e);
@@ -194,7 +170,7 @@ $(document).ready(function() {
 	 */
 	$("#js-create-frm").on('submit', function(event) {
 		var valid = true;
-
+		
 		if (!validName($("#js-name-crate").val())) {
 			$("#js-name-error-cr").html("Invalid name");
 			valid = false;
@@ -229,7 +205,7 @@ $(document).ready(function() {
 		} else {
 			$("#js-email-error-cr").html("");
 		}
-
+	
 		if (valid == false) {
 			event.preventDefault();
 		} else {
@@ -244,14 +220,7 @@ $(document).ready(function() {
 				data: formToJson($(this)),
 				dataType: 'json',
 				success : function(data) {
-					if (!$.trim(data)) {
-						alert("Create failed.");
-					} else {
-						renderStudent(data, tableStudent);
-						console.log(data);
-						$("#js-student-create").modal('toggle');
-						alert("Create success");
-					}
+					responseProcess(data);
 				},
 				error : function(e) {
 					console.log("ERROR: ", e);
@@ -266,31 +235,43 @@ $(document).ready(function() {
 	});
 	
 	$("#js-student-update").on('submit', function(event) {
-		event.preventDefault();
+		var valid = true;
+		if (!validPhone($("#js-phone-create").val())) {
+			$("#js-phone-error-cr").html("Invalid phone");
+			valid = false;
+		} else {
+			$("#js-phone-error-cr").html("");
+		}
+
+		if (!validEmail($("#js-email-create").val())) {
+			$("#js-email-error-cr").html("Invalid email");
+			valid = false;
+		} else {
+			$("#js-email-error-cr").html("");
+		}
 		
-		$.ajax({
-			type: 'post',
-			url: '/datnt/student/info',
-			contentType: 'application/json',
-			data: formToJson($(this)),
-			dataType: 'json',
-			success : function(data) {
-				if (!$.trim(data)) {
+		if (valid == true) {
+			$("#js-phone-error-cr").html("");
+			$("#js-email-error-cr").html("");
+			$.ajax({
+				type: 'post',
+				url: '/datnt/student/info',
+				contentType: 'application/json',
+				data: formToJson($(this)),
+				dataType: 'json',
+				success : function(data) {
+					responseProcess(data);
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
 					alert("Update failed.");
-				} else {
-					console.log(data);
-					renderStudentUpdate(data);
-					alert("Update success");
+				},
+				done : function(e) {
+					console.log("DONE");
 				}
-			},
-			error : function(e) {
-				console.log("ERROR: ", e);
-				alert("Update failed.");
-			},
-			done : function(e) {
-				console.log("DONE");
-			}
-		});
+			});
+		}
+		event.preventDefault();
 		
 	});
 	
@@ -308,6 +289,62 @@ $(document).ready(function() {
 
 });
 
+function responseProcess(data) {
+	var header = data.headerPackage;
+	
+	switch (header) {
+	case "AUTH_REQUIREMENT":
+		window.location.replace("/datnt/login?token=false");
+		break;
+	case "INPUT_INVALID":
+		alert("Input invalid");
+		break;
+	case "SEARCH":
+		//remove current data in student list datatables
+		tableStudent.rows().remove().draw();
+		//render new student list	
+		renderSearch(data.data, tableStudent);
+		break;
+	case "CREATE_SUCCESS":
+		renderStudent(data.data, tableStudent);
+		$("#js-student-create").modal('toggle');
+		alert("Create success");
+		break;
+	case "DELETE_SUCCESS":
+		tableStudent.row('.selected').remove().draw();
+		alert("Delete success");
+		break;
+	case "UPDATE_SUCCESS":
+		var dataRow = tableStudent.row('.selected').data();
+		dataRow[0] = $("#js-hide-md").val();
+		dataRow[1] = $("#js-name-md").val();
+		dataRow[2] = $("#js-sex-md").val();
+		dataRow[3] = $("#js-birthday-md").val();
+		dataRow[4] = $("#js-school-md").val();
+		dataRow[5] = $("#js-schoolyear-md").val();
+		dataRow[6] = $("#js-phone-md").val();
+		dataRow[7] = $("#js-email-md").val();
+		dataRow[8] = $("#js-address-md").val();
+		tableStudent.row('.selected').data(dataRow).draw();
+		alert("Update success");
+		break;
+	case "STUDENT_UPDATE":
+		renderStudentUpdate(data.data[0]);
+		alert("Update success");
+		break;
+	case "CREATE_ERROR":
+		alert("Create failed");
+		break;
+	case "DELETE_ERROR":
+		alert("Delete failed");		
+		break;
+	case "UPDATE_ERROR":
+		alert("Update failed");
+		break;
+	default:
+		break;
+	}
+}
 
 /*
  * Render list of student on datatable student list.
@@ -333,18 +370,19 @@ function renderSearch(result, table) {
 }
 
 function renderStudent(result, table) {
-
-	table.row.add([
-	               result.studentCode,
-	               result.studentName,
-	               result.sex,
-	               result.birthday,
-	               result.schoolCode,
-	               result.schoolYear,
-	               result.phone,
-	               result.email,
-	               result.address
-	               ]).draw(false);
+	for (var i = 0; i < result.length; i++) {
+		table.row.add([
+		               result[i].studentCode,
+		               result[i].studentName,
+		               result[i].sex,
+		               result[i].birthday,
+		               result[i].schoolCode,
+		               result[i].schoolYear,
+		               result[i].phone,
+		               result[i].email,
+		               result[i].address
+		               ]).draw(false);
+	}
 }
 
 function renderStudentUpdate(data) {
@@ -355,7 +393,6 @@ function renderStudentUpdate(data) {
 
 function formToJson(formData) {
 	var data = formData.serialize();
-	console.log(data);
 	var array = data.split('&');
 	var string = '{';
 	for (var i = 0; i < array.length; i++) {
@@ -368,7 +405,6 @@ function formToJson(formData) {
 			string += '"' + temp[0] + '" : "' + temp[1] + '", ';
 		}
 	}
-	console.log(string);
 	return string;
 }
 

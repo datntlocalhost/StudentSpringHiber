@@ -80,9 +80,15 @@ public class LoginController {
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
 		LogginUtils.getInstance().logStart(this.getClass(), "logoutPage");
+		HttpSession session = request.getSession();
+		
+		UserDto user = (UserDto) session.getAttribute("user");
+		
+		if (user != null) {
+			LogginUtils.getInstance().logContent(this.getClass(), user.getUsername() + " logout");
+		}
 		
         //Remove session
-		HttpSession session = request.getSession();
         session.invalidate();
         
         LogginUtils.getInstance().logEnd(this.getClass(), "logoutPage");

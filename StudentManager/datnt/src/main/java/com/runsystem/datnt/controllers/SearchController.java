@@ -15,9 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.runsystem.datnt.dtos.StudentInfoDto;
+import com.runsystem.datnt.exceptions.AuthException;
 import com.runsystem.datnt.exceptions.InputInvalidException;
+import com.runsystem.datnt.models.ResponePackage;
 import com.runsystem.datnt.models.SearchStudentModel;
 import com.runsystem.datnt.services.StudentService;
+import com.runsystem.datnt.services.TokenService;
+import com.runsystem.datnt.utils.HeaderPackage;
 import com.runsystem.datnt.utils.JsonUtils;
 import com.runsystem.datnt.utils.LogginUtils;
 import com.runsystem.datnt.validations.SearchValidator;
@@ -27,6 +31,9 @@ public class SearchController {
 	
 	@Autowired
 	private StudentService studentService;
+	
+	@Autowired
+	private TokenService tokenService;
 
 	/*
 	 * This controller get POST request contain search info from client. select from database and return result
@@ -38,11 +45,16 @@ public class SearchController {
 	 * @param response
 	 * 
 	 * @return list of Student List Model object
+	 * 
+	 * @throws InputInvalidException, AuthException
 	 */
 	@RequestMapping(value = "/admin/search", method = RequestMethod.POST)
 	public @ResponseBody String searchStudent(@RequestBody SearchStudentModel searchInfo, BindingResult bindingResult,
-																HttpServletRequest request, HttpServletResponse response) throws InputInvalidException {
+																HttpServletRequest request, HttpServletResponse response) throws InputInvalidException, AuthException {
 		LogginUtils.getInstance().logStart(this.getClass(), "searchStudent");
+		
+		tokenService.checkValidToken(request.getSession());
+		
 		LogginUtils.getInstance().logInfo(this.getClass(), searchInfo.toString());
 		
 		//init search validator and check input
@@ -58,7 +70,10 @@ public class SearchController {
 		
 		students = studentService.searchStudent(searchInfo);
 		
-		String json = JsonUtils.objectToJson(students);
+		ResponePackage<StudentInfoDto> responePackage = new ResponePackage<StudentInfoDto>(HeaderPackage.SEARCH);
+		responePackage.setData(students);
+		
+		String json = JsonUtils.objectToJson(responePackage);
 		LogginUtils.getInstance().logEnd(this.getClass(), "searchStudent");
 		
 		return json;

@@ -1,0 +1,12 @@
+1535975320842	Rename resource 'update_records.sql'
+1535975332783	Rename resource 'insert_records.sql'
+1535975341696	Rename resource 'delete_records.sql'
+1535975974342	Rename resource 'select_school_id_by_code.sql'
+1535976470670	Rename resource 'update_student.sql'
+1535976536910	Rename resource 'select_student_by_code.sql'
+1535976941949	Rename resource 'search_student_with_date.sql'
+1535976954298	Rename resource 'search_student.sql'
+1535983667087	Rename type 'PackageHeader'
+1535984274762	Rename type 'RedirectURI'
+1535994409613	Delete element
+1535994417425	Delete element

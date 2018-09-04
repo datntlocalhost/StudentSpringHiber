@@ -1,9 +1,0 @@
-package com.runsystem.datnt.daos.interfaces;
-
-import com.runsystem.datnt.entities.Student;
-
-public interface StudentDao {
-	
-	public Student createStudent()
-
-}

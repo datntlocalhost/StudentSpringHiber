@@ -76,11 +76,13 @@
 	        					
 	        					<div class="form-group">
 	        						<label for="studentcode">Phone</label>
+	        						<div id="js-phone-error-cr" style="color: red;"></div>
 	        						<input id="js-phone-create" class="form-control" name="phone" type="text" value="${student.phone}">
 	        					</div>
 	        					
 	        					<div class="form-group">
 	        						<label for="studentcode">Email</label>
+	        						<div id="js-email-error-cr" style="color: red;"></div>
 	        						<input id="js-email-create" class="form-control" name="email" type="text" value="${student.email}">
 	        					</div>
 	        					
@@ -106,6 +108,7 @@
 	<%@ include file="footer.jsp"%>
 	<%@ include file="base-script.jsp"%>
 	<script src="<c:url value="/js/jquery.dataTables.min.js" />"></script>
+	<script src="<c:url value="/js/validator.js" />"></script>
 	<script src="<c:url value="/js/main.js" />"></script>
 	<c:if test="${success}">
 		<script>

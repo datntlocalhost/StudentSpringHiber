@@ -1,0 +1,56 @@
+package com.runsystem.datnt.utils;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class SqlUtils {
+	
+	public static final String SCHOOL_LIST              = "sql/school_list.sql";
+	public static final String SCHOOL_ID_BY_CODE        = "sql/school_id_by_code.sql";
+	
+	public static final String STUDENT_LIST			    = "sql/student_list.sql";
+	public static final String STUDENT_INSERT			= "sql/student_insert.sql";
+	public static final String STUDENT_DELETE			= "sql/student_delete.sql";
+	public static final String STUDENT_UPDATE			= "sql/student_update.sql";
+	public static final String SEARCH_STUDENT           = "sql/search_student.sql";
+	public static final String SEARCH_STUDENT_WITH_DATE = "sql/search_student_with_date.sql";
+	public static final String STUDENT_SELECT_BY_CODE   = "sql/student_select_by_code.sql";
+	public static final String STUDENT_ID_BY_CODE		= "sql/student_id_by_code.sql";
+	public static final String STUDENT_MAX_ID			= "sql/student_select_max_id.sql";
+	
+	public static final String RECORDS_INSERT           = "sql/records_insert.sql";
+	public static final String RECORDS_DELETE		    = "sql/records_delete.sql";
+	public static final String RECORDS_UPDATE			= "sql/records_update.sql";
+	
+	public static final String ROLE_SELECT_BY_USERID	= "sql/role_select_by_userid.sql";
+	
+	
+	/*
+	 * Read query string from the file .sql and return a query string.
+	 * 
+	 * @param path
+	 * 		  path of the .sql file
+	 * 
+	 * @return string
+	 * 
+	 * @throws IOException
+	 */
+	public static String getSQL(String path) throws IOException {
+		
+		ClassLoader classLoader = SqlUtils.class.getClassLoader();
+		
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(classLoader.getResource(path).getFile()));
+		
+		StringBuilder stringBuilder = new StringBuilder();
+		
+		String string;
+		
+		while ( (string = bufferedReader.readLine()) != null ) {
+			stringBuilder.append(string);
+		}
+		
+		bufferedReader.close();
+		return stringBuilder.toString();
+	}
+}

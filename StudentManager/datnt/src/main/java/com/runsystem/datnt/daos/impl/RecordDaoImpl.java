@@ -1,5 +1,7 @@
 package com.runsystem.datnt.daos.impl;
 
+import java.io.IOException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -12,6 +14,7 @@ import com.runsystem.datnt.exceptions.DeleteException;
 import com.runsystem.datnt.exceptions.InsertException;
 import com.runsystem.datnt.exceptions.UpdateException;
 import com.runsystem.datnt.utils.LogginUtils;
+import com.runsystem.datnt.utils.SqlUtils;
 
 @Repository
 public class RecordDaoImpl implements RecordDao{
@@ -24,27 +27,15 @@ public class RecordDaoImpl implements RecordDao{
 	 * 
 	 * @param recorddto
 	 * 
-	 * @throws InsertException
+	 * @throws InsertException, IOException
 	 */
-	public void insert(RecordDto record) throws InsertException {
+	public void insert(RecordDto record) throws InsertException, IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "insert");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "INSERT INTO RECORDS(" + 
-							 "	student_id,"        + 
-							 "	records_sex,"       + 
-							 "	records_birthday,"  + 
-							 "	records_phone,"     + 
-							 "	records_email,"     + 
-							 "	records_address)"   + 
-							 "VALUES("              + 
-							 "	:id,"  				+ 
-							 "	:sex," 				+ 
-							 "	:birthday,"			+ 
-							 "	:phone," 			+ 
-							 "	:email," 			+ 
-							 "	:address)";
+		String queryString = SqlUtils.getSQL(SqlUtils.RECORDS_INSERT);
+		
 		boolean success = true;
 		
 		try {
@@ -78,14 +69,14 @@ public class RecordDaoImpl implements RecordDao{
 	 * 
 	 * @param id
 	 * 
-	 * @throws DeleteException
+	 * @throws DeleteException, IOException
 	 */
-	public void delete(int id) throws DeleteException {
+	public void delete(int id) throws DeleteException, IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "delete");
 		
 		Session session = sessionFactory.getCurrentSession();
 				
-		String queryString = "DELETE FROM RECORDS WHERE student_id = :id";
+		String queryString = SqlUtils.getSQL(SqlUtils.RECORDS_DELETE);
 		
 		boolean success = true;
 		
@@ -116,22 +107,15 @@ public class RecordDaoImpl implements RecordDao{
 	 * 
 	 * @param record
 	 * 
-	 * @throws UpdateException
+	 * @throws UpdateException, IOException
 	 */
-	public void update(RecordDto record) throws UpdateException {
+	public void update(RecordDto record) throws UpdateException, IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "update");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "UPDATE RECORDS " 				   + 
-							 "SET " 						   + 
-							 "	records_sex = :sex,"           + 
-							 "	records_birthday = :birthday," + 
-							 "	records_phone = :phone,"       + 
-							 "	records_email = :email,"       + 
-							 "	records_address = :address "   + 
-							 "WHERE "                          +
-							 "	student_id = :id";
+		String queryString = SqlUtils.getSQL(SqlUtils.RECORDS_UPDATE);
+		
 		boolean success = true;
 		
 		try {

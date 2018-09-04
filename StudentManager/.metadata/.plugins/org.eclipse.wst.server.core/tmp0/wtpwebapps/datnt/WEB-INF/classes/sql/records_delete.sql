@@ -1,0 +1,1 @@
+DELETE FROM RECORDS WHERE student_id = :id

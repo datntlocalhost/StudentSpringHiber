@@ -1,5 +1,6 @@
 package com.runsystem.datnt.daos.impl;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -14,10 +15,10 @@ import com.runsystem.datnt.dtos.StudentDto;
 import com.runsystem.datnt.dtos.StudentInfoDto;
 import com.runsystem.datnt.exceptions.DeleteException;
 import com.runsystem.datnt.exceptions.InsertException;
-import com.runsystem.datnt.exceptions.SelectNullException;
 import com.runsystem.datnt.exceptions.UpdateException;
 import com.runsystem.datnt.models.SearchStudentModel;
 import com.runsystem.datnt.utils.LogginUtils;
+import com.runsystem.datnt.utils.SqlUtils;
 
 @Repository
 public class StudentDaoImpl implements StudentDao {
@@ -32,16 +33,14 @@ public class StudentDaoImpl implements StudentDao {
 	 * 
 	 * @throws SelectNullException
 	 */
-	public Integer nextPK() throws SelectNullException {
+	public Integer nextPK() throws IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "nextPK");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "SELECT MAX(student_id) FROM STUDENT";
+		String queryString = SqlUtils.getSQL(SqlUtils.STUDENT_MAX_ID);
 		
 		Integer id = null;
-		
-		boolean success = true;
 		
 		try {
 			@SuppressWarnings("unchecked")
@@ -52,17 +51,12 @@ public class StudentDaoImpl implements StudentDao {
 			id = query.getSingleResult();
 			
 		} catch (Exception ex) {
-			success = false;
 			LogginUtils.getInstance().logError(this.getClass(), ex);
 		}
 		
 		LogginUtils.getInstance().logResult(this.getClass(), id);
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "nextPK");
-		
-		if (id == null && !success) {
-			throw new SelectNullException("Select next primary key from STUDENT talbe is null.");
-		}
 		
 		if (id == null) {
 			return 1;
@@ -79,13 +73,12 @@ public class StudentDaoImpl implements StudentDao {
 	 * @throw InsertException
 	 */
 	@SuppressWarnings("unchecked")
-	public void insert(StudentDto student) throws InsertException {
+	public void insert(StudentDto student) throws InsertException, IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "insert");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "INSERT INTO STUDENT(student_id, student_code, student_name, student_startyear, school_id) " + 
-							 "VALUES(:id, :code, :name, :schoolyear, :schoolid)";
+		String queryString = SqlUtils.getSQL(SqlUtils.STUDENT_INSERT);
 		
 		boolean success = true;
 		
@@ -122,12 +115,12 @@ public class StudentDaoImpl implements StudentDao {
 	 * 
 	 * @throws DeleteException
 	 */
-	public void delete(int id) throws DeleteException {
+	public void delete(int id) throws DeleteException, IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "delete");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "DELETE FROM STUDENT WHERE student_id = :id";
+		String queryString = SqlUtils.getSQL(SqlUtils.STUDENT_DELETE);
 		
 		boolean success = true;
 		
@@ -160,19 +153,12 @@ public class StudentDaoImpl implements StudentDao {
 	 * 
 	 * @throws UpdateException
 	 */
-	public void update(StudentDto student) throws UpdateException {
+	public void update(StudentDto student) throws UpdateException, IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "update");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "UPDATE STUDENT "                     + 
-							 "SET"                                 + 
-							 "   student_code = :code,"            +
-							 "   student_name = :name,"            +
-							 "   student_startyear = :schoolyear," +
-							 "   school_id = :schoolid "           + 
-							 "WHERE"                               + 
-							 "   student_id = :id";
+		String queryString = SqlUtils.getSQL(SqlUtils.STUDENT_UPDATE);
 		
 		boolean success = true;
 		
@@ -213,29 +199,14 @@ public class StudentDaoImpl implements StudentDao {
 	 * @throws SelectNullException
 	 */
 	@SuppressWarnings("deprecation")
-	public StudentInfoDto selectStudentByCode(String code) throws SelectNullException {
+	public StudentInfoDto selectStudentByCode(String code) throws IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "selectStudentByCode");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
 		StudentInfoDto student = null;
 		
-		String queryString = "SELECT " 								  +
-							 "	 st.student_id   as studentId," 	  +
-							 "	 st.student_code as studentCode," 	  +
-							 "	 st.student_name as studentName," 	  +
-							 "	 st.student_startyear as schoolYear," +
-							 "	 sc.school_code  as schoolCode," 	  +
-							 "	 r.records_sex   as sex," 			  +
-							 "	 r.records_birthday as birthday," 	  +
-							 "	 r.records_phone as phone," 		  +
-							 "	 r.records_email as email," 		  +
-							 "	 r.records_address as address " 	  +
-							 "FROM STUDENT st, RECORDS r, SCHOOL sc " +
-							 "WHERE " 								  + 
-							 "   st.student_id = r.student_id " 	  +
-							 "	 AND st.school_id = sc.school_id " 	  +
-							 "	 AND st.student_code = :code";
+		String queryString = SqlUtils.getSQL(SqlUtils.STUDENT_SELECT_BY_CODE);
 		
 		try {
 			
@@ -258,10 +229,6 @@ public class StudentDaoImpl implements StudentDao {
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "selectStudentByCode");
 		
-		if (student == null) {
-			throw new SelectNullException("Select student by code from STUDENT table is null.");
-		}
-		
 		return student;
 	}
 
@@ -274,14 +241,12 @@ public class StudentDaoImpl implements StudentDao {
 	 * 
 	 * @throws SelectNullException
 	 */
-	public Integer getIdByCode(String code) throws SelectNullException {
+	public Integer getIdByCode(String code) throws IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "getIdByCode");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "SELECT st.student_id "
-						   + "FROM STUDENT st "
-						   + "WHERE st.student_code = :code";
+		String queryString = SqlUtils.getSQL(SqlUtils.STUDENT_ID_BY_CODE);
 		
 		Integer studentId = null;
 		
@@ -303,10 +268,6 @@ public class StudentDaoImpl implements StudentDao {
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "getIdByCode");
 		
-		if (studentId == null) {
-			throw new SelectNullException("Select student's id by code from STUDENT table is null");
-		}
-		
 		return studentId;
 	}
 
@@ -318,12 +279,12 @@ public class StudentDaoImpl implements StudentDao {
 	 * @throws SelectNulLException
 	 */
 	@SuppressWarnings("unchecked")
-	public String getMaxCode() {
+	public String getMaxCode() throws IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "getMaxCode");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString  = "SELECT MAX(student_code) FROM STUDENT";
+		String queryString  = SqlUtils.getSQL(SqlUtils.STUDENT_MAX_CODE);
 		
 		String code = null;
 		
@@ -353,32 +314,13 @@ public class StudentDaoImpl implements StudentDao {
 	 * @throws SelectNullException
 	 */
 	@SuppressWarnings({ "deprecation", "unchecked" })
-	public List<StudentInfoDto> list() throws SelectNullException {
+	public List<StudentInfoDto> list() throws IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "list");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "SELECT " 							 +
-							 "  st.student_id as studentId,"      +
-							 "	st.student_code as studentCode," +
-							 "	st.student_name as studentName," +
-							 "	st.student_startyear as schoolYear," +
-							 "	st.school_id as schoolId," 		 +
-							 "	sc.school_code as schoolCode," 	 +
-							 "	r.records_sex as sex," 			 +
-							 "	r.records_birthday as birthday," +
-							 "	r.records_phone as phone," 		 +
-							 "	r.records_email as email," 		 +
-							 "	r.records_address as address " 	 + 
-							 "FROM " 							 + 
-							 "	STUDENT st," 					 +
-							 "	RECORDS r," 					 +
-							 "	SCHOOL sc " 					 +
-							 "WHERE " 							 +
-							 "	st.student_id = r.student_id AND" +
-							 "	st.school_id = sc.school_id";
+		String queryString = SqlUtils.getSQL(SqlUtils.STUDENT_LIST);
 							 
-		
 		List<StudentInfoDto> students = null;
 		
 		try {
@@ -398,10 +340,6 @@ public class StudentDaoImpl implements StudentDao {
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "list");
 		
-		if (students == null) {
-			throw new SelectNullException("Select list of student info from database is null");
-		}
-		
 		return students;
 	}
 
@@ -415,41 +353,20 @@ public class StudentDaoImpl implements StudentDao {
 	 * @throws SelectNullException
 	 */
 	@SuppressWarnings({ "unchecked", "deprecation" })
-	public List<StudentInfoDto> search(SearchStudentModel searchInfo) throws SelectNullException {
-LogginUtils.getInstance().logStart(this.getClass(), "search");
+	public List<StudentInfoDto> search(SearchStudentModel searchInfo) throws IOException {
+		LogginUtils.getInstance().logStart(this.getClass(), "search");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "SELECT " 							 +
-							 "  st.student_id as studentId,"      +
-							 "	st.student_code as studentCode," +
-							 "	st.student_name as studentName," +
-							 "	st.student_startyear as schoolYear," +
-							 "	st.school_id as schoolId," 		 +
-							 "	sc.school_code as schoolCode," 	 +
-							 "	r.records_sex as sex," 			 +
-							 "	r.records_birthday as birthday," +
-							 "	r.records_phone as phone," 		 +
-							 "	r.records_email as email," 		 +
-							 "	r.records_address as address " 	 + 
-							 "FROM " 							 + 
-							 "	STUDENT st," 					 +
-							 "	RECORDS r," 					 +
-							 "	SCHOOL sc " 					 +
-							 "WHERE " 							 +
-							 "	st.student_id = r.student_id AND" +
-							 "	st.school_id = sc.school_id AND" + 
-							 "  st.student_code like :studentcode AND" + 
-							 "  st.student_name like :studentname AND" + 
-							 "  r.records_sex like :sex AND" + 
-							 "  st.school_id like :schoolid ";
+		String queryString = null;
 		
 		boolean hasDateSearch = false;
 		
 		if (!searchInfo.getDateFrom().isEmpty() && !searchInfo.getDateTo().isEmpty()) {
 			hasDateSearch = true;
-			
-			queryString += "AND r.records_birthday >= :dateFrom  AND r.records_birthday <= :dateTo";
+			queryString = SqlUtils.getSQL(SqlUtils.STUDENT_SEARCH_WITH_DATE);
+		} else {
+			queryString = SqlUtils.getSQL(SqlUtils.STUDENT_SEARCH);
 		}
 		
 		List<StudentInfoDto> students = null;
@@ -480,10 +397,6 @@ LogginUtils.getInstance().logStart(this.getClass(), "search");
 		LogginUtils.getInstance().logResult(this.getClass(), students);
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "search");
-		
-		if (students == null) {
-			throw new SelectNullException("Search list of student info from database is null");
-		}
 		
 		return students;
 	}

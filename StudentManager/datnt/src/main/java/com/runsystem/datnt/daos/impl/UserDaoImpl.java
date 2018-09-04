@@ -1,5 +1,7 @@
 package com.runsystem.datnt.daos.impl;
 
+import java.io.IOException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -11,9 +13,9 @@ import com.runsystem.datnt.daos.UserDao;
 import com.runsystem.datnt.dtos.UserDto;
 import com.runsystem.datnt.exceptions.DeleteException;
 import com.runsystem.datnt.exceptions.InsertException;
-import com.runsystem.datnt.exceptions.SelectNullException;
 import com.runsystem.datnt.exceptions.UpdateException;
 import com.runsystem.datnt.utils.LogginUtils;
+import com.runsystem.datnt.utils.SqlUtils;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -28,17 +30,15 @@ public class UserDaoImpl implements UserDao {
 	 * 
 	 * @return user
 	 * 
-	 * @throws SelectNullException
+	 * @throws IOException
 	 */
 	@SuppressWarnings({ "unchecked", "deprecation" })
-	public UserDto selectByUsername(String username) throws SelectNullException {
+	public UserDto selectByUsername(String username) throws IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "selectByUsername");
 		
 		Session     session     = sessionFactory.getCurrentSession();
 		
-		String userQuery = "SELECT u.user_id as userId, u.user_username as username, u.user_password as password " + 
-						   "FROM USER u " + 
-						   "WHERE user_username = :username"; 
+		String userQuery = SqlUtils.getSQL(SqlUtils.USER_SELECT_BY_USERNAME);
 		
 		UserDto user = null;
 
@@ -50,9 +50,7 @@ public class UserDaoImpl implements UserDao {
 			
 			LogginUtils.getInstance().logQuery(this.getClass(), query);
 			
-			user = query.uniqueResult();
-			
-			
+			user = query.getSingleResult();
 			
 		} catch (Exception ex) {
 			LogginUtils.getInstance().logError(this.getClass(), ex);
@@ -61,10 +59,6 @@ public class UserDaoImpl implements UserDao {
 		LogginUtils.getInstance().logResult(this.getClass(), user);
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "selectByUsername");
-		
-		if (user == null) {
-			throw new SelectNullException("Select student's account by username from database is null");
-		}
 		
 		return user;
 	}
@@ -75,26 +69,13 @@ public class UserDaoImpl implements UserDao {
 	 * 
 	 * @param userdto
 	 * 
-	 * @throws InsertException
+	 * @throws InsertException, IOException
 	 */
-	public void insert(UserDto user) throws InsertException {
+	public void insert(UserDto user) throws InsertException, IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "insert");
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "INSERT INTO USER "  	+ 
-							 "	(" 					+
-							 "		user_id," +
-							 "		user_username," +
-							 "		user_password," +
-							 "		student_id" 	+
-							 "	)" 					+
-							 "VALUES " 				+
-							 "	(" 					+ 
-							 "		:userid," 	+ 
-							 "		:username," 	+ 
-							 "		:password," 	+ 
-							 "		:studentid" 			+ 
-							 "	)"; 
+		String queryString = SqlUtils.getSQL(SqlUtils.USER_INSERT);
 		
 		boolean success = true;
 		
@@ -128,17 +109,13 @@ public class UserDaoImpl implements UserDao {
 	 * 
 	 * @param id
 	 * 
-	 * @throws DeleteException
+	 * @throws DeleteException,IOException
 	 */
-	public void delete(int id) throws DeleteException {
+	public void delete(int id) throws DeleteException, IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "delete");
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "DELETE u, ur " +
-							 "FROM USER u, USER_ROLE ur " +
-							 "WHERE " +
-							 "	u.user_id = ur.user_id AND" + 
-							 "	u.student_id = :id";
+		String queryString = SqlUtils.getSQL(SqlUtils.USER_DELETE);
 		boolean success = true;
 		
 		try {
@@ -168,18 +145,13 @@ public class UserDaoImpl implements UserDao {
 	 * 
 	 * @param user
 	 * 
-	 * @throws UpdateException
+	 * @throws UpdateException, IOException
 	 */
-	public void update(UserDto user) throws UpdateException {
+	public void update(UserDto user) throws UpdateException, IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "update");
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "UPDATE USER " + 
-							 "SET " +
-							 "	user_username = :username," +
-							 "	user_password = :password " +
-							 "WHERE " +
-							 "	student_id = :id ";
+		String queryString = SqlUtils.getSQL(SqlUtils.USER_UPDATE);
 		
 		boolean success = true;
 		
@@ -214,22 +186,13 @@ public class UserDaoImpl implements UserDao {
 	 * @param id user
 	 * @param id role
 	 * 
-	 * @throws InsertException
+	 * @throws InsertException, IOException
 	 */
-	public void insertUserRole(int idUser, int idRole) throws InsertException {
+	public void insertUserRole(int idUser, int idRole) throws InsertException, IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "insertUserRole");
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "INSERT INTO USER_ROLE " +
-							 "	(" +
-							 "		user_id," +
-							 "		role_id" +
-							 "	)" + 
-							 "VALUES" + 
-							 "	(" +
-							 "		:userid," +
-							 "		:roleid" +
-							 "	)";
+		String queryString = SqlUtils.getSQL(SqlUtils.USER_INSERT_ROLES);
 		
 		boolean success = true;
 		
@@ -261,17 +224,15 @@ public class UserDaoImpl implements UserDao {
 	 * 
 	 *  @return next pk
 	 *  
-	 *  @throws SelectNullException
+	 *  @throws IOException
 	 */
-	public Integer nextPK() throws SelectNullException {
+	public Integer nextPK() throws IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "nexPK");
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "SELECT MAX(user_id) FROM USER";
+		String queryString = SqlUtils.getSQL(SqlUtils.USER_MAX_ID);
 		
 		Integer nextId = null;
-		
-		boolean success = true;
 		
 		try {
 			@SuppressWarnings("unchecked")
@@ -282,17 +243,12 @@ public class UserDaoImpl implements UserDao {
 			nextId = query.getSingleResult();
 			
 		} catch (Exception ex) {
-			success = false;
 			LogginUtils.getInstance().logError(this.getClass(), ex);
 		}
 		
 		LogginUtils.getInstance().logResult(this.getClass(), nextId);
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "nextPK");
-		
-		if (nextId == null && !success) {
-			throw new SelectNullException("Select max current primary key from USER table is null");
-		}
 		
 		if (nextId == null) {
 			return 1;
@@ -308,22 +264,15 @@ public class UserDaoImpl implements UserDao {
 	 * 
 	 * @return userDto
 	 * 
-	 * @throws SelectNullException
+	 * @throws IOException
 	 */
 	@SuppressWarnings("deprecation")
-	public UserDto selectByStudentId(int id) throws SelectNullException {
+	public UserDto selectByStudentId(int id) throws IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "selectByStudentId");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "SELECT " +
-							 "  u.user_id as userId," +
-							 "  u.user_username as username," +
-							 "	u.user_password as password " +
-							 "FROM" +
-							 "  USER u " +
-							 "WHERE" +
-							 "  u.student_id = :id";
+		String queryString = SqlUtils.getSQL(SqlUtils.USER_SELECT_BY_STUDENTID);
 		
 		UserDto user = null;
 		
@@ -347,29 +296,25 @@ public class UserDaoImpl implements UserDao {
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "selectByStudentId");
 		
-		if (user == null) {
-			throw new SelectNullException("Select user by student's id from USER table is null");
-		}
-		
 		return user;
 	}
 
-
+	/*
+	 * Get user info by username and password to check login.
+	 * 
+	 * @param userInfo
+	 * 
+	 * @return userDto
+	 * 
+	 * @throws IOException
+	 */
 	@SuppressWarnings("deprecation")
-	public UserDto userLogin(UserDto userInfo) throws SelectNullException {
+	public UserDto userLogin(UserDto userInfo) throws IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "userLogin");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "SELECT " +
-							 "  u.user_id as userId," +
-							 "  u.user_username as username," +
-							 "	u.user_password as password " +
-							 "FROM" +
-							 "  USER u " +
-							 "WHERE" +
-							 "  u.user_username = :username AND" +
-							 "  u.user_password = :password";
+		String queryString = SqlUtils.getSQL(SqlUtils.USER_LOGIN);
 		
 		UserDto user = null;
 		
@@ -393,10 +338,6 @@ public class UserDaoImpl implements UserDao {
 		LogginUtils.getInstance().logResult(this.getClass(), user);
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "userLogin");
-		
-		if (user == null) {
-			throw new SelectNullException("Select user by username and password from USER table is null");
-		}
 		
 		return user;
 	}

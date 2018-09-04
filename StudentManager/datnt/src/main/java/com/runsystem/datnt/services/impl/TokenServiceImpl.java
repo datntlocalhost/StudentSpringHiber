@@ -1,19 +1,23 @@
 package com.runsystem.datnt.services.impl;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.runsystem.datnt.daos.TokenDao;
 import com.runsystem.datnt.dtos.TokenDto;
+import com.runsystem.datnt.dtos.UserDto;
+import com.runsystem.datnt.exceptions.AuthException;
 import com.runsystem.datnt.exceptions.InsertException;
-import com.runsystem.datnt.exceptions.SelectNullException;
 import com.runsystem.datnt.services.TokenService;
 import com.runsystem.datnt.utils.GenerateToken;
 import com.runsystem.datnt.utils.LogginUtils;
 
 @Service
-@Transactional
 public class TokenServiceImpl implements TokenService {
 	
 	@Autowired
@@ -26,6 +30,7 @@ public class TokenServiceImpl implements TokenService {
 	 * 
 	 * @return true if create and insert success, else return false.
 	 */
+	@Transactional
 	public TokenDto createToken(String username) {
 		LogginUtils.getInstance().logStart(this.getClass(), "createToken");
 		boolean success = true;
@@ -43,6 +48,9 @@ public class TokenServiceImpl implements TokenService {
 			tokenDao.insert(token);
 			
 		} catch (InsertException e) {
+			success = false;
+			LogginUtils.getInstance().logError(this.getClass(), e);
+		} catch (IOException e) {
 			success = false;
 			LogginUtils.getInstance().logError(this.getClass(), e);
 		}
@@ -64,6 +72,7 @@ public class TokenServiceImpl implements TokenService {
 	 * 
 	 * @return tokendto
 	 */
+	@Transactional
 	public TokenDto getLastToken(String username) {
 		LogginUtils.getInstance().logStart(this.getClass(), "getLastToken");
 		TokenDto token = null;
@@ -72,12 +81,49 @@ public class TokenServiceImpl implements TokenService {
 			
 			token = tokenDao.selectLastToken(username);
 			
-		} catch (SelectNullException e) {
+		} catch (IOException e) {
 			LogginUtils.getInstance().logError(this.getClass(), e);
 		}
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "getLastToken");
 		return token;
+	}
+
+	/*
+	 * Check token is valid, throws AuthException if token is invalid
+	 * 
+	 * @param session
+	 * 
+	 * @throws AuthException
+	 */
+	@Transactional
+	public void checkValidToken(HttpSession session) throws AuthException {
+		LogginUtils.getInstance().logStart(this.getClass(), "checkValidToken");
+		
+		UserDto user = (UserDto) session.getAttribute("user");
+		TokenDto token = (TokenDto) session.getAttribute("token");
+		
+		if (user == null || token == null) {
+			LogginUtils.getInstance().logEnd(this.getClass(), "checkValidToken");
+			throw new AuthException("AuthException: ");
+		}
+		
+		TokenDto lastToken = getLastToken(user.getUsername());
+		
+		if (lastToken != null) {
+			boolean isSameToken = token.getToken().equals(lastToken.getToken());
+			boolean hasExpired = lastToken.getTimestamp().getTime() < System.currentTimeMillis();
+			
+			if (!isSameToken || hasExpired) {
+				LogginUtils.getInstance().logEnd(this.getClass(), "checkValidToken");
+				throw new AuthException("AuthException: ");
+			}
+			
+		} else {
+			LogginUtils.getInstance().logEnd(this.getClass(), "checkValidToken");
+			throw new AuthException("AuthException: ");
+		}
+		LogginUtils.getInstance().logEnd(this.getClass(), "checkValidToken");
 	}
 
 }

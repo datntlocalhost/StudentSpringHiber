@@ -1,0 +1,17 @@
+package com.runsystem.datnt.utils;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public enum RedirectURI {
+
+	AUTH_REQUIREMENT("AUTH_REQUIREMENT", "/login"),
+	UPDATE_ERROR("UPDATE_ERROR", "");
+	
+	private String info;
+	private String uri;
+}

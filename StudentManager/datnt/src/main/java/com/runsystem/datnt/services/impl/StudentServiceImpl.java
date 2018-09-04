@@ -1,5 +1,6 @@
 package com.runsystem.datnt.services.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,8 @@ import com.runsystem.datnt.dtos.RecordDto;
 import com.runsystem.datnt.dtos.StudentDto;
 import com.runsystem.datnt.dtos.StudentInfoDto;
 import com.runsystem.datnt.dtos.UserDto;
-import com.runsystem.datnt.exceptions.SelectNullException;
+import com.runsystem.datnt.exceptions.DeleteException;
+import com.runsystem.datnt.exceptions.InsertException;
 import com.runsystem.datnt.exceptions.UpdateException;
 import com.runsystem.datnt.models.SearchStudentModel;
 import com.runsystem.datnt.models.StudentModel;
@@ -27,7 +29,6 @@ import com.runsystem.datnt.utils.SearchSetup;
 import com.runsystem.datnt.utils.Sha256Hash;
 
 @Service
-@Transactional(rollbackFor = Exception.class)
 public class StudentServiceImpl implements StudentService {
 
 	@Autowired
@@ -52,8 +53,11 @@ public class StudentServiceImpl implements StudentService {
 	 * @param studentInfo 
 	 * 
 	 * @return studentmodel if create success, else return null
+	 * 
+	 * @throws InsertException
 	 */
-	public StudentModel createStudent(StudentModel studentInfo) throws Exception {
+	@Transactional(rollbackFor = InsertException.class)
+	public StudentModel createStudent(StudentModel studentInfo) throws InsertException {
 		LogginUtils.getInstance().logStart(this.getClass(), "createStudent");
 		
 		StudentModel studentModel = null;
@@ -109,9 +113,12 @@ public class StudentServiceImpl implements StudentService {
 			//Call insertUserRole method in UserDao to insert role for user.
 			userDao.insertUserRole(userId, 2);
 			
-		} catch (Exception ex) {
+		} catch (InsertException e) {
 			success = false;
-			LogginUtils.getInstance().logError(this.getClass(), ex);
+			LogginUtils.getInstance().logError(this.getClass(), e);
+		} catch (IOException e) {
+			success = false;
+			LogginUtils.getInstance().logError(this.getClass(), e);
 		}
 
 		studentModel = studentInfo;
@@ -119,7 +126,7 @@ public class StudentServiceImpl implements StudentService {
 		LogginUtils.getInstance().logEnd(this.getClass(), "createStudent");
 		
 		if (!success) {
-			throw new Exception();
+			throw new InsertException("InsertException: Could not insert student.");
 		}
 		
 		return studentModel;
@@ -132,14 +139,17 @@ public class StudentServiceImpl implements StudentService {
 	 * 
 	 * @return student info
 	 */
+	@Transactional
 	public StudentInfoDto selectByCode(String code) {
 		LogginUtils.getInstance().logStart(this.getClass(), "selectByCode");
 		StudentInfoDto student = null;
 		
 		try {
+			
 			student = studentDao.selectStudentByCode(code);
-		} catch (Exception ex) {
-			LogginUtils.getInstance().logError(this.getClass(), ex);
+			
+		} catch (IOException e) {
+			LogginUtils.getInstance().logError(this.getClass(), e);
 		}
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "selectByCode");
@@ -156,8 +166,11 @@ public class StudentServiceImpl implements StudentService {
 	 * @param studentCode
 	 * 
 	 * @return true if delete success, else return false.
+	 * 
+	 * @throws DeleteException
 	 */
-	public void deleteStudent(String studentCode) throws Exception {
+	@Transactional(rollbackFor = DeleteException.class)
+	public void deleteStudent(String studentCode) throws DeleteException {
 		LogginUtils.getInstance().logStart(this.getClass(), "delete");
 
 		boolean success = true;
@@ -178,7 +191,10 @@ public class StudentServiceImpl implements StudentService {
 			//delete user token
 			tokenDao.delete(user.getUsername());
 					
-		} catch (SelectNullException e) {
+		} catch (IOException e) {
+			success = false;
+			LogginUtils.getInstance().logError(this.getClass(), e);
+		} catch (DeleteException e) {
 			success = false;
 			LogginUtils.getInstance().logError(this.getClass(), e);
 		}
@@ -186,7 +202,7 @@ public class StudentServiceImpl implements StudentService {
 		LogginUtils.getInstance().logEnd(this.getClass(), "delete");
 		
 		if (!success) {
-			throw new Exception();
+			throw new DeleteException("DeleteException: Could not delete student");
 		}
 
 	}
@@ -196,13 +212,18 @@ public class StudentServiceImpl implements StudentService {
 	 * 
 	 * @return max current code.
 	 */
+	@Transactional
 	public String getMaxCurrentCode() {
+		LogginUtils.getInstance().logStart(this.getClass(), "getMaxCurrentCode");
 		String code = null;
 		
 		try {
 			code = studentDao.getMaxCode();
-		} catch (Exception ex) {
+		} catch (IOException e) {
+			LogginUtils.getInstance().logError(this.getClass(), e);
 		}
+		
+		LogginUtils.getInstance().logEnd(this.getClass(), "getMaxCurrentCode");
 		return code;
 	}
 
@@ -211,6 +232,7 @@ public class StudentServiceImpl implements StudentService {
 	 * 
 	 * @return list of student info dto
 	 */
+	@Transactional
 	public List<StudentInfoDto> getStudentList() {
 		LogginUtils.getInstance().logStart(this.getClass(), "getStudentList");
 		
@@ -218,8 +240,9 @@ public class StudentServiceImpl implements StudentService {
 		
 		try {
 			students = studentDao.list();
-		} catch (SelectNullException ex) {
-			LogginUtils.getInstance().logError(this.getClass(), ex);
+			
+		} catch (IOException e) {
+			LogginUtils.getInstance().logError(this.getClass(), e);
 		}
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "getStudentList");
@@ -233,6 +256,7 @@ public class StudentServiceImpl implements StudentService {
 	 * 
 	 * @throws UpdateException
 	 */
+	@Transactional(rollbackFor = UpdateException.class)
 	public void updateStudent(StudentModel studentInfo) throws UpdateException {
 		LogginUtils.getInstance().logStart(this.getClass(), "updateStudent");
 		
@@ -270,15 +294,18 @@ public class StudentServiceImpl implements StudentService {
 			//call update method to update student's record.
 			recordDao.update(record);
 			
-		} catch (Exception ex) {
+		} catch (IOException e) {
 			success = false;
-			LogginUtils.getInstance().logError(this.getClass(), ex);
+			LogginUtils.getInstance().logError(this.getClass(), e);
+		} catch (UpdateException e) {
+			success = false;
+			LogginUtils.getInstance().logError(this.getClass(), e);
 		}
 
 		LogginUtils.getInstance().logEnd(this.getClass(), "updateStudent");
 		
 		if (!success) {
-			throw new UpdateException("Could not update student");
+			throw new UpdateException("UpdateException: Could not update student");
 		}
 	}
 
@@ -289,18 +316,23 @@ public class StudentServiceImpl implements StudentService {
 	 * 
 	 * @return list of student info
 	 */
+	@Transactional
 	public List<StudentInfoDto> searchStudent(SearchStudentModel searchInfo) {
 		LogginUtils.getInstance().logStart(this.getClass(), "searchStudent");
+		
 		List<StudentInfoDto> students = new ArrayList<StudentInfoDto>();
 		
 		//Setup search info before search
 		SearchSetup.setup(searchInfo);
 		
 		try {
+			
 			students = studentDao.search(searchInfo);
-		} catch (SelectNullException ex) {
-			LogginUtils.getInstance().logError(this.getClass(), ex);
+			
+		} catch (IOException e) {
+			LogginUtils.getInstance().logError(this.getClass(), e);
 		}
+		
 		LogginUtils.getInstance().logEnd(this.getClass(), "searchStudent");
 		return students;
 	}

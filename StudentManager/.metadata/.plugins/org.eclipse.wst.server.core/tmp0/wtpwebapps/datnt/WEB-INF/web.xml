@@ -21,7 +21,6 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>
   		/WEB-INF/contexts/hibernateContext.xml
-  		/WEB-INF/contexts/aopContext.xml
   	</param-value>
   </context-param>
   <listener>
