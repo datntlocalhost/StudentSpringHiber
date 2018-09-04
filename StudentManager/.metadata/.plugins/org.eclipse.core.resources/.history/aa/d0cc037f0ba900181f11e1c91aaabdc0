@@ -1,5 +1,0 @@
-package com.runsystem.datnt.services;
-
-public class MyUserDetailsService {
-
-}

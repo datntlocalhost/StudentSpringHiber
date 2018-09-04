@@ -1,5 +1,6 @@
 package com.runsystem.datnt.daos.impl;
 
+import java.io.IOException;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,8 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import com.runsystem.datnt.daos.SchoolDao;
 import com.runsystem.datnt.dtos.SchoolDto;
-import com.runsystem.datnt.exceptions.SelectNullException;
 import com.runsystem.datnt.utils.LogginUtils;
+import com.runsystem.datnt.utils.SqlUtils;
 
 @Repository
 public class SchoolDaoImpl implements SchoolDao {
@@ -24,21 +25,17 @@ public class SchoolDaoImpl implements SchoolDao {
 	 * 
 	 * @return schooldto list
 	 * 
-	 * @throws SelectNullException
+	 * @throws IOException
 	 */
 	@SuppressWarnings("deprecation")
-	public List<SchoolDto> list() throws SelectNullException {
+	public List<SchoolDto> list() throws IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "list");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
 		List<SchoolDto> schools = null;
 		
-		String queryString = "SELECT " 						  +
-							 "sc.school_id as schoolId, "     +
-							 "sc.school_code as schoolCode, " +
-							 "sc.school_name as schoolName "   +
-							 "FROM SCHOOL sc";
+		String queryString = SqlUtils.getSQL(SqlUtils.SCHOOL_LIST);
 		
 		try {
 			@SuppressWarnings("unchecked")
@@ -57,10 +54,6 @@ public class SchoolDaoImpl implements SchoolDao {
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "list");
 		
-		if (schools == null) {
-			throw new SelectNullException("Select list school from SCHOOL table is null");
-		}
-		
 		return schools;
 	}
 
@@ -71,16 +64,14 @@ public class SchoolDaoImpl implements SchoolDao {
 	 * 
 	 * @return school's id
 	 * 
-	 * @throws SelectNullException
+	 * @throws IOException
 	 */
-	public Integer getIdByCode(String code) throws SelectNullException {
+	public Integer getIdByCode(String code) throws IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "getIdByCode");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "SELECT sc.school_id "
-						   + "FROM SCHOOL sc "
-						   + "WHERE sc.school_code = :code";
+		String queryString = SqlUtils.getSQL(SqlUtils.SCHOOL_ID_BY_CODE);
 		
 		Integer schoolId = null;
 		
@@ -101,10 +92,6 @@ public class SchoolDaoImpl implements SchoolDao {
 		LogginUtils.getInstance().logResult(this.getClass(), schoolId);
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "getIdByCode");
-		
-		if (schoolId == null) {
-			throw new SelectNullException("Select school's id by code from SCHOOL table is null");
-		}
 		
 		return schoolId;
 	}

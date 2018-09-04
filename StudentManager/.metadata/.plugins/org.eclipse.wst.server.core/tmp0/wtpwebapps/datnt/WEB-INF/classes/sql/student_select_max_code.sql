@@ -1,0 +1,1 @@
+SELECT MAX(student_code) FROM STUDENT

@@ -142,4 +142,9 @@ public class LogginUtils {
 		Logger logger = getLogger(clazz);
 		logger.error("[CONTENT FROM VIEW] " + msg);
 	}
+	
+	public void logContent(Class<?> clazz, String msg) {
+		Logger logger = getLogger(clazz);
+		logger.error("[CONTENT] " + msg);
+	}
 }

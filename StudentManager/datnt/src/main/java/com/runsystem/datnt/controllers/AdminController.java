@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.runsystem.datnt.dtos.SchoolDto;
 import com.runsystem.datnt.dtos.StudentInfoDto;
+import com.runsystem.datnt.dtos.UserDto;
+import com.runsystem.datnt.exceptions.AuthException;
 import com.runsystem.datnt.services.SchoolService;
 import com.runsystem.datnt.services.StudentService;
+import com.runsystem.datnt.services.TokenService;
 import com.runsystem.datnt.utils.LogginUtils;
 
 @Controller
@@ -25,6 +29,9 @@ public class AdminController {
 	
 	@Autowired
 	private StudentService studentService;
+	
+	@Autowired
+	private TokenService tokenService;
 	
 	/*
 	 * Set some info into model and return page to client.
@@ -38,10 +45,25 @@ public class AdminController {
 	@RequestMapping(value = "/admin/list", method = RequestMethod.GET)
 	public String loadPage(Model model, HttpServletRequest request, HttpServletResponse response) {
 		LogginUtils.getInstance().logStart(this.getClass(), "loadPage");
+		HttpSession session = request.getSession();
+		
+		//Check token is valid, if token is invalid then redirect to login page.
+		try {
+			tokenService.checkValidToken(session);
+		} catch (AuthException e) {
+			LogginUtils.getInstance().logContent(this.getClass(), "Token has expired");
+			LogginUtils.getInstance().logEnd(this.getClass(), "loadPage");
+			return "redirect:/login?token=false";
+		}
 		
 		List<SchoolDto> schools = schoolService.getSchoolList();
 		List<StudentInfoDto> students = studentService.getStudentList();
 		
+		UserDto user = (UserDto) session.getAttribute("user");
+		
+		//add attribute username, role, studentlist and school to model
+		model.addAttribute("username", user.getUsername());
+		model.addAttribute("role", user.getRoles().get(0).getRoleName());
 		model.addAttribute("studentList", students);
 		model.addAttribute("schools", schools);
 		

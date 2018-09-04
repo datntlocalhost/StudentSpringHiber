@@ -1,5 +1,7 @@
 package com.runsystem.datnt.daos.impl;
 
+import java.io.IOException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -11,8 +13,8 @@ import com.runsystem.datnt.daos.TokenDao;
 import com.runsystem.datnt.dtos.TokenDto;
 import com.runsystem.datnt.exceptions.DeleteException;
 import com.runsystem.datnt.exceptions.InsertException;
-import com.runsystem.datnt.exceptions.SelectNullException;
 import com.runsystem.datnt.utils.LogginUtils;
+import com.runsystem.datnt.utils.SqlUtils;
 
 @Repository
 public class TokenDaoImpl implements TokenDao {
@@ -27,23 +29,13 @@ public class TokenDaoImpl implements TokenDao {
 	 * 
 	 * @throws InsertException if insert failed.
 	 */
-	public void insert(TokenDto token) throws InsertException {
+	public void insert(TokenDto token) throws InsertException, IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "insert");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "INSERT INTO TOKEN " + 
-							 "(	"				  + 
-							 "	token_username,"  +
-							 "	token_value," 	  +
-							 "	token_timestamp"  +
-							 ")" 				  +
-							 "VALUES " 			  +
-							 "(" 				  +
-							 "	:username," 	  +
-							 "	:value," 		  +
-							 "	:timestamp" 	  +
-							 ")";
+		String queryString = SqlUtils.getSQL(SqlUtils.TOKEN_INSERT);
+		
 		boolean success = true;
 		
 		try {
@@ -81,25 +73,13 @@ public class TokenDaoImpl implements TokenDao {
 	 * @throws SelectNullException
 	 */
 	@SuppressWarnings({ "deprecation", "unchecked" })
-	public TokenDto selectLastToken(String username) throws SelectNullException {
+	public TokenDto selectLastToken(String username) throws IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "selectLastToken");
 		
 		Session session = sessionFactory.getCurrentSession();
 		TokenDto token = null;
 		
-		String queryString = "SELECT " 								  +
-							 "  t.token_username as username," 		  +
-							 "  t.token_value as token," 			  +
-							 "	t.token_timestamp as timestamp "      +
-							 "FROM " 								  + 
-							 "	TOKEN t," 							  +
-							 "  (" 									  +
-							 "		SELECT MAX(token_id) as maxid "   +
-							 "      FROM TOKEN " 					  +
-							 "		WHERE token_username = :username" +
-							 "	) as tk " 							  +
-							 "WHERE "  								  + 
-							 "	t.token_id = tk.maxid";
+		String queryString = SqlUtils.getSQL(SqlUtils.TOKEN_LAST_TOKEN);
 		
 		try {
 			
@@ -119,10 +99,6 @@ public class TokenDaoImpl implements TokenDao {
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "selectLastToken");
 		
-		if (token == null) {
-			throw new SelectNullException("Select token from database is null.");
-		}
-		
 		return token;
 	}
 
@@ -134,12 +110,12 @@ public class TokenDaoImpl implements TokenDao {
 	 * @throws DeleteException
 	 */
 	@SuppressWarnings("unchecked")
-	public void delete(String username) throws DeleteException {
+	public void delete(String username) throws DeleteException, IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "delete");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "DELETE FROM TOKEN WHERE token_username = :username";
+		String queryString = SqlUtils.getSQL(SqlUtils.TOKEN_DELETE);
 		
 		boolean success = true;
 		

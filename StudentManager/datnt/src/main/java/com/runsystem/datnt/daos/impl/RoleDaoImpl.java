@@ -1,5 +1,6 @@
 package com.runsystem.datnt.daos.impl;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import com.runsystem.datnt.daos.RoleDao;
 import com.runsystem.datnt.dtos.RoleDto;
-import com.runsystem.datnt.exceptions.SelectNullException;
 import com.runsystem.datnt.utils.LogginUtils;
+import com.runsystem.datnt.utils.SqlUtils;
 
 @Repository
 public class RoleDaoImpl implements RoleDao {
@@ -27,17 +28,15 @@ public class RoleDaoImpl implements RoleDao {
 	 * 
 	 * @return RoleDto list
 	 * 
-	 * @throws SelectNullException
+	 * @throws IOException
 	 */
 	@SuppressWarnings({ "deprecation", "unchecked" })
-	public List<RoleDto> getUserRole(int userId) throws SelectNullException {
+	public List<RoleDto> getUserRole(int userId) throws IOException {
 		LogginUtils.getInstance().logStart(this.getClass(), "getUserRole");
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		String queryString = "SELECT r.role_id as roleId, r.role_name as roleName " +
-							 "FROM USER_ROLE ur, ROLE r " + 
-							 "WHERE ur.role_id = r.role_id AND ur.user_id = :userid";
+		String queryString = SqlUtils.getSQL(SqlUtils.ROLE_SELECT_BY_USERID);
 		
 		List<RoleDto> roles = null;
 		
@@ -58,10 +57,6 @@ public class RoleDaoImpl implements RoleDao {
 		LogginUtils.getInstance().logResult(this.getClass(), roles);
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "getUserRole");
-		
-		if (roles == null) {
-			throw new SelectNullException("Could not select list user's role from USER_ROLE table");
-		}
 		
 		return roles;
 	}

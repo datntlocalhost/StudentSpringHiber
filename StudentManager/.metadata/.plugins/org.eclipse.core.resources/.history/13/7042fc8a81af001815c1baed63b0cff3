@@ -1,0 +1,15 @@
+package com.runsystem.datnt.models;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.Data;
+
+@Data
+public class ResponePackage<T> implements Serializable {
+	
+	private static final long serialVersionUID = 8133486797902934222L;
+	private List<T> data = new ArrayList<ResponePackage.T>()
+
+}

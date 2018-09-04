@@ -1,0 +1,2 @@
+DELETE u, ur 
+FROM USER u, USER_ROLE urWHEREu.user_id = ur.user_id and u.student_id = :id

@@ -1,0 +1,16 @@
+package com.runsystem.datnt.utils;
+
+public enum HeaderPackage {
+
+	AUTH_REQUIREMENT,
+	INPUT_INVALID,
+	SEARCH,
+	STUDENT_UPDATE,
+	CREATE_SUCCESS,
+	DELETE_SUCCESS,
+	UPDATE_SUCCESS,
+	CREATE_ERROR,
+	DELETE_ERROR,
+	UPDATE_ERROR;
+
+}

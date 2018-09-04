@@ -10,10 +10,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.runsystem.datnt.exceptions.AuthException;
 import com.runsystem.datnt.exceptions.InputInvalidException;
 import com.runsystem.datnt.exceptions.InsertException;
+import com.runsystem.datnt.models.ResponePackage;
 import com.runsystem.datnt.models.StudentModel;
 import com.runsystem.datnt.services.StudentService;
+import com.runsystem.datnt.services.TokenService;
+import com.runsystem.datnt.utils.HeaderPackage;
 import com.runsystem.datnt.utils.JsonUtils;
 import com.runsystem.datnt.utils.LogginUtils;
 import com.runsystem.datnt.validations.StudentValidator;
@@ -24,6 +29,8 @@ public class CreateController {
 	@Autowired
 	private StudentService studentService;
 	
+	@Autowired
+	private TokenService tokenService;
 
 	/*
 	 * Get POST request contain create info and call insert method to insert new student into database.
@@ -39,9 +46,12 @@ public class CreateController {
 	 */
 	@RequestMapping(value = "/admin/create", method = RequestMethod.POST)
 	public @ResponseBody String createStudent (@RequestBody StudentModel model, BindingResult bindingResult,
-												HttpServletRequest request, HttpServletResponse response) throws Exception {
+												HttpServletRequest request, HttpServletResponse response) throws InputInvalidException, InsertException, AuthException {
 		
 		LogginUtils.getInstance().logStart(this.getClass(), "createStudent");
+		
+		tokenService.checkValidToken(request.getSession());
+		
 		LogginUtils.getInstance().logInfo(this.getClass(), model.toString());
 		
 		//Check input is valid
@@ -54,7 +64,7 @@ public class CreateController {
 		if (bindingResult.hasErrors()) {
 			
 			LogginUtils.getInstance().logEnd(this.getClass(), "createStudent");
-			throw new InputInvalidException("Input from client is invalid format");
+			throw new InputInvalidException("InputInvalidException: Input from client is invalid format");
 		}		
 		
 		StudentModel student = null;
@@ -65,10 +75,15 @@ public class CreateController {
 			
 		} catch (Exception ex) {
 			LogginUtils.getInstance().logEnd(this.getClass(), "createStudent");
-			throw new InsertException("Could not create new student");
+			throw new InsertException("InsertException: Could not create new student");
 		}
 		
-		String jsonReturn = JsonUtils.objectToJson(student);
+		//Create new response package
+		ResponePackage<StudentModel> resPackage = new ResponePackage<StudentModel>(HeaderPackage.CREATE_SUCCESS);
+		resPackage.getData().add(student);
+		
+		//convert response package to json
+		String jsonReturn = JsonUtils.objectToJson(resPackage);
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "createStudent");
 		return jsonReturn;

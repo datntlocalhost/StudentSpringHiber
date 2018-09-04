@@ -1,0 +1,1 @@
+DELETE FROM STUDENT WHERE student_id = :id
