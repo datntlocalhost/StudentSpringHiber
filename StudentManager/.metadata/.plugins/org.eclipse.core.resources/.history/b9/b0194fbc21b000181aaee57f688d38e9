@@ -1,0 +1,91 @@
+package com.runsystem.datnt.utils;
+
+import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class LogginUtils {
+
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	private static LogginUtils instance = null;
+	
+	private LogginUtils() {
+		/*
+		PatternLayout layout = new PatternLayout();
+		layout.setConversionPattern("[%p] %d{yyyy/MM/dd HH:mm:ss} %c{2} - %m%n");
+		*/
+	}
+	
+	public static LogginUtils getInstance() {
+		if (instance == null) {
+			instance = new LogginUtils();
+		}
+		return instance;
+	}
+	
+	/*
+	 * Log info when start of method.
+	 * 
+	 * @param class
+	 * @param method's name
+	 */
+	public void logStart(Class<?> clazz, String method) {
+		logger.info("[METHOD] " + method + " - [START]");
+	}
+	
+	/*
+	 * Log info when a method is end
+	 * 
+	 * @param clazz
+	 * @param method's name
+	 */
+	public void logEnd(Class<?> clazz, String method) {
+		logger.info("[METHOD] " + method + " - [END]");
+	}
+	
+	/*
+	 * Log info of query (query string and parameters in it)
+	 * 
+	 * @param clazz
+	 * @param query object
+	 */
+	public void logQuery(Class<?> clazz, Query<?> query) {
+		logger.info("[EXECUTE QUERY]" + ParameterUtils.paramToString(query));		
+	}
+	
+	/*
+	 * Log info of query result.
+	 * 
+	 * @param clazz
+	 * @param result object
+	 */
+	public void logResult(Class<?> clazz, Object result) {
+		String string = result == null ? "null" : result.toString();
+		logger.info("[EXECUTE RESULT] " + string);
+	}
+	
+	/*
+	 * Log info of exception
+	 * 
+	 * @param clazz
+	 * @param exception
+	 */
+	public void logError(Class<?> clazz, Exception exception) {
+		logger.error("[ERROR] " + exception);
+	}
+	
+	/*
+	 * Log info of content was got from view.
+	 * 
+	 * @param clazz
+	 * @param msg
+	 */
+	public void logInfo(Class<?> clazz, String msg) {
+		logger.info("[CONTENT FROM VIEW] " + msg);
+	}
+	
+	public void logContent(Class<?> clazz, String msg) {
+		logger.info("[CONTENT] " + msg);
+	}
+}

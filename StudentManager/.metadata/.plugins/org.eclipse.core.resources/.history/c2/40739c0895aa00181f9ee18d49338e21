@@ -1,5 +1,0 @@
-package com.runsystem.datnt.daos.interfaces;
-
-public class RoleDao {
-
-}

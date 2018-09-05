@@ -32,6 +32,20 @@ public class UpdateController {
 	@Autowired
 	private TokenService tokenService;
 	
+	/*
+	 * Process request update student from client. Get info update from request and process bussiness logic.
+	 * 
+	 * @param infoUpdate The info was got from request
+	 * @param bindingResult The object to content errors when check valid input.
+	 * @param request
+	 * @param response
+	 * 
+	 * @return json string The json string content result of upate
+	 * 
+	 * @throws InputInvalidException The exception throws when input from client is invalid.
+	 * @throws UpdateException The exception throws when update has error.
+	 * @throws AuthException The exception throws when user's token has expired.
+	 */
 	@RequestMapping(value = "/admin/update", method = RequestMethod.POST)
 	public @ResponseBody String updateStudent(@RequestBody StudentModel infoUpdate, BindingResult bindingResult,
 												HttpServletRequest request, HttpServletResponse response) throws InputInvalidException, UpdateException, AuthException {
@@ -42,9 +56,7 @@ public class UpdateController {
 		tokenService.checkValidToken(request.getSession());
 		
 		//Log info of infoUpdate was send by client.
-		LogginUtils.getInstance().logInfo(this.getClass(), infoUpdate.toString());
-		
-		//throw new UpdateException("UpdateException: Could not update student");
+		LogginUtils.getInstance().logInputFromView(this.getClass(),  request, infoUpdate.toString());
 		
 		StudentValidator validator = new StudentValidator();
 		
@@ -59,7 +71,7 @@ public class UpdateController {
 		}
 		
 		try {
-			//update student
+			//Call updateStudent method to update
 			studentService.updateStudent(infoUpdate);
 			
 		} catch (Exception ex) {
@@ -67,9 +79,11 @@ public class UpdateController {
 			throw new UpdateException("UpdateException: Could not update student");
 		}
 		
+		//Create responsePackage contain header Update Success and result of update process
 		ResponePackage<StudentModel> resPackage = new ResponePackage<StudentModel>(HeaderPackage.UPDATE_SUCCESS);
 		resPackage.getData().add(infoUpdate);
 		
+		//Convert responsePackage object to json
 		String json = JsonUtils.objectToJson(resPackage);
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "updateStudent");

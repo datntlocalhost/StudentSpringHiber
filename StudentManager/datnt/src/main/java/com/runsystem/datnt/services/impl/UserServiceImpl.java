@@ -76,6 +76,8 @@ public class UserServiceImpl implements UserService {
 			
 		} catch (IOException e) {
 			LogginUtils.getInstance().logError(this.getClass(), e);
+		} catch (NullPointerException e) {
+			LogginUtils.getInstance().logError(this.getClass(), e);
 		}
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "userLogin");

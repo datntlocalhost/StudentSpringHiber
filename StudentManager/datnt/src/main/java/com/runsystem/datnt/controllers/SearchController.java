@@ -53,9 +53,10 @@ public class SearchController {
 																HttpServletRequest request, HttpServletResponse response) throws InputInvalidException, AuthException {
 		LogginUtils.getInstance().logStart(this.getClass(), "searchStudent");
 		
+		//Check token is valid, if token has expired then return to login page.
 		tokenService.checkValidToken(request.getSession());
 		
-		LogginUtils.getInstance().logInfo(this.getClass(), searchInfo.toString());
+		LogginUtils.getInstance().logInputFromView(this.getClass(),  request, searchInfo.toString());
 		
 		//init search validator and check input
 		SearchValidator validator = new SearchValidator();
