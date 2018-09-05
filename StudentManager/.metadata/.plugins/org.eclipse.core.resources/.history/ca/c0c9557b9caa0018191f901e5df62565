@@ -1,7 +1,0 @@
-package com.runsystem.datnt.daos;
-
-public interface StudentDao {
-	
-	public int getMaxId();
-
-}

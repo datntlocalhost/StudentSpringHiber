@@ -29,7 +29,7 @@ public class ExceptionHandlerController {
 	public @ResponseBody String processExceptionHandler(Exception ex) {
 		LogginUtils.getInstance().logStart(this.getClass(), "processExceptionHandler");
 		
-		//LogginUtils.getInstance().logError(this.getClass(), ex);
+		LogginUtils.getInstance().logError(this.getClass(), ex);
 		ResponePackage responePackage = null;
 		
 		if (ex instanceof InputInvalidException) {

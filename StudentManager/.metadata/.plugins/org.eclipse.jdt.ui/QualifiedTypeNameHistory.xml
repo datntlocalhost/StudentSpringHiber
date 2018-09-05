@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.lang.Integer"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.daos.SchoolDao"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.models.SearchStudentModel"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.utils.SearchSetup"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.exceptions.SelectNullException"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.utils.Sha256Hash"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.utils.GenerateToken"/>
-<fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="org.aspectj.lang.JoinPoint"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.dtos.RoleDto"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.services.StudentService"/>
@@ -54,10 +46,18 @@
 <fullyQualifiedTypeName name="com.runsystem.datnt.services.TokenService"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.dtos.StudentInfoDto"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.utils.LogginUtils"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.models.StudentModel"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.models.ResponePackage"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.utils.HeaderPackage"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.dtos.UserDto"/>
+<fullyQualifiedTypeName name="java.lang.NullPointerException"/>
+<fullyQualifiedTypeName name="com.runsystem.datnt.utils.LogginUtils"/>
+<fullyQualifiedTypeName name="org.apache.logging.log4j.core.appender.RollingFileAppender"/>
+<fullyQualifiedTypeName name="org.apache.logging.log4j.core.layout.PatternLayout"/>
+<fullyQualifiedTypeName name="org.apache.logging.log4j.core.appender.ConsoleAppender"/>
+<fullyQualifiedTypeName name="org.slf4j.Logger"/>
+<fullyQualifiedTypeName name="org.slf4j.LoggerFactory"/>
+<fullyQualifiedTypeName name="org.apache.logging.log4j.Logger"/>
+<fullyQualifiedTypeName name="org.apache.logging.log4j.LogManager"/>
 </qualifiedTypeNameHistroy>

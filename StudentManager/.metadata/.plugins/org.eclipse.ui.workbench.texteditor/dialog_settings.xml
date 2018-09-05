@@ -12,17 +12,20 @@
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="#"/>
+			<item value="rolling"/>
+			<item value="getSinpleName"/>
+			<item value="getCanonicalName()"/>
 			<item value="+"/>
 			<item value="&quot;"/>
 			<item value=""/>
 			<item value=" "/>
-			<item value="Delete"/>
-			<item value="delete"/>
-			<item value="tableCourse"/>
-			<item value="reset-pwd-form"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>
+			<item value="file"/>
+			<item value="getSimpleName"/>
+			<item value="getSinpleName()"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

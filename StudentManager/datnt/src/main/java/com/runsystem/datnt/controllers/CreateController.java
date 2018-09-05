@@ -50,9 +50,10 @@ public class CreateController {
 		
 		LogginUtils.getInstance().logStart(this.getClass(), "createStudent");
 		
+		//To check token is valid, if token has expired then return to login page.
 		tokenService.checkValidToken(request.getSession());
 		
-		LogginUtils.getInstance().logInfo(this.getClass(), model.toString());
+		LogginUtils.getInstance().logInputFromView(this.getClass(),  request, model.toString());
 		
 		//Check input is valid
 		StudentValidator validator = new StudentValidator(true);
@@ -78,11 +79,11 @@ public class CreateController {
 			throw new InsertException("InsertException: Could not create new student");
 		}
 		
-		//Create new response package
+		//Create new response package object
 		ResponePackage<StudentModel> resPackage = new ResponePackage<StudentModel>(HeaderPackage.CREATE_SUCCESS);
 		resPackage.getData().add(student);
 		
-		//convert response package to json
+		//convert response package object to json
 		String jsonReturn = JsonUtils.objectToJson(resPackage);
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "createStudent");
