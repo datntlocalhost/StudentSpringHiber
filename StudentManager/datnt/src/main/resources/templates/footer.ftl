@@ -1,0 +1,10 @@
+
+<div class="main-footer">
+	<div class="pull-right hidden-xs">
+		<b></b>
+	</div>
+	<strong>GMO-Z Runsystem.com <a
+		href="/home"></a>.
+	</strong>
+</div>
+</div>

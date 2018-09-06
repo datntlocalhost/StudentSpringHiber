@@ -10,3 +10,44 @@
 1535984274762	Rename type 'RedirectURI'
 1535994409613	Delete element
 1535994417425	Delete element
+1536201445091	Delete element
+1536202455463	Move 'hibernateContext.xml' to 'resources'
+1536203595105	Copy file
+1536204251675	Move 'log4j2.properties' to 'sql'
+1536204279789	Move 'log4j2.xml' to 'sql'
+1536204484859	Move 'log4j2.xml' to 'resources'
+1536209080904	Delete element
+1536216437830	Delete element
+1536216566338	Delete element
+1536216609993	Copy folders
+1536216618657	Delete element
+1536216728354	Rename resource 'login.html'
+1536216863637	Copy files
+1536216871010	Rename resource '400.jsp'
+1536216922692	Rename resource '403.jsp'
+1536216928272	Rename resource '404.jsp'
+1536216933576	Rename resource '500.jsp'
+1536217295634	Copy file
+1536217304177	Rename resource 'home.jsp'
+1536217362281	Copy file
+1536217369535	Rename resource 'base-link.jsp'
+1536217505234	Copy file
+1536217510773	Rename resource 'base-script.jsp'
+1536217545786	Copy file
+1536217562717	Rename resource 'footer.jsp'
+1536217580325	Copy file
+1536217588540	Rename resource 'header.jsp'
+1536218395130	Copy file
+1536218750652	Rename resource 'studentlist.jsp'
+1536219051334	Rename resource 'studentlist.ftl'
+1536219282622	Move 'studentlist.ftl' to 'templates'
+1536219416390	Delete element
+1536219423290	Rename resource 'studentlist-ver.ftl'
+1536219738802	Copy file
+1536219745999	Rename resource 'studentrecord.jsp'
+1536220259546	Delete element
+1536220270697	Delete element
+1536220273487	Delete element
+1536220281657	Delete element
+1536220299592	Delete element
+1536231691176	Delete element

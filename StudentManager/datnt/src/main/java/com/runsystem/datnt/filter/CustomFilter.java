@@ -14,12 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.stereotype.Component;
+
 import com.runsystem.datnt.dtos.RoleDto;
 import com.runsystem.datnt.dtos.UserDto;
 
 /**
  * Servlet Filter implementation class CustomFilter
  */
+@Component
 public class CustomFilter implements Filter {
 	
     /**
@@ -56,29 +59,29 @@ public class CustomFilter implements Filter {
 				authorities.add(role.getRoleName());
 			}
 			
-			if (requestURI.startsWith("/datnt/home")) {
+			if (requestURI.startsWith("/home")) {
 				if (!authorities.contains("ROLE_ADMIN") && !authorities.contains("ROLE_STUDENT")) {
-					res.sendRedirect("/datnt/403");
+					res.sendRedirect("/403");
 					return;
 				}
-			} else if (requestURI.startsWith("/datnt/student")) {
+			} else if (requestURI.startsWith("/student")) {
 				if (!authorities.contains("ROLE_STUDENT")) {
-					res.sendRedirect("/datnt/403");
+					res.sendRedirect("/403");
 					return;
 				}
-			} else if (requestURI.startsWith("/datnt/admin")) {
+			} else if (requestURI.startsWith("/admin")) {
 				if (!authorities.contains("ROLE_ADMIN")) {
-					res.sendRedirect("/datnt/403");
+					res.sendRedirect("/403");
 					return;
 				}
 			} 
 			chain.doFilter(request, response);
 		} else {
-			if (requestURI.startsWith("/datnt/login")) {
+			if (requestURI.startsWith("/login")) {
 				chain.doFilter(request, response);
 				return;
 			}
-			res.sendRedirect("/datnt/login");
+			res.sendRedirect("/login");
 		}
 	}
 
