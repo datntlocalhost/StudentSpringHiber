@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="WorkbenchPreferenceDialogSettings">
-		<item value="473" key="DIALOG_X_ORIGIN"/>
-		<item value="54" key="DIALOG_Y_ORIGIN"/>
+		<item value="0" key="DIALOG_X_ORIGIN"/>
+		<item value="0" key="DIALOG_Y_ORIGIN"/>
+	</section>
+	<section name="EditorSelectionDialog">
 	</section>
 	<section name="org.eclipse.ui.internal.QuickAccess">
 		<item value="-1" key="dialogHeight"/>
@@ -17,18 +19,16 @@
 		</list>
 	</section>
 	<section name="NewWizardAction">
-		<item value="org.eclipse.ui.wizards.new.file" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
+		<item value="org.eclipse.wst.html.ui.internal.wizard.NewHTMLWizard" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
 		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
-			<item value="org.eclipse.ui.Basic"/>
-			<item value="org.eclipse.wst.jsdt.ui.java"/>
-			<item value="org.eclipse.jpt.jaxb"/>
-			<item value="org.eclipse.jpt.jpa"/>
-			<item value="org.eclipse.jpt.jpa/org.eclipse.jpt.jpa.eclipselink"/>
-			<item value="org.eclipse.datatools.sql"/>
 			<item value="org.eclipse.wst.web.ui"/>
-			<item value="org.eclipse.jst.ws.ui.new"/>
-			<item value="org.eclipse.wst.XMLCategory"/>
-			<item value="org.eclipse.ui.Examples"/>
 		</list>
+	</section>
+	<section name="FileExtensionDialogSettings">
+		<item value="613" key="DIALOG_WIDTH"/>
+		<item value="1|Ubuntu|12.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
+		<item value="356" key="DIALOG_HEIGHT"/>
+		<item value="68" key="DIALOG_X_ORIGIN"/>
+		<item value="121" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

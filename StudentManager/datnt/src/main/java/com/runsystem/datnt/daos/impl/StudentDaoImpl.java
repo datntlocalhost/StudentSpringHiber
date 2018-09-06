@@ -44,7 +44,7 @@ public class StudentDaoImpl implements StudentDao {
 		
 		try {
 			@SuppressWarnings("unchecked")
-			Query<Integer> query = session.createSQLQuery(queryString);
+			Query<Integer> query = session.createNativeQuery(queryString);
 		
 			LogginUtils.getInstance().logQuery(this.getClass(), query);
 			
@@ -126,7 +126,7 @@ public class StudentDaoImpl implements StudentDao {
 		
 		try {
 			@SuppressWarnings("rawtypes")
-			Query query = session.createSQLQuery(queryString);
+			Query query = session.createNativeQuery(queryString);
 			
 			query.setParameter("id", id);
 			

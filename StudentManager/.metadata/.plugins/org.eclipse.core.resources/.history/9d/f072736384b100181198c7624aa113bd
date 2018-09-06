@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="ERROR" monitorInterval="30">
+	<Appenders>
+		<Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+			<PatternLayout pattern="" />
+		</Console>
+	</Appenders>
+	
+	<Loggers>
+		<Logger name="com.runsystem.datnt" level="info" additivity="false">
+			<AppenderRef ref = "ConsoleAppender" />
+		</Logger>
+	</Loggers>
+</Configuration>

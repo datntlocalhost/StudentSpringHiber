@@ -63,7 +63,7 @@ public class StudentController {
 		UserDto userDetails = (UserDto) session.getAttribute("user");
 		
 		//Add username and role to model attribute
-		model.addAttribute("user", userDetails.getUsername());
+		model.addAttribute("username", userDetails.getUsername());
 		model.addAttribute("role", userDetails.getRoles().get(0).getRoleName());
 		
 		String studentCode = userDetails.getUsername();

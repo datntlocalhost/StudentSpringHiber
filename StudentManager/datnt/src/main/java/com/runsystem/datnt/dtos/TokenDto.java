@@ -12,4 +12,13 @@ public class TokenDto implements Serializable {
 	private String username;
 	private String token;
 	private Timestamp timestamp;
+	
+	public TokenDto() {}
+
+	public TokenDto(String username, String token, Timestamp timestamp) {
+		super();
+		this.username = username;
+		this.token = token;
+		this.timestamp = timestamp;
+	}
 }

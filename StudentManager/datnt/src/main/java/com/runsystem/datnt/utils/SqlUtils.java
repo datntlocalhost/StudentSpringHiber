@@ -59,7 +59,7 @@ public class SqlUtils {
 		StringBuilder stringBuilder = new StringBuilder();
 		
 		String string;
-		
+		//check buffreader
 		while ( (string = bufferedReader.readLine()) != null ) {
 			stringBuilder.append(string);
 		}

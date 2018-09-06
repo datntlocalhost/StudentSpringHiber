@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.aspectj.lang.JoinPoint"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.dtos.RoleDto"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.services.StudentService"/>
-<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.utils.JsonUtils"/>
-<fullyQualifiedTypeName name="org.aspectj.lang.ProceedingJoinPoint"/>
-<fullyQualifiedTypeName name="org.springframework.stereotype.Controller"/>
-<fullyQualifiedTypeName name="org.springframework.ui.Model"/>
-<fullyQualifiedTypeName name="javax.servlet.http.HttpServletResponse"/>
-<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMapping"/>
-<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMethod"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.controllers.LoginController"/>
-<fullyQualifiedTypeName name="org.apache.log4j.RollingFileAppender"/>
-<fullyQualifiedTypeName name="java.io.InputStreamReader"/>
 <fullyQualifiedTypeName name="java.nio.BufferUnderflowException"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
 <fullyQualifiedTypeName name="java.io.BufferedInputStream"/>
@@ -24,7 +10,6 @@
 <fullyQualifiedTypeName name="com.runsystem.datnt.utils.SqlUtils"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="net.bytebuddy.dynamic.loading.PackageDefinitionStrategy.ManifestReading.SealBaseLocator"/>
-<fullyQualifiedTypeName name="java.io.Serializable"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="lombok.Data"/>
@@ -39,20 +24,14 @@
 <fullyQualifiedTypeName name="com.runsystem.datnt.exceptions.UpdateException"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.exceptions.DeleteException"/>
 <fullyQualifiedTypeName name="java.lang.Exception"/>
-<fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.exceptions.AuthException"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.dtos.TokenDto"/>
 <fullyQualifiedTypeName name="com.mysql.cj.log.Log"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.services.TokenService"/>
-<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.dtos.StudentInfoDto"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.models.StudentModel"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.models.ResponePackage"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.utils.HeaderPackage"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.dtos.UserDto"/>
-<fullyQualifiedTypeName name="java.lang.NullPointerException"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.utils.LogginUtils"/>
 <fullyQualifiedTypeName name="org.apache.logging.log4j.core.appender.RollingFileAppender"/>
 <fullyQualifiedTypeName name="org.apache.logging.log4j.core.layout.PatternLayout"/>
 <fullyQualifiedTypeName name="org.apache.logging.log4j.core.appender.ConsoleAppender"/>
@@ -60,4 +39,25 @@
 <fullyQualifiedTypeName name="org.slf4j.LoggerFactory"/>
 <fullyQualifiedTypeName name="org.apache.logging.log4j.Logger"/>
 <fullyQualifiedTypeName name="org.apache.logging.log4j.LogManager"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
+<fullyQualifiedTypeName name="com.runsystem.datnt.dtos.RecordDto"/>
+<fullyQualifiedTypeName name="com.runsystem.datnt.dtos.StudentDto"/>
+<fullyQualifiedTypeName name="java.io.Serializable"/>
+<fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.SpringBootApplication"/>
+<fullyQualifiedTypeName name="org.springframework.boot.SpringApplication"/>
+<fullyQualifiedTypeName name="com.runsystem.datnt.WebApplication"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.Configuration"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
+<fullyQualifiedTypeName name="java.lang.NullPointerException"/>
+<fullyQualifiedTypeName name="org.hibernate.SessionFactory"/>
+<fullyQualifiedTypeName name="javax.persistence.EntityManagerFactory"/>
+<fullyQualifiedTypeName name="org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean"/>
+<fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnoreProperties"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.ImportResource"/>
+<fullyQualifiedTypeName name="com.runsystem.datnt.utils.LogginUtils"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RestController"/>
+<fullyQualifiedTypeName name="com.runsystem.datnt.dtos.TokenDto"/>
+<fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
+<fullyQualifiedTypeName name="com.runsystem.datnt.models.ResponePackage"/>
 </qualifiedTypeNameHistroy>

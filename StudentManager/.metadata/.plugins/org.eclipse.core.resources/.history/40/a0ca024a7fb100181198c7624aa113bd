@@ -1,0 +1,22 @@
+package com.runsystem.datnt;
+
+import javax.persistence.EntityManagerFactory;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
+
+@SpringBootApplication
+public class WebApplication {
+	
+	public HibernateJpaSessionFactoryBean sessionFactory(EntityManagerFactory emf) {
+		HibernateJpaSessionFactoryBean fact = new HibernateJpaSessionFactoryBean();
+		fact.setEntityManagerFactory(emf);
+		return fact;
+	}
+	
+	public static void main(String[] args) {
+		SpringApplication.run(WebApplication.class, args);
+	}
+
+}
