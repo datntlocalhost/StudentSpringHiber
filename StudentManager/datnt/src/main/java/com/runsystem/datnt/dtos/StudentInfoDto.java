@@ -17,6 +17,7 @@ public class StudentInfoDto implements Serializable {
 	private String schoolCode;
 	private String sex;
 	private Date   birthday;
+	private String dayString;
 	private String phone;
 	private String email;
 	private String address;

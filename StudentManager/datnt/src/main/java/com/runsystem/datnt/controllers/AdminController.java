@@ -1,5 +1,6 @@
 package com.runsystem.datnt.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,8 @@ import com.runsystem.datnt.dtos.SchoolDto;
 import com.runsystem.datnt.dtos.StudentInfoDto;
 import com.runsystem.datnt.dtos.UserDto;
 import com.runsystem.datnt.exceptions.AuthException;
+import com.runsystem.datnt.models.SearchStudentModel;
+import com.runsystem.datnt.models.StudentModel;
 import com.runsystem.datnt.services.SchoolService;
 import com.runsystem.datnt.services.StudentService;
 import com.runsystem.datnt.services.TokenService;
@@ -66,6 +69,9 @@ public class AdminController {
 		model.addAttribute("role", user.getRoles().get(0).getRoleName());
 		model.addAttribute("studentList", students);
 		model.addAttribute("schools", schools);
+		model.addAttribute("studentcreate", new StudentModel());
+		model.addAttribute("studentupdate", new StudentModel());
+		model.addAttribute("searchinfo", new SearchStudentModel());
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "loadPage");
 		return "studentlist";

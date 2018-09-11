@@ -35,9 +35,11 @@ public class LoginController {
 	 * @param model
 	 * @return page login
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
 	public String pageLoad(Model model) {
 		LogginUtils.getInstance().logStart(this.getClass(), "pageLoad");
+		
+		model.addAttribute("user", new UserDto());
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "pageLoad");
 		return "login";

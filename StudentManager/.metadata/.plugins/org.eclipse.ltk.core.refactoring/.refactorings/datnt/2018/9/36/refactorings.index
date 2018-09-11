@@ -51,3 +51,34 @@
 1536220281657	Delete element
 1536220299592	Delete element
 1536231691176	Delete element
+1536285331968	Delete element
+1536285494422	Delete element
+1536285847265	Delete element
+1536286390651	Delete element
+1536286415367	Rename resource 'application.xml'
+1536286435641	Delete element
+1536289065364	Delete element
+1536289654126	Delete element
+1536290094247	Delete element
+1536294456778	Delete element
+1536294463888	Delete element
+1536295124795	Delete element
+1536303941471	Rename resource 'hibernateContext.xml'
+1536308373429	Move 3 resources to 'records'
+1536308383918	Move 10 resources to 'students'
+1536308396700	Rename resource 'role'
+1536308400055	Move 'role_select_by_userid.sql' to 'roles'
+1536308413164	Move 8 resources to 'users'
+1536308435236	Move 3 resources to 'tokens'
+1536308443772	Move 2 resources to 'schools'
+1536308982361	Move 'templates' to 'WEB-INF'
+1536309297983	Move 'static' to 'WEB-INF'
+1536309850758	Move 4 resources to 'errorPages'
+1536311207062	Rename resource 'static'
+1536311633163	Rename resource 'resource'
+1536311637234	Move 'static' to 'resources'
+1536311957957	Move 'static' to 'WEB-INF'
+1536312146610	Rename resource 'static'
+1536312149774	Move 'aloha' to 'resources'
+1536312201775	Move 'aloha' to 'WEB-INF'
+1536312240558	Rename resource 'aloha'

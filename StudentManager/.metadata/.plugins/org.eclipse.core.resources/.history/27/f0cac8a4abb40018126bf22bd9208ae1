@@ -1,0 +1,12 @@
+<#assign tiles=JspTaglibs["http://tiles.apache.org/tags-tiles"]>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<div class="main-footer">
+	<div class="pull-right hidden-xs">
+		<b></b>
+	</div>
+	<strong>GMO-Z Runsystem.com <a
+		href="<@spring.url '/home'/>"></a>.
+	</strong>
+</div>
+</div>

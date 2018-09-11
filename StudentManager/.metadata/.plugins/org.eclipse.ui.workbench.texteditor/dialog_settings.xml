@@ -12,17 +12,18 @@
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="&lt;@spring.url &apos;"/>
+			<item value="${springMacroRequestContext.contextPath}"/>
 			<item value="&lt;c:url value=&quot;"/>
 			<item value="&lt;c:url value=&quot;/"/>
 			<item value="#"/>
 			<item value="rolling"/>
 			<item value="getSinpleName"/>
 			<item value="getCanonicalName()"/>
-			<item value="+"/>
-			<item value="&quot;"/>
 		</list>
 		<list key="replacehistory">
 			<item value=""/>
+			<item value="&lt;@spring.url &apos;"/>
 			<item value="file"/>
 			<item value="getSimpleName"/>
 			<item value="getSinpleName()"/>

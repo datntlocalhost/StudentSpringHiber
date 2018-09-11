@@ -3,26 +3,81 @@
 <Configuration status="ERROR">
 	
   <Properties>
-  	<Property name="path" value="/home/datnguyen" />
+  	<Property name="nomalpath" value="/home/datnguyen/logs" />
+  	<Property name="syspath" value="/home/datnguyen/logs/systems" />
+  	<Property name="nomalpattern" value="[%p] %d{yyyy/MM/dd HH:mm:ss} %m%n"/>
+  	<Property name="syspattern" value="[%p] %d{yyyy/MM/dd HH:mm:ss} %c %m%n"/>
   </Properties>
 
   <Appenders>
   	<!-- Appender for display log on console -->
     <Console name="log_console" target="SYSTEM_OUT">
-      <PatternLayout pattern="[%p] %d{yyyy/MM/dd HH:mm:ss} %m%n"/>
+      <PatternLayout pattern="${nomalpattern}"/>
+    </Console>
+    
+    <Console name="log_sys_console" target="SYSTEM_OUT">
+    	<PatternLayout pattern="${syspattern}"/>
     </Console>
     
     <!-- Appender for log in file -->
-    
-    
+	<RollingFile name="log_file" fileName="${nomalpath}/program.log" filePattern="${nomalpath}/Web_%d{yyyyMMdd}.log">
+		<PatternLayout pattern="${nomalpattern}"/>
+		<Policies>
+			<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+		</Policies>
+		<DefaultRolloverStrategy max="1"/>
+	</RollingFile>
+	
+	<!-- Appender for log to file of spring core -->
+	<RollingFile name="log_core" fileName="${syspath}/core/corestartup.log" filePattern="${syspath}/Core_%d{yyyyMMdd}.log">
+		<PatternLayout pattern="${syspattern}"/>
+		<Policies>
+			<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+		</Policies>
+		<DefaultRolloverStrategy max="1" />
+	</RollingFile>
+	
+	<!-- Appender for log to file of spring boot -->
+	<RollingFile name="log_boot" fileName="${syspath}/boot/bootstartup.log" filePattern="${syspath}/Boot_%d{yyyyMMdd}.log">
+		<PatternLayout pattern="${syspattern}"/>
+		<Policies>
+			<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+		</Policies>
+		<DefaultRolloverStrategy max="1" />
+	</RollingFile>
+	
+	<!-- Appender for log to file of spring web -->
+    <RollingFile name="log_web" fileName="${syspath}/web/webstartup.log" filePattern="${syspath}/Web_%d{yyyyMMdd}.log">
+		<PatternLayout pattern="${syspattern}"/>
+		<Policies>
+			<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+		</Policies>
+		<DefaultRolloverStrategy max="1" />
+	</RollingFile>
+	
+	
   </Appenders>
   <Loggers>
+  
     <Logger name="com.runsystem.datnt" level="info" additivity="false">
       <AppenderRef ref="log_console"/>
+      <AppenderRef ref="log_file" />
     </Logger>
     
-    <Root level="info">
-      <AppenderRef ref="log_console"/>
-    </Root>
+    <Logger name="org.springframework.core" level="info" additivity="false">
+    	<AppenderRef ref="log_sys_console" />
+    	<AppenderRef ref="log_core" />
+    </Logger>
+    
+    <Logger name="org.springframework.boot" level="info" additivity="false">
+    	<AppenderRef ref="log_sys_console" />
+    	<AppenderRef ref="log_boot" />
+    </Logger> 
+    
+    <Logger name="org.springframework.web" level="info" additivity="false">
+    	<AppenderRef ref="log_sys_console" />
+    	<AppenderRef ref="log_web" />
+    </Logger> 
+
   </Loggers>
 </Configuration>

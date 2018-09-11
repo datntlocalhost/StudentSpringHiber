@@ -1,5 +1,0 @@
-package com.runsystem.datnt.exceptions;
-
-public class UpdateException extends Exception {
-
-}

@@ -1,3 +1,0 @@
-UPDATE
- USER
-SETuser_username = :username,user_password = :password WHERE student_id = :id ;

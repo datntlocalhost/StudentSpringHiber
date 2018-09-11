@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+      "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+      "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	<definition name="baseLayout" template="/WEB-INF/templates/layout.ftl"
+		templateType="freemarker">
+		
+		<put-attribute name="title" value="Tile" type="string"/>
+		
+		<put-attribute name="header" value="/WEB-INF/templates/header/header.ftl"
+			type="freemarker" />
+			
+		<put-attribute name="body" value="" />
+		
+		<put-attribute name="footer" value="/WEB-INF/templates/footer/footer.ftl"
+			type="freemarker" />
+	</definition>
+	
+	<definition name="home" extends="baseLayout">
+		<put-attribute name="title" value="Home" type="string"/>
+		<put-attribute name="body" value="/WEB-INF/templates/body/home.ftl"
+			type="freemarker" />
+	</definition>
+	
+	<definition name="studentlist" extends="baseLayout">
+		<put-attribute name="title" value="Student List" type="string" />
+		<put-attribute name="body" value="/WEB-INF/templates/body/studentlist.ftl" type="freemarker" />
+	</definition>
+	
+	<definition name="studentrecord" extends="baseLayout">
+		<put-attribute name="title" value="Student Info" type="string" />
+		<put-attribute name="body" value="/WEB-INF/templates/body/studentrecord.ftl" type="freemarker" />
+	</definition>
+	
+	<definition name="login" >
+		<put-attribute value="/WEB-INF/templates/login.ftl"></put-attribute>
+	</definition>
+	
+</tiles-definitions>  

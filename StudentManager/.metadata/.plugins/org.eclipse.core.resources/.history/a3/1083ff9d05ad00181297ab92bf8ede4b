@@ -1,6 +1,0 @@
-package com.runsystem.datnt.dtos;
-
-@Data
-public class StudentInfoDto {
-
-}

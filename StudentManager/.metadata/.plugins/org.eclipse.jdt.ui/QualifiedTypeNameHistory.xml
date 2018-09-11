@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.nio.BufferUnderflowException"/>
-<fullyQualifiedTypeName name="java.io.InputStream"/>
-<fullyQualifiedTypeName name="java.io.BufferedInputStream"/>
-<fullyQualifiedTypeName name="java.io.BufferedReader"/>
-<fullyQualifiedTypeName name="java.io.FileReader"/>
-<fullyQualifiedTypeName name="java.lang.ClassLoader"/>
-<fullyQualifiedTypeName name="java.lang.StringBuilder"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.utils.SqlUtils"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="net.bytebuddy.dynamic.loading.PackageDefinitionStrategy.ManifestReading.SealBaseLocator"/>
 <fullyQualifiedTypeName name="java.util.List"/>
@@ -31,7 +23,6 @@
 <fullyQualifiedTypeName name="com.runsystem.datnt.models.StudentModel"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.utils.HeaderPackage"/>
 <fullyQualifiedTypeName name="javax.servlet.http.HttpSession"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.dtos.UserDto"/>
 <fullyQualifiedTypeName name="org.apache.logging.log4j.core.appender.RollingFileAppender"/>
 <fullyQualifiedTypeName name="org.apache.logging.log4j.core.layout.PatternLayout"/>
 <fullyQualifiedTypeName name="org.apache.logging.log4j.core.appender.ConsoleAppender"/>
@@ -45,7 +36,6 @@
 <fullyQualifiedTypeName name="java.io.Serializable"/>
 <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.SpringBootApplication"/>
 <fullyQualifiedTypeName name="org.springframework.boot.SpringApplication"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.WebApplication"/>
 <fullyQualifiedTypeName name="org.springframework.context.annotation.Configuration"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
 <fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
@@ -55,9 +45,19 @@
 <fullyQualifiedTypeName name="org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean"/>
 <fullyQualifiedTypeName name="com.fasterxml.jackson.annotation.JsonIgnoreProperties"/>
 <fullyQualifiedTypeName name="org.springframework.context.annotation.ImportResource"/>
-<fullyQualifiedTypeName name="com.runsystem.datnt.utils.LogginUtils"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RestController"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.dtos.TokenDto"/>
 <fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
 <fullyQualifiedTypeName name="com.runsystem.datnt.models.ResponePackage"/>
+<fullyQualifiedTypeName name="org.springframework.boot.web.servlet.support.SpringBootServletInitializer"/>
+<fullyQualifiedTypeName name="com.runsystem.datnt.WebApplication"/>
+<fullyQualifiedTypeName name="com.runsystem.datnt.utils.LogginUtils"/>
+<fullyQualifiedTypeName name="org.hibernate.Query"/>
+<fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.view.tiles3.TilesViewResolver"/>
+<fullyQualifiedTypeName name="org.springframework.web.SpringServletContainerInitializer"/>
+<fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver"/>
+<fullyQualifiedTypeName name="com.runsystem.datnt.dtos.UserDto"/>
 </qualifiedTypeNameHistroy>

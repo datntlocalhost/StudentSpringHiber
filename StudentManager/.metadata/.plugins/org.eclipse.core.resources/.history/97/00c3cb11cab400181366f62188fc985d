@@ -1,0 +1,21 @@
+<#assign tiles=JspTaglibs["http://tiles.apache.org/tags-tiles"]>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+	<!-- Content Header (Page header) -->
+	<div class="content-header">
+		<h1>
+			Home <small>Control panel</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Home</li>
+		</ol>
+	</div>
+
+	<!-- Main content -->
+	<div class="content"></div>
+	<!-- /.content -->
+
+</div>
+<!-- /.content-wrapper -->

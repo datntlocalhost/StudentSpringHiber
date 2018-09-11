@@ -16,8 +16,6 @@ import com.runsystem.datnt.utils.LogginUtils;
 
 @ControllerAdvice(basePackages = "com.runsystem.datnt.controllers")
 public class ExceptionHandlerController {
-	
-	
 	/*
 	 * Process when controller throws any exception,
 	 * get exception info and return to view an null object json.

@@ -1,7 +1,0 @@
-package com.runsystem.datnt.dtos;
-
-import java.io.Serializable;
-
-public class TokenDto implements Serializable {
-
-}

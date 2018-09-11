@@ -1,0 +1,590 @@
+var tableStudent;
+
+up vote
+54
+down vote
+favorite
+16
+
+Using a Java-based back-end (i.e., servlets and JSP), if I need the contextPath from JavaScript, what is the recommended pattern for doing that, any why? I can think of a few possibilities. Am I missing any?
+
+1. Burn a SCRIPT tag into the page that sets it in some JavaScript variable
+
+<script>var ctx = "<%=request.getContextPath()%>"</script>
+
+This is accurate, but requires script execution when loading the page.
+
+2. Set the contextPath in some hidden DOM element
+
+<span id="ctx" style="display:none;"><%=request.getContextPath()%></span>
+
+This is accurate, and doesn't require any script execution when loading the page. But you do need a DOM query when need to access the contextPath. The result of the DOM query can be cached if you care that much about performance.
+
+3. Try to figure it out within JavaScript by examining document.URL or the BASE tag
+
+function() {
+    var base = document.getElementsByTagName('base')[0];
+    if (base && base.href && (base.href.length > 0)) {
+        base = base.href;
+    } else {
+        base = document.URL;
+    }
+    return base.substr(0,
+        base.indexOf("/", base.indexOf("/", base.indexOf("//") + 2) + 1));
+};
+
+This doesn't require any script execution when loading the page, and you can also cache the result if necessary. But this only works if you know your context path is a single directory -- as opposed to the root directory (/) or the multiple directories down (/mypath/iscomplicated/).
+
+Which way I'm leaning
+
+I'm favoring the hidden DOM element, because it doesn't require JavaScript code execution at the load of the page. Only when I need the contextPath, will I need to execute anything (in this case, run a DOM query).
+javascript jsp servlets
+shareimprove this question
+asked Jul 7 '11 at 18:56
+Mike M. Lin
+7,447114456
+
+    1
+    I can for life not understand why "but requires script execution when loading the page" is such a big problem that you'd prefer to fallback to DOM fiddling/traversing. Can you please elaborate? Also, what exactly do you need to context path for? Perhaps there are other ways so that you don't need it at all. – BalusC Jul 7 '11 at 19:21
+    JavaScript execution while loading the page blocks parallel downloads. Maybe it doesn't matter with a one-liner. DOM traversal might be more penalizing, but at least you have the option to delay the penalty till you absolutely need it (if you need it). I'm not sure that a lookup by ID would be all that penalizing either. – Mike M. Lin Jul 7 '11 at 20:13
+    I don't need the contextPath myself. I was just bringing up a "what if". Here's a possible example: I'm loading a JS file dynamically and need to know its path. I can use an absolute path if I know the contextPath ahead of time, but if the contextPath changes, then my scripts break. I can use a relative path, but that's dependent on the location of the parent HTML doc. If I move the file, my page breaks. Knowing the contextPath, I can protect myself from these types of breakages by having a dynamically-generated absolute path. – Mike M. Lin Jul 7 '11 at 20:16
+    10
+    Assigning a global variable is basically a no-op in modern browsers. I would alone not use old fashioned scriptlets for this, but just EL. var ctx = '${pageContext.request.contextPath}'; – BalusC Jul 7 '11 at 20:23
+    2
+    @BalusC You are amazing. Thank you for always posting what you know about how to work with JSPs. Also, I can't get your suggestion to work. When I put it in a script tag, the EL is not recognized. And when I don't put it in a script tag, the error says that a variable is defined wrong. How do I do what you posted above? – Casey Aug 6 '13 at 18:55
+
+add a comment
+5 Answers
+active
+oldest
+votes
+up vote
+58
+down vote
+accepted
+
+Based on the discussion in the comments (particularly from BalusC), it's probably not worth doing anything more complicated than this:
+
+<script>var ctx = "${pageContext.request.contextPath}"</script>
+
+shareimprove this answer
+answered Jul 22 '11 at 20:33
+Mike M. Lin
+7,447114456
+
+    4
+    Although tedious, I always preferred to have my JavaScript objects receive a property that defines the "baseUrl" or context. I would have a script tag in the jsp to "initialize" my JavaScript objects for the page, and pass the baseUrl into them there. This way I don't have to assume that some global variable is available. – Nick Spacek Jan 20 '12 at 13:25
+    @Mike M. Lin , Are there any pitfalls if we use the option fetching the path using document.url – juan Jan 25 '14 at 10:26
+    can someone help me? I added the global variable in my javascript file but it is returning me the raw String "${pageContext.request.contextPath}" and not the contextPath of project.. – Felipe Mosso Jan 25 '15 at 12:50
+    @FelipeMosso It goes into your .jsp file, not your JavaScript file. – Mike M. Lin Feb 27 '15 at 18:19
+    @MikeM.Lin thank you, I will try it later.. the <script></script> tags made me think I should add into the JavaScript file – Felipe Mosso Feb 27 '15 at 22:52
+
+add a comment
+up vote
+38
+down vote
+
+Got it :D
+
+function getContextPath() {
+   return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+}
+alert(getContextPath());
+
+Important note: Does only work for the "root" context path. Does not work with "subfolders", or if context path has a slash ("/") in it.
+shareimprove this answer
+edited Sep 6 '16 at 14:28
+answered May 21 '14 at 19:43
+Cedric Simon
+3,35322644
+
+    3
+    nice one. +1 for not mixing languages, thank you. – Gurnard Feb 24 '15 at 15:17
+    2
+    This is the best answer! It doesn't mix jsp with javascript definitions – Felipe Mosso Feb 28 '15 at 23:05
+    1
+    FWIW this fails if the context path has slash in it (e.g. /foo/bar). – Henry Heikkinen Mar 30 '15 at 10:39
+    3
+    I'm seeing window.location.pathname with a value like "/context/p1/p2/p3.html", so this suggestion returns "/context". But a Java web application may be deployed in the ROOT context, so the first component of the pathname is not a context string. I don't know a way to handle this using client-only script, which is a problem as I'm not using JSP or Servlets. – Chris May 21 '15 at 14:16
+    5
+    This does not return the context path. This returns the first path name of the URL which is not necessarily the context path. – BalusC Aug 29 '15 at 8:10
+
+show 1 more comment
+up vote
+4
+down vote
+
+I think you can achieve what you are looking for by combining number 1 with calling a function like in number 3.
+
+You don't want to execute scripts on page load and prefer to call a function later on? Fine, just create a function that returns the value you would have set in a variable:
+
+function getContextPath() {
+   return "<%=request.getContextPath()%>";
+}
+
+It's a function so it wont be executed until you actually call it, but it returns the value directly, without a need to do DOM traversals or tinkering with URLs.
+
+At this point I agree with @BalusC to use EL:
+
+function getContextPath() {
+   return "${pageContext.request.contextPath}";
+}
+
+or depending on the version of JSP fallback to JSTL:
+
+function getContextPath() {
+   return "<c:out value="${pageContext.request.contextPath}" />";
+}
+
+shareimprove this answer
+answered Jul 22 '11 at 20:02
+user159088
+
+    1
+    Cool idea, but this would actually be more overhead. The because now I have a function declaration in addition to the variable assignment. function getContextPath() {..} actually expands to window.getContextPath = function() {..}. At this point I agree with BalusC that there's nothing wrong with something like var ctx = '${pageContext.request.contextPath}';. It is about as close to a no-op as you can get. – Mike M. Lin Jul 22 '11 at 20:30
+
+add a comment
+up vote
+1
+down vote
+
+I render context path to attribute of link tag with id="contextPahtHolder" and then obtain it in JS code. For example:
+
+<html>
+    <head>
+        <link id="contextPathHolder" data-contextPath="${pageContext.request.contextPath}"/>
+    <body>
+        <script src="main.js" type="text/javascript"></script>
+    </body>
+</html>
+
+main.js
+
+var CONTEXT_PATH = $('#contextPathHolder').attr('data-contextPath');
+$.get(CONTEXT_PATH + '/action_url', function() {});
+
+If context path is empty (like in embedded servlet container istance), it will be empty string. Otherwise it contains contextPath string
+shareimprove this answer
+edited Feb 14 at 7:40
+answered Aug 6 '17 at 8:24
+Олег Шавров
+1113
+add a comment
+up vote
+0
+down vote
+
+Reviewer the solution by this Checking the solution of this page, make the following solution I hope it works: Example:
+
+Javascript:
+
+var context = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2)); 
+
+$(document).ready(function() {
+	
+	tableStudent = $("#student-table").DataTable({
+		paging:   true,
+		info : true,
+		searching: true,
+		"columnDefs": [
+		               { "orderable": false, "targets": 6 },
+		               { "orderable": false, "targets": 7 },
+		               { "orderable": false, "targets": 8 }
+		              ]
+	});
+	
+	/*
+	 * Process when user click on tr of table.
+	 * Show info of student in that row
+	 */
+	$('#student-table tbody').on('click', 'tr', function() {
+		var data = tableStudent.row(this).data();
+
+	    tableStudent.$('tr.selected').removeClass('selected');
+	    $(this).addClass('selected');
+	    
+		$("#js-code-md").val(data[0]);
+		$("#js-hide-md").val(data[0]);
+		$("#js-name-md").val(data[1]);
+		$("#js-sex-md").val(data[2]);
+		$("#js-birthday-md").val(data[3]);
+		$("#js-school-md").val(data[4]);
+		$("#js-schoolyear-md").val(data[5]);
+		$("#js-phone-md").val(data[6]);
+		$("#js-email-md").val(data[7]);
+		$("#js-address-md").val(data[8]);
+		$("#js-student-info").modal('toggle');
+	});
+
+	/*
+	 * Process submit Student Search form.
+	 */
+	$("#js-search-frm-1").on('submit', function(event) {
+		
+		var valid = true;
+		var dateFrom = new Date($("#js-date-from").val());
+		var dateTo = new Date($("#js-date-to").val());
+	
+		if (dateFrom > dateTo) {
+			$(".js-date-message").html("Invalid date range.");
+			valid = false;
+		}
+			
+		if (valid) {
+			$.ajax({
+				type: 'post',
+				url: '/admin/search',
+				contentType: 'application/json',
+				data: formToJson($(this)),
+				dataType: 'json',
+				success : function(data) {
+					responseProcess(data);
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+			$(".js-date-message").html("");
+		}
+		event.preventDefault();
+	});
+	
+	/*
+	 * Process submit update student info form.
+	 */
+	
+	$("#js-studentinfo-frm").on('submit',function(event) {
+		
+		var valid = true;
+		
+		//Check validation input 
+		if (!validName($("#js-name-md").val())) {
+			$("#js-name-error-md").html("Invalid name");
+			valid = false;
+		} else {
+			$("#js-name-error-md").html("");
+		}
+		
+		if (!validEmail($("#js-email-md").val())) {
+			$("#js-email-error-md").html("Invalid email");
+			valid = false;
+		} else {
+			$("#js-email-error-md").html("");
+		}
+		
+		if (!validDate($("#js-birthday-md").val())) {
+			$("#js-birthday-error-md").html("Invalid date");
+			valid = false;
+		} else {
+			$("#js-birthday-error-md").html("");
+		}
+		
+		if (!validPhone($("#js-phone-md").val())) {
+			$("#js-phone-error-md").html("Invalid phone");
+			valid = false;
+		} else {
+			$("#js-phone-error-md").html("");
+		}
+		
+		if (valid == false) {
+			event.preventDefault();
+		} else {
+			$("#js-name-error-md").html("");
+			$("#js-date-error-md").html("");
+			$("#js-phone-error-md").html("");
+			$("#js-email-error-md").html("");
+			
+			//Send post request contain update info to controller
+			$.ajax({
+				type: 'post',
+				contentType: 'application/json',
+				dataType: 'json',
+				url: '/admin/update',
+				data: formToJson($(this)),
+				success : function(data) {
+					responseProcess(data);
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+					alert("Update failed.");
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+			$("#js-student-info").modal('toggle');
+			event.preventDefault();
+		}
+	});
+	
+	
+	/*
+	 * Process when user click delete button in update student info form.
+	 */
+	$("#js-delete-btn").click(function(event) {
+		$.ajax({
+			type: 'post',
+			contentType: 'application/json',
+			dataType: 'json',
+			url: '/admin/delete',
+			data: formToJson($("#js-studentinfo-frm")),
+			success : function(data) {
+				responseProcess(data);
+			},
+			error : function(e) {
+				console.log("ERROR: ", e);
+				alert("Delete failed.");
+			},
+			done : function(e) {
+				console.log("DONE");
+			}
+		});
+		$("#js-student-info").modal('toggle');
+	});
+	
+	/*
+	 * Create new student.
+	 */
+	$("#js-create-frm").on('submit', function(event) {
+		var valid = true;
+		
+		if (!validName($("#js-name-crate").val())) {
+			$("#js-name-error-cr").html("Invalid name");
+			valid = false;
+		} else {
+			$("#js-name-error-cr").html("");
+		}
+
+		if (!validPassword($("#js-password-crate").val())) {
+			$("#js-pwd-error-cr").html("Invalid password");
+			valid = false;
+		} else {
+			$("#js-pwd-error-cr").html("");
+		}
+
+		if (!validDate($("#js-birthday-create").val())) {
+			$("#js-date-error-cr").html("Invalid date");
+			valid = false;
+		} else {
+			$("#js-date-error-cr").html("");
+		}
+
+		if (!validPhone($("#js-phone-create").val())) {
+			$("#js-phone-error-cr").html("Invalid phone");
+			valid = false;
+		} else {
+			$("#js-phone-error-cr").html("");
+		}
+
+		if (!validEmail($("#js-email-create").val())) {
+			$("#js-email-error-cr").html("Invalid email");
+			valid = false;
+		} else {
+			$("#js-email-error-cr").html("");
+		}
+	
+		if (valid == false) {
+			event.preventDefault();
+		} else {
+			$("#js-pwd-error-cr").html("");
+			$("#js-date-error-cr").html("");
+			$("#js-phone-error-cr").html("");
+			$("#js-email-error-cr").html("");
+			$.ajax({
+				type: 'post',
+				dataType: 'json',
+				contentType: 'application/json',
+				url: '/admin/create',
+				data: formToJson($(this)),
+				success : function(data) {
+					responseProcess(data);
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+					alert("Create failed.");
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+		}
+		event.preventDefault();
+	});
+	
+	$("#js-student-update").on('submit', function(event) {
+		var valid = true;
+		if (!validPhone($("#js-phone-create").val())) {
+			$("#js-phone-error-cr").html("Invalid phone");
+			valid = false;
+		} else {
+			$("#js-phone-error-cr").html("");
+		}
+
+		if (!validEmail($("#js-email-create").val())) {
+			$("#js-email-error-cr").html("Invalid email");
+			valid = false;
+		} else {
+			$("#js-email-error-cr").html("");
+		}
+		
+		if (valid == true) {
+			$("#js-phone-error-cr").html("");
+			$("#js-email-error-cr").html("");
+			$.ajax({
+				type: 'post',
+				contentType: 'application/json',
+				dataType: 'json',
+				url: '/student/info',
+				data: formToJson($(this)),
+				success : function(data) {
+					responseProcess(data);
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+					alert("Update failed.");
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+		}
+		event.preventDefault();
+		
+	});
+	
+	/*
+	 * Process when user click on Create Button.
+	 */
+	$("#js-btn-create").click(function(event) {
+		$("#js-name-crate").val("");
+		$("#js-password-crate").val("");
+		$("#js-birthday-create").val("");
+		$("#js-phone-crate").val("");
+		$("#js-email-crate").val("");
+		$("#js-address-crate").val("");
+	});
+
+});
+
+function responseProcess(data) {
+	var header = data.headerPackage;
+	
+	switch (header) {
+	case "AUTH_REQUIREMENT":
+		window.location.replace("/login?token=false");
+		break;
+	case "INPUT_INVALID":
+		alert("Input invalid");
+		break;
+	case "SEARCH":
+		//remove current data in student list datatables
+		tableStudent.rows().remove().draw();
+		//render new student list	
+		renderSearch(data.data, tableStudent);
+		break;
+	case "CREATE_SUCCESS":
+		renderStudent(data.data, tableStudent);
+		$("#js-student-create").modal('toggle');
+		alert("Create success");
+		break;
+	case "DELETE_SUCCESS":
+		tableStudent.row('.selected').remove().draw();
+		alert("Delete success");
+		break;
+	case "UPDATE_SUCCESS":
+		var dataRow = tableStudent.row('.selected').data();
+		dataRow[0] = $("#js-hide-md").val();
+		dataRow[1] = $("#js-name-md").val();
+		dataRow[2] = $("#js-sex-md").val();
+		dataRow[3] = $("#js-birthday-md").val();
+		dataRow[4] = $("#js-school-md").val();
+		dataRow[5] = $("#js-schoolyear-md").val();
+		dataRow[6] = $("#js-phone-md").val();
+		dataRow[7] = $("#js-email-md").val();
+		dataRow[8] = $("#js-address-md").val();
+		tableStudent.row('.selected').data(dataRow).draw();
+		alert("Update success");
+		break;
+	case "STUDENT_UPDATE":
+		renderStudentUpdate(data.data[0]);
+		alert("Update success");
+		break;
+	case "CREATE_ERROR":
+		alert("Create failed");
+		break;
+	case "DELETE_ERROR":
+		alert("Delete failed");		
+		break;
+	case "UPDATE_ERROR":
+		alert("Update failed");
+		break;
+	default:
+		break;
+	}
+}
+
+/*
+ * Render list of student on datatable student list.
+ * 
+ * @param result list of student.
+ */
+function renderSearch(result, table) {
+	for (var i = 0; i < result.length; i++) {
+		var date = new Date(result[i].birthday);
+		var dateFormat =  date.getFullYear() + '-' + ("0"+(date.getMonth()+1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2);
+		table.row.add([
+		               result[i].studentCode,
+		               result[i].studentName,
+		               result[i].sex,
+		               dateFormat,
+		               result[i].schoolCode,
+		               result[i].schoolYear,
+		               result[i].phone,
+		               result[i].email,
+		               result[i].address
+		]).draw(false);
+	}
+}
+
+function renderStudent(result, table) {
+	for (var i = 0; i < result.length; i++) {
+		table.row.add([
+		               result[i].studentCode,
+		               result[i].studentName,
+		               result[i].sex,
+		               result[i].birthday,
+		               result[i].schoolCode,
+		               result[i].schoolYear,
+		               result[i].phone,
+		               result[i].email,
+		               result[i].address
+		               ]).draw(false);
+	}
+}
+
+function renderStudentUpdate(data) {
+	$("#js-phone-create").val(data.phone);
+	$("#js-email-create").val(data.email);
+	$("#js-address-create").val(data.address);
+}
+
+function formToJson(formData) {
+	var data = formData.serialize();
+	var array = data.split('&');
+	var string = '{';
+	for (var i = 0; i < array.length; i++) {
+		var temp = array[i].split('=');
+		temp[1] = temp[1].replace(new RegExp('%20', 'g'),' ');
+		temp[1] = temp[1].replace(new RegExp('%40', 'g'),'@');
+		if (i == array.length - 1) {
+			string += '"' + temp[0] + '" : "' + temp[1] + '"}';
+		} else {
+			string += '"' + temp[0] + '" : "' + temp[1] + '", ';
+		}
+	}
+	return string;
+}
+

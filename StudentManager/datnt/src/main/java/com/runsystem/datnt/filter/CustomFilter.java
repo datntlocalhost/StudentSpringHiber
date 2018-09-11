@@ -22,7 +22,7 @@ import com.runsystem.datnt.dtos.UserDto;
 /**
  * Servlet Filter implementation class CustomFilter
  */
-@Component
+//@Component
 public class CustomFilter implements Filter {
 	
     /**
@@ -50,6 +50,7 @@ public class CustomFilter implements Filter {
 		UserDto userDetails = (UserDto) session.getAttribute("user");
 		
 		String requestURI = req.getRequestURI();
+		String contextPath = req.getContextPath();
 		
 		if (userDetails != null) {
 			
@@ -59,29 +60,29 @@ public class CustomFilter implements Filter {
 				authorities.add(role.getRoleName());
 			}
 			
-			if (requestURI.startsWith("/home")) {
+			if (requestURI.startsWith(contextPath + "/home")) {
 				if (!authorities.contains("ROLE_ADMIN") && !authorities.contains("ROLE_STUDENT")) {
-					res.sendRedirect("/403");
+					res.sendRedirect(contextPath + "/403");
 					return;
 				}
-			} else if (requestURI.startsWith("/student")) {
+			} else if (requestURI.startsWith(contextPath + "/student")) {
 				if (!authorities.contains("ROLE_STUDENT")) {
-					res.sendRedirect("/403");
+					res.sendRedirect(contextPath + "/403");
 					return;
 				}
-			} else if (requestURI.startsWith("/admin")) {
+			} else if (requestURI.startsWith(contextPath + "/admin")) {
 				if (!authorities.contains("ROLE_ADMIN")) {
-					res.sendRedirect("/403");
+					res.sendRedirect(contextPath + "/403");
 					return;
 				}
 			} 
 			chain.doFilter(request, response);
 		} else {
-			if (requestURI.startsWith("/login")) {
+			if (requestURI.startsWith(contextPath + "/login")) {
 				chain.doFilter(request, response);
 				return;
 			}
-			res.sendRedirect("/login");
+			res.sendRedirect(contextPath + "/login");
 		}
 	}
 
