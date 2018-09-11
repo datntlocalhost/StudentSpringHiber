@@ -1,0 +1,15 @@
+<div class="main-footer">
+	<div class="pull-right hidden-xs">
+		<b></b>
+	</div>
+	<strong>GMO-Z Runsystem.com <a
+		href="/home"></a>.
+	</strong>
+</div>
+</div>
+<script src="/js/jquery.min.js" ></script>
+<script src="/js/bootstrap.min.js" ></script>
+<script src="/js/adminlte.min.js" ></script>
+<script src="/js/jquery.dataTables.min.js" ></script>
+<script src="/js/validator.js" ></script>
+<script src="/js/main.js" ></script>

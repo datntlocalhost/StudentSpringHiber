@@ -1,0 +1,80 @@
+[INFO] 2018/09/07 10:24:52 Starting WebApplication on korn with PID 8931 (/home/datnguyen/Develop/spring/StudentSpringHiber/StudentManager/datnt/target/classes started by datnguyen in /home/datnguyen/Develop/spring/StudentSpringHiber/StudentManager/datnt)
+[INFO] 2018/09/07 10:24:52 No active profile set, falling back to default profiles: default
+[INFO] 2018/09/07 10:25:12 Starting WebApplication on korn with PID 9006 (/home/datnguyen/Develop/spring/StudentSpringHiber/StudentManager/datnt/target/classes started by datnguyen in /home/datnguyen/Develop/spring/StudentSpringHiber/StudentManager/datnt)
+[INFO] 2018/09/07 10:25:12 No active profile set, falling back to default profiles: default
+[INFO] 2018/09/07 10:25:18 Started WebApplication in 5.803 seconds (JVM running for 6.713)
+[INFO] 2018/09/07 10:25:34 LoginController - [METHOD] pageLoad - [START]
+[INFO] 2018/09/07 10:25:34 LoginController - [METHOD] pageLoad - [END]
+[INFO] 2018/09/07 10:25:34 LoginController - [METHOD] pageLoad - [START]
+[INFO] 2018/09/07 10:25:34 LoginController - [METHOD] pageLoad - [END]
+[INFO] 2018/09/07 10:25:34 LoginController - [METHOD] pageLoad - [START]
+[INFO] 2018/09/07 10:25:34 LoginController - [METHOD] pageLoad - [END]
+[INFO] 2018/09/07 10:25:37 LoginController - [METHOD] userLogin - [START]
+[INFO] 2018/09/07 10:25:37 LoginController - [CONTENT]
+
+	INPUT FROM 127.0.0.1: UserDto(userId=0, username=admin, password=admin, studentId=0, roles=[])
+
+[INFO] 2018/09/07 10:25:37 UserServiceImpl - [METHOD] userLogin - [START]
+[INFO] 2018/09/07 10:25:37 UserDaoImpl - [METHOD] userLogin - [START]
+[INFO] 2018/09/07 10:25:37 UserDaoImpl - [CONTENT]
+
+	String query: SELECT u.user_id as userId, u.user_username as username, u.user_password as password FROM USER u WHERE u.user_username = :username and u.user_password = :password
+
+	Parameter [password]	: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+	Parameter [username]	: admin
+
+[INFO] 2018/09/07 10:25:37 UserDaoImpl - [CONTENT]
+
+	QUERY RESULT: UserDto(userId=46, username=admin, password=8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918, studentId=0, roles=[])
+
+[INFO] 2018/09/07 10:25:37 UserDaoImpl - [METHOD] userLogin - [END]
+[INFO] 2018/09/07 10:25:37 RoleDaoImpl - [METHOD] getUserRole - [START]
+[INFO] 2018/09/07 10:25:37 RoleDaoImpl - [CONTENT]
+
+	String query: SELECT   r.role_id as roleId,   r.role_name as roleName FROM  USER_ROLE ur,  ROLE r WHERE  ur.role_id = r.role_id and  ur.user_id = :userid
+
+	Parameter [userid]	: 46
+
+[INFO] 2018/09/07 10:25:37 RoleDaoImpl - [CONTENT]
+
+	QUERY RESULT: [RoleDto(roleId=1, roleName=ROLE_ADMIN)]
+
+[INFO] 2018/09/07 10:25:37 RoleDaoImpl - [METHOD] getUserRole - [END]
+[INFO] 2018/09/07 10:25:37 UserServiceImpl - [METHOD] userLogin - [END]
+[INFO] 2018/09/07 10:25:37 TokenServiceImpl - [METHOD] createToken - [START]
+[INFO] 2018/09/07 10:25:37 TokenDaoImpl - [METHOD] insert - [START]
+[INFO] 2018/09/07 10:25:37 TokenDaoImpl - [CONTENT]
+
+	String query: INSERT INTO TOKEN(  token_username,  token_value,  token_timestamp) VALUES(  :username,  :value,  :timestamp)
+
+	Parameter [value]	: 04f432454743f98fd1d820e0833ef07bbe3c1683c74a9ee1e28856b7cbb5017d
+	Parameter [username]	: admin
+	Parameter [timestamp]	: 2018-09-07 10:40:37.799
+
+[INFO] 2018/09/07 10:25:37 TokenDaoImpl - [METHOD] insert - [END]
+[INFO] 2018/09/07 10:25:37 TokenServiceImpl - [METHOD] createToken - [END]
+[INFO] 2018/09/07 10:25:37 LoginController - [METHOD] userLogin - [END]
+[INFO] 2018/09/07 10:25:37 HomeController - [METHOD] loadPage - [START]
+[INFO] 2018/09/07 10:25:37 TokenServiceImpl - [METHOD] checkValidToken - [START]
+[INFO] 2018/09/07 10:25:37 TokenServiceImpl - [METHOD] getLastToken - [START]
+[INFO] 2018/09/07 10:25:37 TokenDaoImpl - [METHOD] selectLastToken - [START]
+[INFO] 2018/09/07 10:25:37 TokenDaoImpl - [CONTENT]
+
+	String query: SELECT t.token_username as username, t.token_value as token, t.token_timestamp as timestamp FROM TOKEN t, (SELECT MAX(token_id) as maxid FROM TOKEN WHERE token_username = :username) as tk WHERE t.token_id = tk.maxid
+
+	Parameter [username]	: admin
+
+[INFO] 2018/09/07 10:25:37 TokenDaoImpl - [CONTENT]
+
+	QUERY RESULT: TokenDto(username=admin, token=04f432454743f98fd1d820e0833ef07bbe3c1683c74a9ee1e28856b7cbb5017d, timestamp=2018-09-07 10:40:38.0)
+
+[INFO] 2018/09/07 10:25:37 TokenDaoImpl - [METHOD] selectLastToken - [END]
+[INFO] 2018/09/07 10:25:37 TokenServiceImpl - [METHOD] getLastToken - [END]
+[INFO] 2018/09/07 10:25:37 TokenServiceImpl - [METHOD] checkValidToken - [END]
+[INFO] 2018/09/07 10:25:37 HomeController - [METHOD] loadPage - [END]
+[INFO] 2018/09/07 10:26:54 Starting WebApplication on korn with PID 9006 (/home/datnguyen/Develop/spring/StudentSpringHiber/StudentManager/datnt/target/classes started by datnguyen in /home/datnguyen/Develop/spring/StudentSpringHiber/StudentManager/datnt)
+[INFO] 2018/09/07 10:26:54 No active profile set, falling back to default profiles: default
+[INFO] 2018/09/07 10:26:55 Started WebApplication in 1.396 seconds (JVM running for 104.43)
+[INFO] 2018/09/07 10:28:13 Starting WebApplication on korn with PID 9006 (/home/datnguyen/Develop/spring/StudentSpringHiber/StudentManager/datnt/target/classes started by datnguyen in /home/datnguyen/Develop/spring/StudentSpringHiber/StudentManager/datnt)
+[INFO] 2018/09/07 10:28:13 No active profile set, falling back to default profiles: default
+[INFO] 2018/09/07 10:28:15 Started WebApplication in 1.494 seconds (JVM running for 183.907)

@@ -1,0 +1,28 @@
+package com.runsystem.datnt.errorhandles;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class HttpErrorHandle {
+	
+	@RequestMapping(value = "/400")
+	public String error400() {
+		return "errorPages/400";
+	}
+	
+	@RequestMapping(value = "/403")
+	public String error403() {
+		return "errorPages/403";
+	}
+	
+	@RequestMapping(value = "/404")
+	public String error404() {
+		return "errorPages/404";
+	}
+	
+	@RequestMapping(value = "/500")
+	public String error500() {
+		return "500";
+	}
+}

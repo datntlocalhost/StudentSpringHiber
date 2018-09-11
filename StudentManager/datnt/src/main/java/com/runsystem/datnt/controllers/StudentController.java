@@ -70,6 +70,7 @@ public class StudentController {
 		
 		//Select student info from db to render student info on view
 		StudentInfoDto student = studentService.selectByCode(studentCode);
+		student.setDayString(student.getBirthday().toString());
 		model.addAttribute("student", student);
 		
 		LogginUtils.getInstance().logEnd(this.getClass(), "loadPage");

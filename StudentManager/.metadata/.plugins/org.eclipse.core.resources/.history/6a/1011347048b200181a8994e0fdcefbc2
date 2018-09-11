@@ -1,0 +1,411 @@
+var tableStudent;
+var context = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2
+
+$(document).ready(function() {
+	
+	tableStudent = $("#student-table").DataTable({
+		paging:   true,
+		info : true,
+		searching: true,
+		"columnDefs": [
+		               { "orderable": false, "targets": 6 },
+		               { "orderable": false, "targets": 7 },
+		               { "orderable": false, "targets": 8 }
+		              ]
+	});
+	
+	/*
+	 * Process when user click on tr of table.
+	 * Show info of student in that row
+	 */
+	$('#student-table tbody').on('click', 'tr', function() {
+		var data = tableStudent.row(this).data();
+
+	    tableStudent.$('tr.selected').removeClass('selected');
+	    $(this).addClass('selected');
+	    
+		$("#js-code-md").val(data[0]);
+		$("#js-hide-md").val(data[0]);
+		$("#js-name-md").val(data[1]);
+		$("#js-sex-md").val(data[2]);
+		$("#js-birthday-md").val(data[3]);
+		$("#js-school-md").val(data[4]);
+		$("#js-schoolyear-md").val(data[5]);
+		$("#js-phone-md").val(data[6]);
+		$("#js-email-md").val(data[7]);
+		$("#js-address-md").val(data[8]);
+		$("#js-student-info").modal('toggle');
+	});
+
+	/*
+	 * Process submit Student Search form.
+	 */
+	$("#js-search-frm-1").on('submit', function(event) {
+		
+		var valid = true;
+		var dateFrom = new Date($("#js-date-from").val());
+		var dateTo = new Date($("#js-date-to").val());
+	
+		if (dateFrom > dateTo) {
+			$(".js-date-message").html("Invalid date range.");
+			valid = false;
+		}
+			
+		if (valid) {
+			$.ajax({
+				type: 'post',
+				url: '/admin/search',
+				contentType: 'application/json',
+				data: formToJson($(this)),
+				dataType: 'json',
+				success : function(data) {
+					responseProcess(data);
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+			$(".js-date-message").html("");
+		}
+		event.preventDefault();
+	});
+	
+	/*
+	 * Process submit update student info form.
+	 */
+	
+	$("#js-studentinfo-frm").on('submit',function(event) {
+		
+		var valid = true;
+		
+		//Check validation input 
+		if (!validName($("#js-name-md").val())) {
+			$("#js-name-error-md").html("Invalid name");
+			valid = false;
+		} else {
+			$("#js-name-error-md").html("");
+		}
+		
+		if (!validEmail($("#js-email-md").val())) {
+			$("#js-email-error-md").html("Invalid email");
+			valid = false;
+		} else {
+			$("#js-email-error-md").html("");
+		}
+		
+		if (!validDate($("#js-birthday-md").val())) {
+			$("#js-birthday-error-md").html("Invalid date");
+			valid = false;
+		} else {
+			$("#js-birthday-error-md").html("");
+		}
+		
+		if (!validPhone($("#js-phone-md").val())) {
+			$("#js-phone-error-md").html("Invalid phone");
+			valid = false;
+		} else {
+			$("#js-phone-error-md").html("");
+		}
+		
+		if (valid == false) {
+			event.preventDefault();
+		} else {
+			$("#js-name-error-md").html("");
+			$("#js-date-error-md").html("");
+			$("#js-phone-error-md").html("");
+			$("#js-email-error-md").html("");
+			
+			//Send post request contain update info to controller
+			$.ajax({
+				type: 'post',
+				contentType: 'application/json',
+				dataType: 'json',
+				url: '/admin/update',
+				data: formToJson($(this)),
+				success : function(data) {
+					responseProcess(data);
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+					alert("Update failed.");
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+			$("#js-student-info").modal('toggle');
+			event.preventDefault();
+		}
+	});
+	
+	
+	/*
+	 * Process when user click delete button in update student info form.
+	 */
+	$("#js-delete-btn").click(function(event) {
+		$.ajax({
+			type: 'post',
+			contentType: 'application/json',
+			dataType: 'json',
+			url: '/admin/delete',
+			data: formToJson($("#js-studentinfo-frm")),
+			success : function(data) {
+				responseProcess(data);
+			},
+			error : function(e) {
+				console.log("ERROR: ", e);
+				alert("Delete failed.");
+			},
+			done : function(e) {
+				console.log("DONE");
+			}
+		});
+		$("#js-student-info").modal('toggle');
+	});
+	
+	/*
+	 * Create new student.
+	 */
+	$("#js-create-frm").on('submit', function(event) {
+		var valid = true;
+		
+		if (!validName($("#js-name-crate").val())) {
+			$("#js-name-error-cr").html("Invalid name");
+			valid = false;
+		} else {
+			$("#js-name-error-cr").html("");
+		}
+
+		if (!validPassword($("#js-password-crate").val())) {
+			$("#js-pwd-error-cr").html("Invalid password");
+			valid = false;
+		} else {
+			$("#js-pwd-error-cr").html("");
+		}
+
+		if (!validDate($("#js-birthday-create").val())) {
+			$("#js-date-error-cr").html("Invalid date");
+			valid = false;
+		} else {
+			$("#js-date-error-cr").html("");
+		}
+
+		if (!validPhone($("#js-phone-create").val())) {
+			$("#js-phone-error-cr").html("Invalid phone");
+			valid = false;
+		} else {
+			$("#js-phone-error-cr").html("");
+		}
+
+		if (!validEmail($("#js-email-create").val())) {
+			$("#js-email-error-cr").html("Invalid email");
+			valid = false;
+		} else {
+			$("#js-email-error-cr").html("");
+		}
+	
+		if (valid == false) {
+			event.preventDefault();
+		} else {
+			$("#js-pwd-error-cr").html("");
+			$("#js-date-error-cr").html("");
+			$("#js-phone-error-cr").html("");
+			$("#js-email-error-cr").html("");
+			$.ajax({
+				type: 'post',
+				dataType: 'json',
+				contentType: 'application/json',
+				url: '/admin/create',
+				data: formToJson($(this)),
+				success : function(data) {
+					responseProcess(data);
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+					alert("Create failed.");
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+		}
+		event.preventDefault();
+	});
+	
+	$("#js-student-update").on('submit', function(event) {
+		var valid = true;
+		if (!validPhone($("#js-phone-create").val())) {
+			$("#js-phone-error-cr").html("Invalid phone");
+			valid = false;
+		} else {
+			$("#js-phone-error-cr").html("");
+		}
+
+		if (!validEmail($("#js-email-create").val())) {
+			$("#js-email-error-cr").html("Invalid email");
+			valid = false;
+		} else {
+			$("#js-email-error-cr").html("");
+		}
+		
+		if (valid == true) {
+			$("#js-phone-error-cr").html("");
+			$("#js-email-error-cr").html("");
+			$.ajax({
+				type: 'post',
+				contentType: 'application/json',
+				dataType: 'json',
+				url: '/student/info',
+				data: formToJson($(this)),
+				success : function(data) {
+					responseProcess(data);
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+					alert("Update failed.");
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+		}
+		event.preventDefault();
+		
+	});
+	
+	/*
+	 * Process when user click on Create Button.
+	 */
+	$("#js-btn-create").click(function(event) {
+		$("#js-name-crate").val("");
+		$("#js-password-crate").val("");
+		$("#js-birthday-create").val("");
+		$("#js-phone-crate").val("");
+		$("#js-email-crate").val("");
+		$("#js-address-crate").val("");
+	});
+
+});
+
+function responseProcess(data) {
+	var header = data.headerPackage;
+	
+	switch (header) {
+	case "AUTH_REQUIREMENT":
+		window.location.replace("/login?token=false");
+		break;
+	case "INPUT_INVALID":
+		alert("Input invalid");
+		break;
+	case "SEARCH":
+		//remove current data in student list datatables
+		tableStudent.rows().remove().draw();
+		//render new student list	
+		renderSearch(data.data, tableStudent);
+		break;
+	case "CREATE_SUCCESS":
+		renderStudent(data.data, tableStudent);
+		$("#js-student-create").modal('toggle');
+		alert("Create success");
+		break;
+	case "DELETE_SUCCESS":
+		tableStudent.row('.selected').remove().draw();
+		alert("Delete success");
+		break;
+	case "UPDATE_SUCCESS":
+		var dataRow = tableStudent.row('.selected').data();
+		dataRow[0] = $("#js-hide-md").val();
+		dataRow[1] = $("#js-name-md").val();
+		dataRow[2] = $("#js-sex-md").val();
+		dataRow[3] = $("#js-birthday-md").val();
+		dataRow[4] = $("#js-school-md").val();
+		dataRow[5] = $("#js-schoolyear-md").val();
+		dataRow[6] = $("#js-phone-md").val();
+		dataRow[7] = $("#js-email-md").val();
+		dataRow[8] = $("#js-address-md").val();
+		tableStudent.row('.selected').data(dataRow).draw();
+		alert("Update success");
+		break;
+	case "STUDENT_UPDATE":
+		renderStudentUpdate(data.data[0]);
+		alert("Update success");
+		break;
+	case "CREATE_ERROR":
+		alert("Create failed");
+		break;
+	case "DELETE_ERROR":
+		alert("Delete failed");		
+		break;
+	case "UPDATE_ERROR":
+		alert("Update failed");
+		break;
+	default:
+		break;
+	}
+}
+
+/*
+ * Render list of student on datatable student list.
+ * 
+ * @param result list of student.
+ */
+function renderSearch(result, table) {
+	for (var i = 0; i < result.length; i++) {
+		var date = new Date(result[i].birthday);
+		var dateFormat =  date.getFullYear() + '-' + ("0"+(date.getMonth()+1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2);
+		table.row.add([
+		               result[i].studentCode,
+		               result[i].studentName,
+		               result[i].sex,
+		               dateFormat,
+		               result[i].schoolCode,
+		               result[i].schoolYear,
+		               result[i].phone,
+		               result[i].email,
+		               result[i].address
+		]).draw(false);
+	}
+}
+
+function renderStudent(result, table) {
+	for (var i = 0; i < result.length; i++) {
+		table.row.add([
+		               result[i].studentCode,
+		               result[i].studentName,
+		               result[i].sex,
+		               result[i].birthday,
+		               result[i].schoolCode,
+		               result[i].schoolYear,
+		               result[i].phone,
+		               result[i].email,
+		               result[i].address
+		               ]).draw(false);
+	}
+}
+
+function renderStudentUpdate(data) {
+	$("#js-phone-create").val(data.phone);
+	$("#js-email-create").val(data.email);
+	$("#js-address-create").val(data.address);
+}
+
+function formToJson(formData) {
+	var data = formData.serialize();
+	var array = data.split('&');
+	var string = '{';
+	for (var i = 0; i < array.length; i++) {
+		var temp = array[i].split('=');
+		temp[1] = temp[1].replace(new RegExp('%20', 'g'),' ');
+		temp[1] = temp[1].replace(new RegExp('%40', 'g'),'@');
+		if (i == array.length - 1) {
+			string += '"' + temp[0] + '" : "' + temp[1] + '"}';
+		} else {
+			string += '"' + temp[0] + '" : "' + temp[1] + '", ';
+		}
+	}
+	return string;
+}
+

@@ -1,0 +1,2 @@
+server.servlet.context-path=/datnt
+server.servlet.port=6969
