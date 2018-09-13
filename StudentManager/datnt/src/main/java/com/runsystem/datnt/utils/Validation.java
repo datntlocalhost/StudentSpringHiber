@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 public class Validation {
 	
 	/*
@@ -187,5 +188,6 @@ public class Validation {
 	 */
 	public static boolean isNullOrEmpty(String string) {
 		return string == null || string.isEmpty();
-	} 
+	}
+	
 }

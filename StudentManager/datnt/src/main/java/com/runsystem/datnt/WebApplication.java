@@ -11,7 +11,6 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource({"classpath:app-config.xml"})
 public class WebApplication extends SpringBootServletInitializer {
 	
-	
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(WebApplication.class);

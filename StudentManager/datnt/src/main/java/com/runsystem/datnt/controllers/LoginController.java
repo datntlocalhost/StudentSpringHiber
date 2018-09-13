@@ -38,6 +38,7 @@ public class LoginController {
 	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
 	public String pageLoad(Model model) {
 		LogginUtils.getInstance().logStart(this.getClass(), "pageLoad");
+	
 		
 		model.addAttribute("user", new UserDto());
 		
@@ -66,6 +67,7 @@ public class LoginController {
 		//Create validator to check input username and password
 		UserValidator validator = new UserValidator();
 		validator.validate(userInfo, bindingResult);
+		model.addAttribute("user", new UserDto());
 		
 		//If input is invalid then return to login page
 		if (bindingResult.hasErrors()) {
