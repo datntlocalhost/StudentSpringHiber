@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +25,7 @@ import com.runsystem.datnt.services.TokenService;
 import com.runsystem.datnt.utils.HeaderPackage;
 import com.runsystem.datnt.utils.JsonUtils;
 import com.runsystem.datnt.utils.LogginUtils;
+import com.runsystem.datnt.utils.Validation;
 import com.runsystem.datnt.validations.SearchValidator;
 
 @Controller
@@ -58,13 +60,9 @@ public class SearchController {
 		
 		LogginUtils.getInstance().logInputFromView(this.getClass(),  request, searchInfo.toString());
 		
-		//init search validator and check input
-		SearchValidator validator = new SearchValidator();
-		validator.validate(searchInfo, bindingResult);
-		
 		List<StudentInfoDto> students = new ArrayList<StudentInfoDto>();
 		
-		if (bindingResult.hasErrors()) {
+		if (!Validation.validDateRange(searchInfo.getDateFrom(), searchInfo.getDateTo())) {
 			LogginUtils.getInstance().logEnd(this.getClass(), "searchStudent");
 			throw new InputInvalidException("Input from client is invalid format");
 		}

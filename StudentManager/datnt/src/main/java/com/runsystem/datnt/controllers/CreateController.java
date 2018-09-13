@@ -71,6 +71,7 @@ public class CreateController {
 		StudentModel student = null;
 		
 		try {
+			//for (int i = 0; i < 15; i++)
 			//Call createStudent method in StudentService to create new student.
 			student = studentService.createStudent(model);
 			

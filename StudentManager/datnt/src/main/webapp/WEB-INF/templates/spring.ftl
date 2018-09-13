@@ -1,4 +1,4 @@
-<#ftl output_format="HTML" strip_whitespace=true>
+<#ftl output_format="HTML" strip_whitespace=true auto_esc=false>
 <#--
  * spring.ftl
  *
